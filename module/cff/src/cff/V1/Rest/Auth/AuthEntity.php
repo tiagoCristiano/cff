@@ -3,8 +3,8 @@ namespace cff\V1\Rest\Auth;
 
 class AuthEntity
 {
-	public $email;
-	public $password;
+    public $email;
+    public $password;
     public $id;
     public $familias_id;
     public $perfil;
