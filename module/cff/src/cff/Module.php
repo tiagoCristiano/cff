@@ -34,9 +34,9 @@ class Module implements ApigilityProviderInterface
                     $dbAdapter = $sm->get('mySql');
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new AuthEntity());
-                    return new TableGateway('users', $dbAdapter, null,$resultSetPrototype);
+                    return new TableGateway('users', $dbAdapter, null, $resultSetPrototype);
                 },
-                'bcrypt'=>function() {
+                'bcrypt'=> function() {
                     return new  Bcrypt(array('salt' => '1234567890123450','cost' => 4));
                 },
                 'cff\V1\Rest\Auth\AuthMapper' => function($sm) {
@@ -44,6 +44,7 @@ class Module implements ApigilityProviderInterface
                     $bcrypt = $sm->get('bcrypt');
                     return new AuthMapper($tableGateway, $bcrypt);
                 }
+
             )
         );
 
