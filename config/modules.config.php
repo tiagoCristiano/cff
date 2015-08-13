@@ -9,6 +9,7 @@ return array(
     'ZF\\DevelopmentMode',
     'ZF\\Apigility',
     'ZF\\Apigility\\Provider',
+    'ZF\Apigility\Documentation\Swagger',
     'ZF\\Apigility\\Documentation',
     'AssetManager',
     'ZF\\ApiProblem',

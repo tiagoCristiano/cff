@@ -13,7 +13,6 @@ class AuthMapper {
     {
         $this->tableGateway = $tableGateway;
         $this->bcrypt = $bcrypt;
-        ;
     }
 
     public function auth(AuthEntity $authEntity)
@@ -23,7 +22,7 @@ class AuthMapper {
 
         $email    = $data["email"];
         $password = $data["password"];
-        $rowSet = $this->tableGateway->select(array('email' => $email, 'password'=>$password));
+        $rowSet   = $this->tableGateway->select(array('email' => $email, 'password'=>$password));
         $row = $rowSet->current();
 
         //todo Criptogragar a senha
@@ -31,18 +30,17 @@ class AuthMapper {
 
 //        if($this->bcrypt->verify($row->familias_id, $securePass) )
 //        {
-//            die('È isso ai seu puto');
+//            die('È isso ai puto');
 //        } else {
 //            die('errosss');
 //        }
 
-
         $result = array(
-            'id'          =>$this->bcrypt->create($row->id),
+            'id'          => $this->bcrypt->create($row->id),
             'familias_id' => $this->bcrypt->create($row->familias_id),
             'perfil'      => $this->bcrypt->create($row->perfil)
         );
-
+       
         if ( empty($row) ) {
             return false;
         }
