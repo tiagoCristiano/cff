@@ -33,7 +33,7 @@ class AuthResource extends AbstractResourceListener
         if( $result  ) {
             return $result;
         } else {
-            return new ApiProblem(401, 'Não autorizado');;
+            return array('message' => 'Usuario ou senha');
         }
 
     }
