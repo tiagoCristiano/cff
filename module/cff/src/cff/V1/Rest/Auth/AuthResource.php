@@ -29,11 +29,11 @@ class AuthResource extends AbstractResourceListener
         $authEntity->password = $data->password;
 
         $result = $this->mapper->auth($authEntity);
-
+       
         if( $result  ) {
             return $result;
         } else {
-            return array('message' => 'Usuario ou senha');
+            return new ApiProblem(401, 'Não Autorizado');
         }
 
     }

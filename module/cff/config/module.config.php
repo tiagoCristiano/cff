@@ -43,6 +43,15 @@ return array(
                     ),
                 ),
             ),
+            'cff.rest.contas' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/contas[/:contas_id]',
+                    'defaults' => array(
+                        'controller' => 'cff\\V1\\Rest\\Contas\\Controller',
+                    ),
+                ),
+            ),
         ),
     ),
     'zf-versioning' => array(
@@ -51,6 +60,7 @@ return array(
             1 => 'cff.rest.familias',
             2 => 'cff.rest.categorias',
             3 => 'cff.rest.bancos',
+            4 => 'cff.rest.contas',
         ),
     ),
     'zf-rest' => array(
@@ -132,6 +142,8 @@ return array(
             'collection_http_methods' => array(
                 0 => 'GET',
                 1 => 'POST',
+                2 => 'DELETE',
+                3 => 'PUT',
             ),
             'collection_query_whitelist' => array(),
             'page_size' => 25,
@@ -140,6 +152,28 @@ return array(
             'collection_class' => 'cff\\V1\\Rest\\Bancos\\BancosCollection',
             'service_name' => 'bancos',
         ),
+        'cff\\V1\\Rest\\Contas\\Controller' => array(
+            'listener' => 'cff\\V1\\Rest\\Contas\\ContasResource',
+            'route_name' => 'cff.rest.contas',
+            'route_identifier_name' => 'contas_id',
+            'collection_name' => 'contas',
+            'entity_http_methods' => array(
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ),
+            'collection_http_methods' => array(
+                0 => 'GET',
+                1 => 'POST',
+            ),
+            'collection_query_whitelist' => array(),
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => 'cff\\V1\\Rest\\Contas\\ContasEntity',
+            'collection_class' => 'cff\\V1\\Rest\\Contas\\ContasCollection',
+            'service_name' => 'contas',
+        ),
     ),
     'zf-content-negotiation' => array(
         'controllers' => array(
@@ -147,6 +181,7 @@ return array(
             'cff\\V1\\Rest\\Familias\\Controller' => 'HalJson',
             'cff\\V1\\Rest\\Categorias\\Controller' => 'HalJson',
             'cff\\V1\\Rest\\Bancos\\Controller' => 'HalJson',
+            'cff\\V1\\Rest\\Contas\\Controller' => 'HalJson',
         ),
         'accept_whitelist' => array(
             'cff\\V1\\Rest\\Auth\\Controller' => array(
@@ -169,6 +204,11 @@ return array(
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ),
+            'cff\\V1\\Rest\\Contas\\Controller' => array(
+                0 => 'application/vnd.cff.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ),
         ),
         'content_type_whitelist' => array(
             'cff\\V1\\Rest\\Auth\\Controller' => array(
@@ -184,6 +224,10 @@ return array(
                 1 => 'application/json',
             ),
             'cff\\V1\\Rest\\Bancos\\Controller' => array(
+                0 => 'application/vnd.cff.v1+json',
+                1 => 'application/json',
+            ),
+            'cff\\V1\\Rest\\Contas\\Controller' => array(
                 0 => 'application/vnd.cff.v1+json',
                 1 => 'application/json',
             ),
@@ -239,6 +283,18 @@ return array(
                 'route_identifier_name' => 'bancos_id',
                 'is_collection' => true,
             ),
+            'cff\\V1\\Rest\\Contas\\ContasEntity' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'cff.rest.contas',
+                'route_identifier_name' => 'contas_id',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
+            ),
+            'cff\\V1\\Rest\\Contas\\ContasCollection' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'cff.rest.contas',
+                'route_identifier_name' => 'contas_id',
+                'is_collection' => true,
+            ),
         ),
     ),
     'zf-content-validation' => array(
@@ -253,6 +309,9 @@ return array(
         ),
         'cff\\V1\\Rest\\Bancos\\Controller' => array(
             'input_filter' => 'cff\\V1\\Rest\\Bancos\\Validator',
+        ),
+        'cff\\V1\\Rest\\Contas\\Controller' => array(
+            'input_filter' => 'cff\\V1\\Rest\\Contas\\Validator',
         ),
     ),
     'input_filter_specs' => array(
@@ -397,7 +456,7 @@ return array(
             ),
             1 => array(
                 'name' => 'agencia',
-                'required' => false,
+                'required' => true,
                 'filters' => array(
                     0 => array(
                         'name' => 'Zend\\Filter\\StringTrim',
@@ -439,6 +498,72 @@ return array(
                 ),
             ),
         ),
+        'cff\\V1\\Rest\\Contas\\Validator' => array(
+            0 => array(
+                'name' => 'numero',
+                'required' => false,
+                'filters' => array(
+                    0 => array(
+                        'name' => 'Zend\\Filter\\StringTrim',
+                    ),
+                    1 => array(
+                        'name' => 'Zend\\Filter\\StripTags',
+                    ),
+                ),
+                'validators' => array(
+                    0 => array(
+                        'name' => 'Zend\\Validator\\StringLength',
+                        'options' => array(
+                            'min' => 1,
+                            'max' => '10',
+                        ),
+                    ),
+                ),
+            ),
+            1 => array(
+                'name' => 'agencia',
+                'required' => false,
+                'filters' => array(
+                    0 => array(
+                        'name' => 'Zend\\Filter\\StringTrim',
+                    ),
+                    1 => array(
+                        'name' => 'Zend\\Filter\\StripTags',
+                    ),
+                ),
+                'validators' => array(
+                    0 => array(
+                        'name' => 'Zend\\Validator\\StringLength',
+                        'options' => array(
+                            'min' => 1,
+                            'max' => '10',
+                        ),
+                    ),
+                ),
+            ),
+            2 => array(
+                'name' => 'bancos_id',
+                'required' => true,
+                'filters' => array(
+                    0 => array(
+                        'name' => 'Zend\\Filter\\StripTags',
+                    ),
+                    1 => array(
+                        'name' => 'Zend\\Filter\\Digits',
+                    ),
+                ),
+                'validators' => array(
+                    0 => array(
+                        'name' => 'ZF\\ContentValidation\\Validator\\DbRecordExists',
+                        'options' => array(
+                            'adapter' => 'mySql',
+                            'table' => 'bancos',
+                            'field' => 'id',
+                        ),
+                    ),
+                ),
+            ),
+        ),
     ),
     'zf-apigility' => array(
         'db-connected' => array(
@@ -461,6 +586,14 @@ return array(
                 'table_name' => 'bancos',
                 'hydrator_name' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
                 'controller_service_name' => 'cff\\V1\\Rest\\Bancos\\Controller',
+                'entity_identifier_name' => 'id',
+                'table_service' => 'cff\\V1\\Rest\\Bancos\\BancosResource\\Table',
+            ),
+            'cff\\V1\\Rest\\Contas\\ContasResource' => array(
+                'adapter_name' => 'mySql',
+                'table_name' => 'contas',
+                'hydrator_name' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
+                'controller_service_name' => 'cff\\V1\\Rest\\Contas\\Controller',
                 'entity_identifier_name' => 'id',
             ),
         ),
