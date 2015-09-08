@@ -1,12 +1,13 @@
 <?php
+namespace cff;
 return array(
     'service_manager' => array(
         'factories' => array(
             'cff\\V1\\Rest\\Auth\\AuthResource' => 'cff\\V1\\Rest\\Auth\\AuthResourceFactory',
             'cff\\V1\\Rest\\Contas\\ContasResource' => 'cff\\V1\\Rest\\Contas\\ContasResourceFactory',
             'cff\\V1\\Rest\\Familias\\FamiliasResource' => 'cff\\V1\\Rest\\Familias\\FamiliasResourceFactory',
-            'cff\\V1\\Rest\\Bancos\\BancosResource' => 'cff\\V1\\Rest\\Bancos\\BancosResourceFactory',
             'cff\\V1\\Rest\\Familia\\FamiliaResource' => 'cff\\V1\\Rest\\Familia\\FamiliaResourceFactory',
+            'cff\\V1\\Rest\\Banco\\BancoResource' => 'cff\\V1\\Rest\\Banco\\BancoResourceFactory',
         ),
     ),
     'router' => array(
@@ -47,21 +48,21 @@ return array(
                     ),
                 ),
             ),
-            'cff.rest.bancos' => array(
-                'type' => 'Segment',
-                'options' => array(
-                    'route' => '/bancos[/:bancos_id]',
-                    'defaults' => array(
-                        'controller' => 'cff\\V1\\Rest\\Bancos\\Controller',
-                    ),
-                ),
-            ),
             'cff.rest.familia' => array(
                 'type' => 'Segment',
                 'options' => array(
                     'route' => '/familia[/:familia_id]',
                     'defaults' => array(
                         'controller' => 'cff\\V1\\Rest\\Familia\\Controller',
+                    ),
+                ),
+            ),
+            'cff.rest.banco' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/banco[/:banco_id]',
+                    'defaults' => array(
+                        'controller' => 'cff\\V1\\Rest\\Banco\\Controller',
                     ),
                 ),
             ),
@@ -73,8 +74,8 @@ return array(
             2 => 'cff.rest.categorias',
             4 => 'cff.rest.contas',
             6 => 'cff.rest.familias',
-            7 => 'cff.rest.bancos',
             8 => 'cff.rest.familia',
+            9 => 'cff.rest.banco',
         ),
     ),
     'zf-rest' => array(
@@ -164,28 +165,6 @@ return array(
             'collection_class' => 'cff\\V1\\Rest\\Familias\\FamiliasCollection',
             'service_name' => 'familias',
         ),
-        'cff\\V1\\Rest\\Bancos\\Controller' => array(
-            'listener' => 'cff\\V1\\Rest\\Bancos\\BancosResource',
-            'route_name' => 'cff.rest.bancos',
-            'route_identifier_name' => 'bancos_id',
-            'collection_name' => 'bancos',
-            'entity_http_methods' => array(
-                0 => 'GET',
-                1 => 'PATCH',
-                2 => 'PUT',
-                3 => 'DELETE',
-            ),
-            'collection_http_methods' => array(
-                0 => 'GET',
-                1 => 'POST',
-            ),
-            'collection_query_whitelist' => array(),
-            'page_size' => 25,
-            'page_size_param' => null,
-            'entity_class' => 'cff\\V1\\Rest\\Bancos\\BancosEntity',
-            'collection_class' => 'cff\\V1\\Rest\\Bancos\\BancosCollection',
-            'service_name' => 'bancos',
-        ),
         'cff\\V1\\Rest\\Familia\\Controller' => array(
             'listener' => 'cff\\V1\\Rest\\Familia\\FamiliaResource',
             'route_name' => 'cff.rest.familia',
@@ -208,6 +187,28 @@ return array(
             'collection_class' => 'cff\\V1\\Rest\\Familia\\FamiliaCollection',
             'service_name' => 'familia',
         ),
+        'cff\\V1\\Rest\\Banco\\Controller' => array(
+            'listener' => 'cff\\V1\\Rest\\Banco\\BancoResource',
+            'route_name' => 'cff.rest.banco',
+            'route_identifier_name' => 'banco_id',
+            'collection_name' => 'banco',
+            'entity_http_methods' => array(
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ),
+            'collection_http_methods' => array(
+                0 => 'GET',
+                1 => 'POST',
+            ),
+            'collection_query_whitelist' => array(),
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => 'cff\\V1\\Rest\\Banco\\BancoEntity',
+            'collection_class' => 'cff\\V1\\Rest\\Banco\\BancoCollection',
+            'service_name' => 'banco',
+        ),
     ),
     'zf-content-negotiation' => array(
         'controllers' => array(
@@ -215,8 +216,8 @@ return array(
             'cff\\V1\\Rest\\Categorias\\Controller' => 'HalJson',
             'cff\\V1\\Rest\\Contas\\Controller' => 'HalJson',
             'cff\\V1\\Rest\\Familias\\Controller' => 'HalJson',
-            'cff\\V1\\Rest\\Bancos\\Controller' => 'HalJson',
             'cff\\V1\\Rest\\Familia\\Controller' => 'HalJson',
+            'cff\\V1\\Rest\\Banco\\Controller' => 'HalJson',
         ),
         'accept_whitelist' => array(
             'cff\\V1\\Rest\\Auth\\Controller' => array(
@@ -239,12 +240,12 @@ return array(
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ),
-            'cff\\V1\\Rest\\Bancos\\Controller' => array(
+            'cff\\V1\\Rest\\Familia\\Controller' => array(
                 0 => 'application/vnd.cff.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ),
-            'cff\\V1\\Rest\\Familia\\Controller' => array(
+            'cff\\V1\\Rest\\Banco\\Controller' => array(
                 0 => 'application/vnd.cff.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
@@ -267,11 +268,11 @@ return array(
                 0 => 'application/vnd.cff.v1+json',
                 1 => 'application/json',
             ),
-            'cff\\V1\\Rest\\Bancos\\Controller' => array(
+            'cff\\V1\\Rest\\Familia\\Controller' => array(
                 0 => 'application/vnd.cff.v1+json',
                 1 => 'application/json',
             ),
-            'cff\\V1\\Rest\\Familia\\Controller' => array(
+            'cff\\V1\\Rest\\Banco\\Controller' => array(
                 0 => 'application/vnd.cff.v1+json',
                 1 => 'application/json',
             ),
@@ -327,18 +328,6 @@ return array(
                 'route_identifier_name' => 'familias_id',
                 'is_collection' => true,
             ),
-            'cff\\V1\\Rest\\Bancos\\BancosEntity' => array(
-                'entity_identifier_name' => 'id',
-                'route_name' => 'cff.rest.bancos',
-                'route_identifier_name' => 'bancos_id',
-                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
-            ),
-            'cff\\V1\\Rest\\Bancos\\BancosCollection' => array(
-                'entity_identifier_name' => 'id',
-                'route_name' => 'cff.rest.bancos',
-                'route_identifier_name' => 'bancos_id',
-                'is_collection' => true,
-            ),
             'cff\\V1\\Rest\\Familia\\FamiliaEntity' => array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'cff.rest.familia',
@@ -349,6 +338,18 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'cff.rest.familia',
                 'route_identifier_name' => 'familia_id',
+                'is_collection' => true,
+            ),
+            'cff\\V1\\Rest\\Banco\\BancoEntity' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'cff.rest.banco',
+                'route_identifier_name' => 'banco_id',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
+            ),
+            'cff\\V1\\Rest\\Banco\\BancoCollection' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'cff.rest.banco',
+                'route_identifier_name' => 'banco_id',
                 'is_collection' => true,
             ),
         ),
@@ -623,18 +624,16 @@ return array(
             ),
         ),
     ),
-    'doctrine' => array(
+   'doctrine' => array(
         'driver' => array(
-            'cff_driver' => array(
-                'class' => 'Doctrine\\ORM\\Mapping\\Driver\\AnnotationDriver',
+            __NAMESPACE__.'_driver' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(
-                    0 => 'C:\\Users\\Tiago\\Desktop\\api\\apigility\\module\\cff\\config/../src/cff/Entity',
-                ),
+                'paths' => array(__DIR__ . '/../src/'.__NAMESPACE__.'/Entity')
             ),
             'orm_default' => array(
                 'drivers' => array(
-                    'cff\\Entity' => 'cff_driver',
+                     __NAMESPACE__.'\Entity' =>  __NAMESPACE__.'_driver'
                 ),
             ),
         ),
