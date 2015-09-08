@@ -17,6 +17,8 @@ use Zend\Crypt\Password\Bcrypt;
 use Zend\Stdlib\Hydrator;
 
 use cff\V1\Rest\Familia\FamiliaService;
+use cff\V1\Rest\Banco\BancoService;
+use cff\Entity\Banco\Banco as BancoEntity;
 
 class Module implements ApigilityProviderInterface
 {
@@ -98,6 +100,14 @@ class Module implements ApigilityProviderInterface
                     $hydrator = new Hydrator\ClassMethods();
                     $familiaService = new FamiliaService($em,$hydrator);
                     return $familiaService;
+                },
+
+                 'BancoService' =>function($sm) {
+                    $em = $sm->get('Doctrine\ORM\EntityManager');
+                    $hydrator = new Hydrator\ClassMethods();
+                    $bancoEntity = new BancoEntity();
+                    $bancoService = new BancoService($em,$hydrator,$bancoEntity);
+                    return $bancoService;
                 }
 
 

@@ -1,8 +1,8 @@
 <?php
 namespace cff\V1\Rest\Banco;
 
-use Zend\Paginator\Paginator;
+use ZF\Apigility\Admin\Model\DoctrineAdapterResource;
 
-class BancoCollection extends Paginator
+class BancoCollection extends DoctrineAdapterResource
 {
 }

@@ -26,5 +26,6 @@ return array(
     'cff',
     'DoctrineModule',
     'DoctrineORMModule',
+    'Phpro\\DoctrineHydrationModule',
 
 );

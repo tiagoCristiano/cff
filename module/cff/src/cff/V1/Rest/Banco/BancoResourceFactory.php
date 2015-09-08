@@ -5,6 +5,7 @@ class BancoResourceFactory
 {
     public function __invoke($services)
     {
-        return new BancoResource();
+        $bancoService = $services->get('BancoService');
+        return new BancoResource($bancoService);
     }
 }

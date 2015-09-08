@@ -6,6 +6,12 @@ use ZF\Rest\AbstractResourceListener;
 
 class BancoResource extends AbstractResourceListener
 {
+    protected $bancoService;
+
+    public function __construct(BancoService $bancoService)
+    {
+        $this->bancoService = $bancoService;
+    }
     /**
      * Create a resource
      *
@@ -25,7 +31,8 @@ class BancoResource extends AbstractResourceListener
      */
     public function delete($id)
     {
-        return new ApiProblem(405, 'The DELETE method has not been defined for individual resources');
+        return $this->bancoService->delete($id);
+
     }
 
     /**
@@ -47,6 +54,8 @@ class BancoResource extends AbstractResourceListener
      */
     public function fetch($id)
     {
+        return  $this->bancoService->getById($id);
+        die(var_dump($data));
         return new ApiProblem(405, 'The GET method has not been defined for individual resources');
     }
 
@@ -58,6 +67,8 @@ class BancoResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
+        die(var_dump( $this->bancoService->getAll() ));
+
         return new ApiProblem(405, 'The GET method has not been defined for collections');
     }
 

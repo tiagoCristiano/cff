@@ -1,5 +1,4 @@
 <?php
-namespace cff;
 return array(
     'service_manager' => array(
         'factories' => array(
@@ -18,15 +17,6 @@ return array(
                     'route' => '/auth[/:auth_id]',
                     'defaults' => array(
                         'controller' => 'cff\\V1\\Rest\\Auth\\Controller',
-                    ),
-                ),
-            ),
-            'cff.rest.categorias' => array(
-                'type' => 'Segment',
-                'options' => array(
-                    'route' => '/categorias[/:categorias_id]',
-                    'defaults' => array(
-                        'controller' => 'cff\\V1\\Rest\\Categorias\\Controller',
                     ),
                 ),
             ),
@@ -71,7 +61,6 @@ return array(
     'zf-versioning' => array(
         'uri' => array(
             0 => 'cff.rest.auth',
-            2 => 'cff.rest.categorias',
             4 => 'cff.rest.contas',
             6 => 'cff.rest.familias',
             8 => 'cff.rest.familia',
@@ -98,28 +87,6 @@ return array(
             'entity_class' => 'cff\\V1\\Rest\\Auth\\AuthEntity',
             'collection_class' => 'cff\\V1\\Rest\\Auth\\AuthCollection',
             'service_name' => 'auth',
-        ),
-        'cff\\V1\\Rest\\Categorias\\Controller' => array(
-            'listener' => 'cff\\V1\\Rest\\Categorias\\CategoriasResource',
-            'route_name' => 'cff.rest.categorias',
-            'route_identifier_name' => 'categorias_id',
-            'collection_name' => 'categorias',
-            'entity_http_methods' => array(
-                0 => 'GET',
-                1 => 'PATCH',
-                2 => 'PUT',
-                3 => 'DELETE',
-            ),
-            'collection_http_methods' => array(
-                0 => 'GET',
-                1 => 'POST',
-            ),
-            'collection_query_whitelist' => array(),
-            'page_size' => 25,
-            'page_size_param' => null,
-            'entity_class' => 'cff\\V1\\Rest\\Categorias\\CategoriasEntity',
-            'collection_class' => 'cff\\V1\\Rest\\Categorias\\CategoriasCollection',
-            'service_name' => 'categorias',
         ),
         'cff\\V1\\Rest\\Contas\\Controller' => array(
             'listener' => 'cff\\V1\\Rest\\Contas\\ContasResource',
@@ -200,7 +167,6 @@ return array(
             ),
             'collection_http_methods' => array(
                 0 => 'GET',
-                1 => 'POST',
             ),
             'collection_query_whitelist' => array(),
             'page_size' => 25,
@@ -213,7 +179,6 @@ return array(
     'zf-content-negotiation' => array(
         'controllers' => array(
             'cff\\V1\\Rest\\Auth\\Controller' => 'Json',
-            'cff\\V1\\Rest\\Categorias\\Controller' => 'HalJson',
             'cff\\V1\\Rest\\Contas\\Controller' => 'HalJson',
             'cff\\V1\\Rest\\Familias\\Controller' => 'HalJson',
             'cff\\V1\\Rest\\Familia\\Controller' => 'HalJson',
@@ -221,11 +186,6 @@ return array(
         ),
         'accept_whitelist' => array(
             'cff\\V1\\Rest\\Auth\\Controller' => array(
-                0 => 'application/vnd.cff.v1+json',
-                1 => 'application/hal+json',
-                2 => 'application/json',
-            ),
-            'cff\\V1\\Rest\\Categorias\\Controller' => array(
                 0 => 'application/vnd.cff.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
@@ -253,10 +213,6 @@ return array(
         ),
         'content_type_whitelist' => array(
             'cff\\V1\\Rest\\Auth\\Controller' => array(
-                0 => 'application/vnd.cff.v1+json',
-                1 => 'application/json',
-            ),
-            'cff\\V1\\Rest\\Categorias\\Controller' => array(
                 0 => 'application/vnd.cff.v1+json',
                 1 => 'application/json',
             ),
@@ -290,18 +246,6 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'cff.rest.auth',
                 'route_identifier_name' => 'auth_id',
-                'is_collection' => true,
-            ),
-            'cff\\V1\\Rest\\Categorias\\CategoriasEntity' => array(
-                'entity_identifier_name' => 'id',
-                'route_name' => 'cff.rest.categorias',
-                'route_identifier_name' => 'categorias_id',
-                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
-            ),
-            'cff\\V1\\Rest\\Categorias\\CategoriasCollection' => array(
-                'entity_identifier_name' => 'id',
-                'route_name' => 'cff.rest.categorias',
-                'route_identifier_name' => 'categorias_id',
                 'is_collection' => true,
             ),
             'cff\\V1\\Rest\\Contas\\ContasEntity' => array(
@@ -357,9 +301,6 @@ return array(
     'zf-content-validation' => array(
         'cff\\V1\\Rest\\Auth\\Controller' => array(
             'input_filter' => 'cff\\V1\\Rest\\Auth\\Validator',
-        ),
-        'cff\\V1\\Rest\\Categorias\\Controller' => array(
-            'input_filter' => 'cff\\V1\\Rest\\Categorias\\Validator',
         ),
     ),
     'input_filter_specs' => array(
@@ -614,26 +555,20 @@ return array(
         ),
     ),
     'zf-apigility' => array(
-        'db-connected' => array(
-            'cff\\V1\\Rest\\Categorias\\CategoriasResource' => array(
-                'adapter_name' => 'mySql',
-                'table_name' => 'categorias',
-                'hydrator_name' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
-                'controller_service_name' => 'cff\\V1\\Rest\\Categorias\\Controller',
-                'entity_identifier_name' => 'id',
-            ),
-        ),
+        'db-connected' => array(),
     ),
-   'doctrine' => array(
+    'doctrine' => array(
         'driver' => array(
-            __NAMESPACE__.'_driver' => array(
-                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+            'cff_driver' => array(
+                'class' => 'Doctrine\\ORM\\Mapping\\Driver\\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/'.__NAMESPACE__.'/Entity')
+                'paths' => array(
+                    0 => 'C:\\Users\\Tiago\\Desktop\\api\\apigility\\module\\cff\\config/../src/cff/Entity',
+                ),
             ),
             'orm_default' => array(
                 'drivers' => array(
-                     __NAMESPACE__.'\Entity' =>  __NAMESPACE__.'_driver'
+                    'cff\\Entity' => 'cff_driver',
                 ),
             ),
         ),
