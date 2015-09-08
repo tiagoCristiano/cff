@@ -1,19 +1,18 @@
 <?php
-namespace cff\V1\Rest\Auth;
+namespace cff\V1\Rest\Familia;
 
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 
 
-class AuthResource extends AbstractResourceListener
+class FamiliaResource extends AbstractResourceListener
 {
 
-    protected $mapper;
+    protected $familiaService;
 
-    public function __construct($mapper)
+    public function __construct( FamiliaService $familiaService)
     {
-        $this->mapper = $mapper;
-
+        $this->familiaService = $familiaService;
     }
     /**
      * Create a resource
@@ -23,19 +22,7 @@ class AuthResource extends AbstractResourceListener
      */
     public function create($data)
     {
-
-        $authEntity = new AuthEntity();
-        $authEntity->email    = $data->email;
-        $authEntity->password = $data->password;
-
-        $result = $this->mapper->auth($authEntity);
-       
-        if( $result  ) {
-            return $result;
-        } else {
-            return new ApiProblem(401, 'Não Autorizado');
-        }
-
+        return $this->familiaService->save($data);
     }
 
     /**
@@ -46,7 +33,10 @@ class AuthResource extends AbstractResourceListener
      */
     public function delete($id)
     {
-        return new ApiProblem(405, 'The DELETE method has not been defined for individual resources');
+        if(  $this->familiaService->delete($id) ) {
+            return new ApiProblem(200, 'Recurso com id: '.$id.' removido base de dados!');
+        }
+        return new ApiProblem(404, 'Recurso com id: '.$id.' não localizado na base de dados!');
     }
 
     /**
@@ -57,6 +47,7 @@ class AuthResource extends AbstractResourceListener
      */
     public function deleteList($data)
     {
+
         return new ApiProblem(405, 'The DELETE method has not been defined for collections');
     }
 
@@ -66,9 +57,12 @@ class AuthResource extends AbstractResourceListener
      * @param  mixed $id
      * @return ApiProblem|mixed
      */
-    public function fetch($data)
+    public function fetch($id)
     {
-        return new ApiProblem(405, 'The GET method has not been defined for individual resources');
+        if( $this->familiaService->getById($id) ) {
+            return $this->familiaService->getById($id);
+        }
+        return new ApiProblem(404, 'Recurso com id: '.$id.' não localizado na base de dados!');
     }
 
     /**
@@ -77,9 +71,8 @@ class AuthResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll()
+    public function fetchAll($params = array())
     {
-
         return new ApiProblem(405, 'The GET method has not been defined for collections');
     }
 
@@ -92,7 +85,10 @@ class AuthResource extends AbstractResourceListener
      */
     public function patch($id, $data)
     {
-        return new ApiProblem(405, 'The PATCH method has not been defined for individual resources');
+        if( $this->familiaService->update($id,$data) ) {
+            return new ApiProblem(200, 'Recurso com id: '.$id.' atualizado na base de dados!');
+        };
+        return new ApiProblem(404, 'Recurso com id: '.$id.' não localizado na base de dados!');
     }
 
     /**

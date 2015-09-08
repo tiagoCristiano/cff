@@ -1,5 +1,5 @@
 <?php
-namespace cff\V1\Rest\Bancos;
+namespace cff\V1\Rest\Banco;
 
 class BancosEntity
 {

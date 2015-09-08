@@ -24,5 +24,7 @@ return array(
     'ZF\\Versioning',
     'ZfrCors',
     'cff',
+    'DoctrineModule',
+    'DoctrineORMModule',
 
 );

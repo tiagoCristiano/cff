@@ -1,20 +1,11 @@
 <?php
-namespace cff\V1\Rest\Auth;
+namespace cff\V1\Rest\Banco;
 
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 
-
-class AuthResource extends AbstractResourceListener
+class BancosResource extends AbstractResourceListener
 {
-
-    protected $mapper;
-
-    public function __construct($mapper)
-    {
-        $this->mapper = $mapper;
-
-    }
     /**
      * Create a resource
      *
@@ -23,19 +14,7 @@ class AuthResource extends AbstractResourceListener
      */
     public function create($data)
     {
-
-        $authEntity = new AuthEntity();
-        $authEntity->email    = $data->email;
-        $authEntity->password = $data->password;
-
-        $result = $this->mapper->auth($authEntity);
-       
-        if( $result  ) {
-            return $result;
-        } else {
-            return new ApiProblem(401, 'Não Autorizado');
-        }
-
+        return new ApiProblem(405, 'The POST method has not been defined');
     }
 
     /**
@@ -66,7 +45,7 @@ class AuthResource extends AbstractResourceListener
      * @param  mixed $id
      * @return ApiProblem|mixed
      */
-    public function fetch($data)
+    public function fetch($id)
     {
         return new ApiProblem(405, 'The GET method has not been defined for individual resources');
     }
@@ -77,9 +56,9 @@ class AuthResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll()
+    public function fetchAll($params = array())
     {
-
+        return array('messagem'=>true);
         return new ApiProblem(405, 'The GET method has not been defined for collections');
     }
 

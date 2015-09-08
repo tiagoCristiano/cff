@@ -19,14 +19,13 @@ class AuthMapper {
     {
 
         $data = $authEntity->getArrayCopy();
-
         $email    = $data["email"];
         $password = $data["password"];
         $rowSet   = $this->tableGateway->select(array('email' => $email, 'password'=>$password));
         $row = $rowSet->current();
 
         //todo Criptogragar a senha
-        $securePass = $this->bcrypt->create($row->id);
+        //$securePass = $this->bcrypt->create($row->id);
 
 //        if($this->bcrypt->verify($row->familias_id, $securePass) )
 //        {
@@ -42,7 +41,7 @@ class AuthMapper {
             'message'     => 'Login Efetuado com sucesso!'  
         );
 
-                $result = array(
+        $result = array(
             'id'          => ($row->id),
             'familias_id' => ($row->familias_id),
             'perfil'      => ($row->perfil),
