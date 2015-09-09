@@ -35,7 +35,8 @@
         "zfr/zfr-cors": "1.*",
         "zfcampus/zf-apigility-documentation-swagger": "~1.0-dev",
         "zendframework/zend-developer-tools": "dev-master",
-        "phpro/zf-doctrine-hydration-module": "~0.1"  
+        "phpro/zf-doctrine-hydration-module": "~0.1",
+        "zfcampus/zf-apigility-doctrine": "^1.0"  
 
     },
     "require-dev": {

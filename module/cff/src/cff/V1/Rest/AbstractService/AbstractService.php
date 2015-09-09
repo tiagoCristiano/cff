@@ -3,7 +3,7 @@
 namespace cff\V1\Rest\AbstractService;
 
 
-class AbstractService {
+abstract class AbstractService {
 
     protected $em;
     protected $hydrator;
@@ -17,6 +17,15 @@ class AbstractService {
         $this->hydrator = $hydrator;
         $this->repository = $repository;
         $this->entity = $entity;
+    }
+
+    public function save($data)
+    {
+        $entity = new $this->entity();
+        $this->hydrate($entity,$data);
+        $this->em->persist($entity);
+        $this->em->flush();
+        return $this->extract($entity);
     }
 
     public function delete($id)
@@ -55,7 +64,7 @@ class AbstractService {
         $entity = $this->em->getRepository($this->repository)
             ->findAll(array('status' => 1));
         if(!empty($entity)) {
-            return $this->extract($entity[0]);
+            return ($entity);
         }
         return false;
     }

@@ -25,7 +25,11 @@ return array(
     'ZfrCors',
     'cff',
     'DoctrineModule',
-    'DoctrineORMModule',
-    'Phpro\\DoctrineHydrationModule',
+    'DoctrineORMModule'
+
+
+,
+
+
 
 );

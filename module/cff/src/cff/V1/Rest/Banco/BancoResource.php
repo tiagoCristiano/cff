@@ -8,6 +8,10 @@ class BancoResource extends AbstractResourceListener
 {
     protected $bancoService;
 
+    protected $fetchAllDefaults = array(
+        'familia_id' => 0
+    );
+
     public function __construct(BancoService $bancoService)
     {
         $this->bancoService = $bancoService;
@@ -20,6 +24,7 @@ class BancoResource extends AbstractResourceListener
      */
     public function create($data)
     {
+        return $this->bancoService->save($data);
         return new ApiProblem(405, 'The POST method has not been defined');
     }
 
@@ -47,27 +52,36 @@ class BancoResource extends AbstractResourceListener
     }
 
     /**
-     * Fetch a resource
-     *
-     * @param  mixed $id
-     * @return ApiProblem|mixed
+     * @param array $params
+     * @return array|bool|ApiProblem
      */
-    public function fetch($id)
+    public function fetch($params = array())
     {
-        return  $this->bancoService->getById($id);
-        die(var_dump($data));
+        $params = array_merge($this->fetchAllDefaults,(array) $params);
+        if(0 !=  (int)$params['familia_id']) {
+
+            return $this->bancoService->getByFamilia((int)$params['familia_id']);
+        } else {
+            return  $this->bancoService->getById((int)$params[0]);
+        }
+
         return new ApiProblem(405, 'The GET method has not been defined for individual resources');
     }
 
     /**
-     * Fetch all or a subset of resources
-     *
-     * @param  array $params
-     * @return ApiProblem|mixed
+     * @param array $familiaId
+     * @return array|bool|ApiProblem
      */
-    public function fetchAll($params = array())
+    public function fetchAll($params)
     {
-        die(var_dump( $this->bancoService->getAll() ));
+        $params = array_merge($this->fetchAllDefaults,(array) $params);
+        if(0 !=  (int)$params['familia_id']) {
+            return $this->bancoService->getByFamilia((int)$params['familia_id']);
+        } else {
+            return  $this->bancoService->getById((int)$params[0]);
+        }
+
+        return new ApiProblem(405, 'The GET method has not been defined for individual resources');
 
         return new ApiProblem(405, 'The GET method has not been defined for collections');
     }

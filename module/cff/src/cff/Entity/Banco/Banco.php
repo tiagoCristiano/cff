@@ -1,8 +1,8 @@
 <?php
 
 namespace cff\Entity\Banco;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /** @ORM\Entity */
 class Banco
@@ -12,26 +12,20 @@ class Banco
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")\
      */
-    protected $id;
+    public $id;
 
     /** @ORM\Column(type="string") */
-    protected $nome;
+    public $nome;
 
     /** @ORM\Column(type="string") */
-    protected $agencia;
+    public $agencia;
 
     /** @ORM\Column(type="integer") */
-    protected $status;
+    public $status;
 
 
-    /** @ORM\ManyToOne(targetEntity="cff\Entity\Familia\Familia") */
-    protected $familia;
-
-    public function __construct()
-    {
-        $this->projects = new ArrayCollection();
-    }
-
+    /** @ORM\ManyToOne(targetEntity="cff\Entity\Familia\Familia", inversedBy="familia" ) */
+    public $familia;
 
     /**
      * @return mixed

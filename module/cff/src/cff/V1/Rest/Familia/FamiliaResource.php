@@ -73,6 +73,10 @@ class FamiliaResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
+        if( $this->familiaService->getAll() ) {
+            return $this->familiaService->getAll();
+        }
+        //return new ApiProblem(404, 'Recurso com id: '.$id.' não localizado na base de dados!');
         return new ApiProblem(405, 'The GET method has not been defined for collections');
     }
 

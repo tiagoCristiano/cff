@@ -265,15 +265,4 @@ class Familia extends \cff\Entity\Familia\Familia implements \Doctrine\ORM\Proxy
         return parent::getStatus();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function exchangeArray(array $array)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'exchangeArray', array($array));
-
-        return parent::exchangeArray($array);
-    }
-
 }

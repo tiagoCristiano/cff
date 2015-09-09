@@ -3,9 +3,10 @@ namespace cff\V1\Rest\Familia;
 
 
 use cff\Entity\Familia\Familia as FamiliaEntity;
+use cff\V1\Rest\AbstractService\AbstractService;
 
 
-class FamiliaService {
+class FamiliaService extends AbstractService {
 
     protected $em;
     protected $hydrator;
@@ -63,13 +64,31 @@ class FamiliaService {
     }
 
 
-    public function hydrate(FamiliaEntity $familiaEntity, $data) {
-
-        return $this->hydrator->hydrate((array) $data,$familiaEntity);
-    }
-    public function extract($object)
+    public function getAll()
     {
-        return $this->hydrator->extract($object);
+
+        $entity = $this->em->getRepository($this->repository)
+            ->findAll();
+        if(!empty($entity)) {
+            return $this->padronizaRetorno($entity);
+        }
+        return false;
+    }
+
+
+
+    public function padronizaRetorno($entity)
+    {
+        $data = array();
+        foreach($entity as $entidade) {
+            $data[] = [
+                'id'   => $entidade->getId(),
+                'nome' => $entidade->getNome(),
+                'agencia' => $entidade->getQtdMembros(),
+                'status'  => $entidade->getStatus()
+            ];
+        }
+        return $data;
     }
 
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "bb57155e8b35bbb74828a938032e22ae",
+    "hash": "73e80f4afdd572647c7d21341602fe55",
     "packages": [
         {
             "name": "bshaffer/oauth2-server-php",
@@ -4854,6 +4854,68 @@
                 "zf2"
             ],
             "time": "2015-07-15 15:23:32"
+        },
+        {
+            "name": "zfcampus/zf-apigility-doctrine",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zfcampus/zf-apigility-doctrine.git",
+                "reference": "c898dd0c171b6b605dfd0862d63207ffda23d02b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zfcampus/zf-apigility-doctrine/zipball/c898dd0c171b6b605dfd0862d63207ffda23d02b",
+                "reference": "c898dd0c171b6b605dfd0862d63207ffda23d02b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3",
+                "phpro/zf-doctrine-hydration-module": "^0.1.5",
+                "zfcampus/zf-apigility": "~1.0"
+            },
+            "require-dev": {
+                "doctrine/doctrine-mongo-odm-module": "^0.8.0",
+                "doctrine/doctrine-orm-module": "^0.8.0",
+                "doctrine/mongodb-odm": "~1.0.0@beta",
+                "phpunit/phpunit": "3.7.*",
+                "squizlabs/php_codesniffer": "~2.0",
+                "zendframework/zend-form": ">=2.4",
+                "zendframework/zend-log": ">=2.4",
+                "zendframework/zend-serializer": ">=2.4",
+                "zendframework/zend-test": ">=2.4",
+                "zfcampus/zf-apigility-admin": "~1.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev",
+                    "dev-develop": "1.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ZF\\Apigility\\Doctrine\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Tom Anderson",
+                    "email": "tanderson@soliantconsulting.com"
+                }
+            ],
+            "description": "Doctrine for Apigility",
+            "homepage": "http://www.apigility.com/",
+            "keywords": [
+                "api",
+                "apigility",
+                "doctrine"
+            ],
+            "time": "2015-06-11 18:49:53"
         },
         {
             "name": "zfcampus/zf-apigility-documentation",

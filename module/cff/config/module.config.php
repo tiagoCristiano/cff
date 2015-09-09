@@ -50,7 +50,7 @@ return array(
             'cff.rest.banco' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/banco[/:banco_id]',
+                    'route' => '/banco[/:banco_id][/:familia_id]',
                     'defaults' => array(
                         'controller' => 'cff\\V1\\Rest\\Banco\\Controller',
                     ),
@@ -164,11 +164,15 @@ return array(
                 1 => 'PATCH',
                 2 => 'PUT',
                 3 => 'DELETE',
+                4 => 'POST',
             ),
             'collection_http_methods' => array(
                 0 => 'GET',
+                1 => 'POST',
             ),
-            'collection_query_whitelist' => array(),
+            'collection_query_whitelist' => array(
+                   'familia_id'
+            ),
             'page_size' => 25,
             'page_size_param' => null,
             'entity_class' => 'cff\\V1\\Rest\\Banco\\BancoEntity',
@@ -301,6 +305,9 @@ return array(
     'zf-content-validation' => array(
         'cff\\V1\\Rest\\Auth\\Controller' => array(
             'input_filter' => 'cff\\V1\\Rest\\Auth\\Validator',
+        ),
+        'cff\\V1\\Rest\\Banco\\Controller' => array(
+            'input_filter' => 'cff\\V1\\Rest\\Banco\\Validator',
         ),
     ),
     'input_filter_specs' => array(
@@ -553,9 +560,57 @@ return array(
                 ),
             ),
         ),
+        'cff\\V1\\Rest\\Banco\\Validator' => array(
+            0 => array(
+                'required' => true,
+                'validators' => array(),
+                'filters' => array(),
+                'name' => 'nome',
+                'description' => 'Nome do banco a ser criado',
+            ),
+            1 => array(
+                'required' => true,
+                'validators' => array(),
+                'filters' => array(
+                    0 => array(
+                        'name' => 'Zend\\Filter\\ToInt',
+                        'options' => array(),
+                    ),
+                ),
+                'name' => 'status',
+                'description' => 'Status do registro.',
+            ),
+        ),
     ),
     'zf-apigility' => array(
         'db-connected' => array(),
+        'doctrine-connected' => array(
+            'Api\\V1\\Rest\\Familia' => array(
+                'query_providers' => array(
+                    'default' => 'default_orm',
+                    'fetch_all' => 'entity_name_fetch_all',
+                ),
+            ),
+        ),
+    ),
+    'doctrine-hydrator' => array(
+        'hydrator-manager-key' => array(
+            'entity_class' => 'C:\\Users\\Tiago\\Desktop\\api\\apigility\\module\\cff\\config/../src/cff/Entity',
+            'object_manager' => 'doctrine.objectmanager.key.in.servicelocator',
+            'by_value' => true,
+            'use_generated_hydrator' => true,
+            'naming_strategy' => 'custom.naming.strategy.key.in.servicemanager',
+            'hydrator' => 'custom.hydrator.key.in.hydratormanager',
+            'strategies' => array(
+                'fieldname' => 'custom.strategy.key.in.servicemanager',
+            ),
+            'filters' => array(
+                'custom_filter_name' => array(
+                    'condition' => 'and',
+                    'filter' => 'custom.hydrator.filter.key.in.servicemanager',
+                ),
+            ),
+        ),
     ),
     'doctrine' => array(
         'driver' => array(

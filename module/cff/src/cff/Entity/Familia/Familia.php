@@ -11,7 +11,7 @@ class Familia
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    protected $id;
+    public $id;
 
     /** @ORM\Column(type="string") */
     protected $nome;
@@ -86,15 +86,6 @@ class Familia
     public function getStatus()
     {
         return $this->status;
-    }
-
-
-    public function exchangeArray (array $array)
-    {
-        $this->id         = isset($array['id']) ? $array['id'] : null;
-        $this->nome       = $array['nome'];
-        $this->qtdMembros = $array['qtdMembros'];
-        $this->status     = $array['status'];
     }
 
 
