@@ -3,6 +3,7 @@
 namespace cff\Entity\Banco;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use cff\Entity\Familia;
 
 /** @ORM\Entity */
 class Banco
@@ -102,7 +103,7 @@ class Banco
     /**
      * @param mixed $familia
      */
-    public function setFamilia($familia)
+    public function setFamilia(Familia $familia)
     {
         $this->familia = $familia;
     }

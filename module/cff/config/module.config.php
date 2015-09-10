@@ -1,5 +1,7 @@
 <?php
+namespace cff;
 return array(
+
     'service_manager' => array(
         'factories' => array(
             'cff\\V1\\Rest\\Auth\\AuthResource' => 'cff\\V1\\Rest\\Auth\\AuthResourceFactory',
@@ -593,37 +595,17 @@ return array(
             ),
         ),
     ),
-    'doctrine-hydrator' => array(
-        'hydrator-manager-key' => array(
-            'entity_class' => 'C:\\Users\\Tiago\\Desktop\\api\\apigility\\module\\cff\\config/../src/cff/Entity',
-            'object_manager' => 'doctrine.objectmanager.key.in.servicelocator',
-            'by_value' => true,
-            'use_generated_hydrator' => true,
-            'naming_strategy' => 'custom.naming.strategy.key.in.servicemanager',
-            'hydrator' => 'custom.hydrator.key.in.hydratormanager',
-            'strategies' => array(
-                'fieldname' => 'custom.strategy.key.in.servicemanager',
-            ),
-            'filters' => array(
-                'custom_filter_name' => array(
-                    'condition' => 'and',
-                    'filter' => 'custom.hydrator.filter.key.in.servicemanager',
-                ),
-            ),
-        ),
-    ),
+
     'doctrine' => array(
         'driver' => array(
-            'cff_driver' => array(
-                'class' => 'Doctrine\\ORM\\Mapping\\Driver\\AnnotationDriver',
+            __NAMESPACE__.'_driver' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(
-                    0 => 'C:\\Users\\Tiago\\Desktop\\api\\apigility\\module\\cff\\config/../src/cff/Entity',
-                ),
+                'paths' => array(__DIR__ . '/../src/'.__NAMESPACE__.'/Entity')
             ),
             'orm_default' => array(
                 'drivers' => array(
-                    'cff\\Entity' => 'cff_driver',
+                    __NAMESPACE__.'\Entity' =>  __NAMESPACE__.'_driver'
                 ),
             ),
         ),
