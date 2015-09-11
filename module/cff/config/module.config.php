@@ -525,6 +525,13 @@ return array(
                 'name' => 'status',
                 'description' => 'Status do registro.',
             ),
+            2 => array(
+                'required' => true,
+                'validators' => array(),
+                'filters' => array(),
+                'name' => 'agencia',
+                'error_message' => 'Informe a agencia;',
+            ),
         ),
     ),
     'zf-apigility' => array(

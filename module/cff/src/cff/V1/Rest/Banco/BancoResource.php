@@ -70,11 +70,12 @@ class BancoResource extends AbstractResourceListener
     }
 
     /**
-     * @param array $familiaId
-     * @return array|bool|ApiProblem
+     * @param array $params
+     * @return array|bool|string
      */
-    public function fetchAll($params)
+    public function fetchAll($params =  array())
     {
+
         $params = array_merge($this->fetchAllDefaults,(array) $params);
 
         if(0 !=  (int)$params['familia_id']) {
@@ -82,7 +83,6 @@ class BancoResource extends AbstractResourceListener
             return $this->bancoService->getByFamilia((int)$params['familia_id']);
         } else {
             return  $this->bancoService->getById((int)$params[0]);
-            return 'yes';
         }
     }
 
