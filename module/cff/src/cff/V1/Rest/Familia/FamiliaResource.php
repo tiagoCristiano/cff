@@ -76,8 +76,8 @@ class FamiliaResource extends AbstractResourceListener
         if( $this->familiaService->getAll() ) {
             return $this->familiaService->getAll();
         }
-        //return new ApiProblem(404, 'Recurso com id: '.$id.' não localizado na base de dados!');
-        return new ApiProblem(405, 'The GET method has not been defined for collections');
+        return new ApiProblem(404, 'Recurso com  não localizado na base de dados!');
+
     }
 
     /**
@@ -89,6 +89,7 @@ class FamiliaResource extends AbstractResourceListener
      */
     public function patch($id, $data)
     {
+
         if( $this->familiaService->update($id,$data) ) {
             return new ApiProblem(200, 'Recurso com id: '.$id.' atualizado na base de dados!');
         };
@@ -115,6 +116,7 @@ class FamiliaResource extends AbstractResourceListener
      */
     public function update($id, $data)
     {
+        return $this->familiaService->update($id, $data);
         return new ApiProblem(405, 'The PUT method has not been defined for individual resources');
     }
 }

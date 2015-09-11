@@ -84,7 +84,7 @@ class FamiliaService extends AbstractService {
             $data[] = [
                 'id'   => $entidade->getId(),
                 'nome' => $entidade->getNome(),
-                'agencia' => $entidade->getQtdMembros(),
+                'qtdMembros' => $entidade->getQtdMembros(),
                 'status'  => $entidade->getStatus()
             ];
         }

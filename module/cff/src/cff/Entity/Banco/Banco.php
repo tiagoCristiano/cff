@@ -25,11 +25,9 @@ class Banco
     public $status;
 
     /**
-     * @ManyToOne(targetEntity="cff\Entity\Familia\Familia")
+     * @ORM\ManyToOne(targetEntity="cff\Entity\Familia\Familia")
      * @ORM\JoinColumn(referencedColumnName="id")
      **/
-
-    /** @ORM\ManyToOne(targetEntity="cff\Entity\Familia\Familia", inversedBy="familia" ) */
     public $familia;
 
     /**
