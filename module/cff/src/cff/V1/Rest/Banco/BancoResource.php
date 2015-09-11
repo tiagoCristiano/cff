@@ -11,10 +11,12 @@ class BancoResource extends AbstractResourceListener
     protected $fetchAllDefaults = array(
         'familia_id' => 0
     );
+    private $result;
 
     public function __construct(BancoService $bancoService)
     {
         $this->bancoService = $bancoService;
+        $this->result = null;
     }
     /**
      * Create a resource
@@ -60,7 +62,6 @@ class BancoResource extends AbstractResourceListener
         $params = array_merge($this->fetchAllDefaults,(array) $params);
 
         if(0 !=  (int)$params['familia_id']) {
-
             return $this->bancoService->getByFamilia((int)$params['familia_id']);
         } else {
             return  $this->bancoService->getById((int)$params[0]);
@@ -79,11 +80,11 @@ class BancoResource extends AbstractResourceListener
         $params = array_merge($this->fetchAllDefaults,(array) $params);
 
         if(0 !=  (int)$params['familia_id']) {
-
-            return $this->bancoService->getByFamilia((int)$params['familia_id']);
-        } else {
-            return  $this->bancoService->getById((int)$params[0]);
+             $this->result = $this->bancoService->getByFamilia((int)$params['familia_id']);
+             return $this->validaRetorno($this->result);
         }
+            return  $this->bancoService->getById((int)$params[0]);
+
     }
 
     /**
@@ -119,5 +120,13 @@ class BancoResource extends AbstractResourceListener
     public function update($id, $data)
     {
         return new ApiProblem(405, 'The PUT method has not been defined for individual resources');
+    }
+
+    public function validaRetorno($result = array()){
+        if($result) {
+            return $result;
+        }
+
+        return new ApiProblem(404, 'Recurso não localizado');
     }
 }

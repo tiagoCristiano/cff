@@ -45,7 +45,6 @@ class BancoService extends AbstractService
 
     public function save($data)
     {
-
         $banco = new $this->entity();
         $familia = $this->em->getRepository('cff\Entity\Familia\Familia')->findBy(array('id' =>$data->familia_id));
         $banco->setFamilia($familia[0]);

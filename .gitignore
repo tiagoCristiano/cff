@@ -14,5 +14,5 @@ config/autoload/*.local.php
 data/cache/*
 !data/cache/.gitkeep
 .vagrant
-data/DoctrineORMModule/Proxy/__CG__cffEntityFamiliaFamilia.php.55f243ed45ba36.50672572
+data/DoctrineORMModule/
 
