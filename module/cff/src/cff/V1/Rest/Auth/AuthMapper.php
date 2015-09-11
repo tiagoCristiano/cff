@@ -34,24 +34,24 @@ class AuthMapper {
 //            die('errosss');
 //        }
 
-        $result = array(
-            'id'          => $this->bcrypt->create($row->id),
-            'familias_id' => $this->bcrypt->create($row->familias_id),
-            'perfil'      => $this->bcrypt->create($row->perfil),
-            'message'     => 'Login Efetuado com sucesso!'  
-        );
+//        $result = array(
+//            'id'          => $this->bcrypt->create($row->id),
+//            'familias_id' => $this->bcrypt->create($row->familias_id),
+//            'perfil'      => $this->bcrypt->create($row->perfil),
+//            'message'     => 'Login Efetuado com sucesso!'
+//        );
+
+
+        if ( empty($row) ) {
+            return false;
+        }
 
         $result = array(
             'id'          => ($row->id),
             'familias_id' => ($row->familias_id),
             'perfil'      => ($row->perfil),
-            'message'     => 'Login Efetuado com sucesso!'  
+            'message'     => 'Login Efetuado com sucesso!'
         );
-       
-        if ( empty($row) ) {
-            return false;
-        }
-
         return $result;
     }
 
