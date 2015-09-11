@@ -3,7 +3,7 @@
 namespace cff\V1\Rest\Banco;
 
 
-use cff\Entity\Familia\Familia;
+use cff\Entity\Familia as Familia;
 use cff\V1\Rest\AbstractService\AbstractService;
 use Doctrine\ORM\Query as Query;
 
@@ -21,11 +21,23 @@ class BancoService extends AbstractService
 
     public function getById($id)
     {
+
         $entity = $this->em->getRepository($this->repository)
-            ->findBy(array('status' => 1,'id' => $id ));
+                       ->findBy(array('status' => 1,'id' => $id ));
 
         if(!empty($entity)) {
-             return $this->padronizaRetorno($entity);
+            return $this->padronizaRetorno($entity);
+        }
+        return false;
+    }
+
+    public function getAll($familiaId)
+    {
+
+        $entity = $this->em->getRepository($this->repository)
+            ->findBy(array('status' => 1,'familia_id' => $familiaId ));
+        if(!empty($entity)) {
+            return $this->padronizaRetorno($entity);
         }
         return false;
     }
@@ -33,26 +45,17 @@ class BancoService extends AbstractService
 
     public function save($data)
     {
+
         $banco = new $this->entity();
-        $familiaEntity = new Familia();
-        $familia = $this->em->getReference('cff\Entity\Familia\Familia',$data->familia_id);
-        $this->hydrate($familia,$familiaEntity);
-        $banco->setFamilia($familia);
+        $familia = $this->em->getRepository('cff\Entity\Familia\Familia')->findBy(array('id' =>$data->familia_id));
+        $banco->setFamilia($familia[0]);
         $this->hydrate($banco,$data);
         $this->em->persist($banco);
         $this->em->flush();
         return $this->extract($banco);
     }
 
-    public function getAll($familiaId)
-    {
-        $entity = $this->em->getRepository($this->repository)
-                        ->findBy(array('status' => 1,'id' => $familiaId ));;
-        if(!empty($entity)) {
-            return $this->padronizaRetorno($entity);
-        }
-        return false;
-    }
+
 
     public function padronizaRetorno($entity)
     {
@@ -76,22 +79,13 @@ class BancoService extends AbstractService
 
     public function getByFamilia($familiaId)
     {
-        $familia = $this->em->getReference('cff\Entity\Familia\Familia',$familiaId);
-        $this->entity->setFamilia($familia);
-
-        $query = $this->em->createQuery('SELECT u FROM '.$this->repository.' u where u.familia_id = :id');
+        $query = $this->em->createQuery('SELECT u FROM '.$this->repository.' u where u.familia = :id');
         $query->setParameter('id', $familiaId);
         $familia = $query->getResult();
-        die(var_dump( $this->padronizaRetorno($familia) ));
-        die(var_dump($familia));
-
-        $entity = $this->em->getRepository($this->repository)
-            ->findBy(array('status' => 1,'familia'=>$familia->getId() ));;
-        if(!empty($entity)) {
-            die(var_dump( $this->padronizaRetorno($entity) ));
+        if(!is_null($familia)) {
+            return  $this->padronizaRetorno($familia);
         }
         return false;
-
     }
 
 

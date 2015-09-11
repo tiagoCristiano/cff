@@ -58,6 +58,7 @@ class BancoResource extends AbstractResourceListener
     public function fetch($params = array())
     {
         $params = array_merge($this->fetchAllDefaults,(array) $params);
+
         if(0 !=  (int)$params['familia_id']) {
 
             return $this->bancoService->getByFamilia((int)$params['familia_id']);
@@ -75,15 +76,14 @@ class BancoResource extends AbstractResourceListener
     public function fetchAll($params)
     {
         $params = array_merge($this->fetchAllDefaults,(array) $params);
+
         if(0 !=  (int)$params['familia_id']) {
+
             return $this->bancoService->getByFamilia((int)$params['familia_id']);
         } else {
             return  $this->bancoService->getById((int)$params[0]);
+            return 'yes';
         }
-
-        return new ApiProblem(405, 'The GET method has not been defined for individual resources');
-
-        return new ApiProblem(405, 'The GET method has not been defined for collections');
     }
 
     /**

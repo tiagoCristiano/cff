@@ -1,12 +1,9 @@
 <?php
-namespace cff;
 return array(
-
     'service_manager' => array(
         'factories' => array(
             'cff\\V1\\Rest\\Auth\\AuthResource' => 'cff\\V1\\Rest\\Auth\\AuthResourceFactory',
             'cff\\V1\\Rest\\Contas\\ContasResource' => 'cff\\V1\\Rest\\Contas\\ContasResourceFactory',
-            'cff\\V1\\Rest\\Familias\\FamiliasResource' => 'cff\\V1\\Rest\\Familias\\FamiliasResourceFactory',
             'cff\\V1\\Rest\\Familia\\FamiliaResource' => 'cff\\V1\\Rest\\Familia\\FamiliaResourceFactory',
             'cff\\V1\\Rest\\Banco\\BancoResource' => 'cff\\V1\\Rest\\Banco\\BancoResourceFactory',
         ),
@@ -28,15 +25,6 @@ return array(
                     'route' => '/contas[/:contas_id]',
                     'defaults' => array(
                         'controller' => 'cff\\V1\\Rest\\Contas\\Controller',
-                    ),
-                ),
-            ),
-            'cff.rest.familias' => array(
-                'type' => 'Segment',
-                'options' => array(
-                    'route' => '/familias[/:familias_id]',
-                    'defaults' => array(
-                        'controller' => 'cff\\V1\\Rest\\Familias\\Controller',
                     ),
                 ),
             ),
@@ -64,7 +52,6 @@ return array(
         'uri' => array(
             0 => 'cff.rest.auth',
             4 => 'cff.rest.contas',
-            6 => 'cff.rest.familias',
             8 => 'cff.rest.familia',
             9 => 'cff.rest.banco',
         ),
@@ -112,28 +99,6 @@ return array(
             'collection_class' => 'cff\\V1\\Rest\\Contas\\ContasCollection',
             'service_name' => 'contas',
         ),
-        'cff\\V1\\Rest\\Familias\\Controller' => array(
-            'listener' => 'cff\\V1\\Rest\\Familias\\FamiliasResource',
-            'route_name' => 'cff.rest.familias',
-            'route_identifier_name' => 'familias_id',
-            'collection_name' => 'familias',
-            'entity_http_methods' => array(
-                0 => 'GET',
-                1 => 'PATCH',
-                2 => 'PUT',
-                3 => 'DELETE',
-            ),
-            'collection_http_methods' => array(
-                0 => 'GET',
-                1 => 'POST',
-            ),
-            'collection_query_whitelist' => array(),
-            'page_size' => 25,
-            'page_size_param' => null,
-            'entity_class' => 'cff\\V1\\Rest\\Familias\\FamiliasEntity',
-            'collection_class' => 'cff\\V1\\Rest\\Familias\\FamiliasCollection',
-            'service_name' => 'familias',
-        ),
         'cff\\V1\\Rest\\Familia\\Controller' => array(
             'listener' => 'cff\\V1\\Rest\\Familia\\FamiliaResource',
             'route_name' => 'cff.rest.familia',
@@ -173,7 +138,7 @@ return array(
                 1 => 'POST',
             ),
             'collection_query_whitelist' => array(
-                   'familia_id'
+                0 => 'familia_id',
             ),
             'page_size' => 25,
             'page_size_param' => null,
@@ -186,7 +151,6 @@ return array(
         'controllers' => array(
             'cff\\V1\\Rest\\Auth\\Controller' => 'Json',
             'cff\\V1\\Rest\\Contas\\Controller' => 'HalJson',
-            'cff\\V1\\Rest\\Familias\\Controller' => 'HalJson',
             'cff\\V1\\Rest\\Familia\\Controller' => 'HalJson',
             'cff\\V1\\Rest\\Banco\\Controller' => 'HalJson',
         ),
@@ -197,11 +161,6 @@ return array(
                 2 => 'application/json',
             ),
             'cff\\V1\\Rest\\Contas\\Controller' => array(
-                0 => 'application/vnd.cff.v1+json',
-                1 => 'application/hal+json',
-                2 => 'application/json',
-            ),
-            'cff\\V1\\Rest\\Familias\\Controller' => array(
                 0 => 'application/vnd.cff.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
@@ -223,10 +182,6 @@ return array(
                 1 => 'application/json',
             ),
             'cff\\V1\\Rest\\Contas\\Controller' => array(
-                0 => 'application/vnd.cff.v1+json',
-                1 => 'application/json',
-            ),
-            'cff\\V1\\Rest\\Familias\\Controller' => array(
                 0 => 'application/vnd.cff.v1+json',
                 1 => 'application/json',
             ),
@@ -264,18 +219,6 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'cff.rest.contas',
                 'route_identifier_name' => 'contas_id',
-                'is_collection' => true,
-            ),
-            'cff\\V1\\Rest\\Familias\\FamiliasEntity' => array(
-                'entity_identifier_name' => 'id',
-                'route_name' => 'cff.rest.familias',
-                'route_identifier_name' => 'familias_id',
-                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
-            ),
-            'cff\\V1\\Rest\\Familias\\FamiliasCollection' => array(
-                'entity_identifier_name' => 'id',
-                'route_name' => 'cff.rest.familias',
-                'route_identifier_name' => 'familias_id',
                 'is_collection' => true,
             ),
             'cff\\V1\\Rest\\Familia\\FamiliaEntity' => array(
@@ -595,17 +538,18 @@ return array(
             ),
         ),
     ),
-
     'doctrine' => array(
         'driver' => array(
-            __NAMESPACE__.'_driver' => array(
-                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+            'cff_driver' => array(
+                'class' => 'Doctrine\\ORM\\Mapping\\Driver\\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/'.__NAMESPACE__.'/Entity')
+                'paths' => array(
+                    0 => 'C:\\Users\\Tiago\\Desktop\\api\\apigility\\module\\cff\\config/../src/cff/Entity',
+                ),
             ),
             'orm_default' => array(
                 'drivers' => array(
-                    __NAMESPACE__.'\Entity' =>  __NAMESPACE__.'_driver'
+                    'cff\\Entity' => 'cff_driver',
                 ),
             ),
         ),
