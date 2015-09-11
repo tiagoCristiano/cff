@@ -60,15 +60,6 @@ abstract class AbstractService {
         return false;
     }
 
-    public function getAll(){
-        $entity = $this->em->getRepository($this->repository)
-            ->findAll(array('status' => 1));
-        if(!empty($entity)) {
-            return ($entity);
-        }
-        return false;
-    }
-
 
 
 }
