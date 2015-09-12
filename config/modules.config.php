@@ -27,5 +27,4 @@ return array(
     'ZendDeveloperTools',
     'DoctrineModule',
     'DoctrineORMModule'
-
 );

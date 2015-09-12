@@ -114,7 +114,9 @@ return array(
                 0 => 'GET',
                 1 => 'POST',
             ),
-            'collection_query_whitelist' => array(),
+            'collection_query_whitelist' => array(
+                0 => 'familia_id',
+            ),
             'page_size' => 25,
             'page_size_param' => null,
             'entity_class' => 'cff\\V1\\Rest\\Familia\\FamiliaEntity',
@@ -253,6 +255,9 @@ return array(
         ),
         'cff\\V1\\Rest\\Banco\\Controller' => array(
             'input_filter' => 'cff\\V1\\Rest\\Banco\\Validator',
+        ),
+        'cff\\V1\\Rest\\Familia\\Controller' => array(
+            'input_filter' => 'cff\\V1\\Rest\\Familia\\Validator',
         ),
     ),
     'input_filter_specs' => array(
@@ -531,6 +536,23 @@ return array(
                 'filters' => array(),
                 'name' => 'agencia',
                 'error_message' => 'Informe a agencia;',
+            ),
+        ),
+        'cff\\V1\\Rest\\Familia\\Validator' => array(
+            0 => array(
+                'required' => true,
+                'validators' => array(),
+                'filters' => array(),
+                'name' => 'nome',
+                'description' => 'Nome da Família.',
+                'error_message' => 'Informe o nome da Família',
+            ),
+            1 => array(
+                'required' => false,
+                'validators' => array(),
+                'filters' => array(),
+                'name' => 'qtdMembros',
+                'description' => 'Quantidade de membros da família.',
             ),
         ),
     ),

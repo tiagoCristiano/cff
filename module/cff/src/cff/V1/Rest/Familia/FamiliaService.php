@@ -12,6 +12,10 @@ class FamiliaService extends AbstractService {
     protected $hydrator;
     protected $repository;
 
+    /**
+     * @param $em
+     * @param $hydrator
+     */
     public function __construct($em, $hydrator)
     {
         $this->em = $em;
@@ -19,15 +23,34 @@ class FamiliaService extends AbstractService {
         $this->repository = 'cff\Entity\Familia\Familia';
     }
 
+    /**
+     * @param $data
+     * @return mixed
+     */
     public function save($data)
     {
         $familiaEntity = new FamiliaEntity();
+
         $this->hydrate($familiaEntity,$data);
+
+        if(null == $familiaEntity->getStatus() ) {
+            $familiaEntity->setStatus(1);
+        }
+
+        if(null == $familiaEntity->getQtdMembros()) {
+            $familiaEntity->setQtdMembros(1);
+        }
+
         $this->em->persist($familiaEntity);
         $this->em->flush();
         return $this->extract($familiaEntity);
     }
 
+    /**
+     * @param $id
+     * @param $data
+     * @return bool
+     */
     public function update($id, $data)
     {
         $familia = $this->em->getRepository($this->repository)
@@ -41,32 +64,43 @@ class FamiliaService extends AbstractService {
         return false;
     }
 
+    /**
+     * @param $id
+     * @return bool
+     */
     public function getById($id)
     {
         $familia = $this->em->getRepository($this->repository)
                         ->findBy(array('status' => 1,'id' => $id ));
         if(!empty($familia)) {
-            return $this->extract($familia[0]);
+            return $this->padronizaRetorno($familia);
         }
         return false;
     }
 
+    /**
+     * Não efetua o delete, apenas muda o status para 0
+     * @param $id
+     * @return bool
+     */
     public function delete($id)
     {
         $familia = $this->em->getRepository($this->repository)
                              ->find($id);
         if(!is_null($familia)) {
-            $this->em->remove($familia);
+            $familia->setStatus(0);
+            $this->em->persist($familia);
             $this->em->flush();
             return true;
         }
         return false;
     }
 
-
+    /**
+     * @return array|bool
+     */
     public function getAll()
     {
-
         $entity = $this->em->getRepository($this->repository)
             ->findAll();
         if(!empty($entity)) {
@@ -75,8 +109,10 @@ class FamiliaService extends AbstractService {
         return false;
     }
 
-
-
+    /**
+     * @param $entity
+     * @return array
+     */
     public function padronizaRetorno($entity)
     {
         $data = array();

@@ -10,6 +10,10 @@ class FamiliaResource extends AbstractResourceListener
 
     protected $familiaService;
 
+    protected $fetchAllDefaults = array(
+        'familia_id' => 0
+    );
+
     public function __construct( FamiliaService $familiaService)
     {
         $this->familiaService = $familiaService;
@@ -47,7 +51,6 @@ class FamiliaResource extends AbstractResourceListener
      */
     public function deleteList($data)
     {
-
         return new ApiProblem(405, 'The DELETE method has not been defined for collections');
     }
 
@@ -57,8 +60,18 @@ class FamiliaResource extends AbstractResourceListener
      * @param  mixed $id
      * @return ApiProblem|mixed
      */
-    public function fetch($id)
+    public function fetch($params = array() )
     {
+
+
+        if(0 !=  (int)$params['familia_id']) {
+            return $this->bancoService->getByFamilia((int)$params['familia_id']);
+        } else {
+            return  $this->bancoService->getById((int)$params[0]);
+        }
+
+        return new ApiProblem(405, 'The GET method has not been defined for individual resources');
+
         if( $this->familiaService->getById($id) ) {
             return $this->familiaService->getById($id);
         }
@@ -73,10 +86,13 @@ class FamiliaResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
-        if( $this->familiaService->getAll() ) {
-            return $this->familiaService->getAll();
+        $params = array_merge($this->fetchAllDefaults,(array) $params);
+
+        $return =  $this->familiaService->getById((int)$params['familia_id']);
+        if($return) {
+            return $return;
         }
-        return new ApiProblem(404, 'Recurso com  não localizado na base de dados!');
+        return new ApiProblem(404, "Recurso com o id : ".$params['familia_id']." não localizado na base de dados!");
 
     }
 
@@ -89,7 +105,6 @@ class FamiliaResource extends AbstractResourceListener
      */
     public function patch($id, $data)
     {
-
         if( $this->familiaService->update($id,$data) ) {
             return new ApiProblem(200, 'Recurso com id: '.$id.' atualizado na base de dados!');
         };
@@ -117,6 +132,5 @@ class FamiliaResource extends AbstractResourceListener
     public function update($id, $data)
     {
         return $this->familiaService->update($id, $data);
-        return new ApiProblem(405, 'The PUT method has not been defined for individual resources');
     }
 }

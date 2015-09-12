@@ -44,7 +44,7 @@ class Module implements ApigilityProviderInterface
                 },
 
                 'AuthTableGateway' => function($sm) {
-                    $dbAdapter = $sm->get('mySql');
+                    $dbAdapter = $sm->get('Mysql');
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new AuthEntity());
                     return new TableGateway('users', $dbAdapter, null, $resultSetPrototype);
