@@ -1,4 +1,5 @@
 <?php
+namespace cff;
 return array(
     'service_manager' => array(
         'factories' => array(
@@ -6,6 +7,7 @@ return array(
             'cff\\V1\\Rest\\Contas\\ContasResource' => 'cff\\V1\\Rest\\Contas\\ContasResourceFactory',
             'cff\\V1\\Rest\\Familia\\FamiliaResource' => 'cff\\V1\\Rest\\Familia\\FamiliaResourceFactory',
             'cff\\V1\\Rest\\Banco\\BancoResource' => 'cff\\V1\\Rest\\Banco\\BancoResourceFactory',
+            'cff\\V1\\Rest\\Register\\RegisterResource' => 'cff\\V1\\Rest\\Register\\RegisterResourceFactory',
         ),
     ),
     'router' => array(
@@ -46,6 +48,15 @@ return array(
                     ),
                 ),
             ),
+            'cff.rest.register' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/register[/:register_id]',
+                    'defaults' => array(
+                        'controller' => 'cff\\V1\\Rest\\Register\\Controller',
+                    ),
+                ),
+            ),
         ),
     ),
     'zf-versioning' => array(
@@ -54,6 +65,7 @@ return array(
             4 => 'cff.rest.contas',
             8 => 'cff.rest.familia',
             9 => 'cff.rest.banco',
+            10 => 'cff.rest.register',
         ),
     ),
     'zf-rest' => array(
@@ -148,6 +160,28 @@ return array(
             'collection_class' => 'cff\\V1\\Rest\\Banco\\BancoCollection',
             'service_name' => 'banco',
         ),
+        'cff\\V1\\Rest\\Register\\Controller' => array(
+            'listener' => 'cff\\V1\\Rest\\Register\\RegisterResource',
+            'route_name' => 'cff.rest.register',
+            'route_identifier_name' => 'register_id',
+            'collection_name' => 'register',
+            'entity_http_methods' => array(
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ),
+            'collection_http_methods' => array(
+                0 => 'GET',
+                1 => 'POST',
+            ),
+            'collection_query_whitelist' => array(),
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => 'cff\\V1\\Rest\\Register\\RegisterEntity',
+            'collection_class' => 'cff\\V1\\Rest\\Register\\RegisterCollection',
+            'service_name' => 'register',
+        ),
     ),
     'zf-content-negotiation' => array(
         'controllers' => array(
@@ -155,6 +189,7 @@ return array(
             'cff\\V1\\Rest\\Contas\\Controller' => 'HalJson',
             'cff\\V1\\Rest\\Familia\\Controller' => 'HalJson',
             'cff\\V1\\Rest\\Banco\\Controller' => 'HalJson',
+            'cff\\V1\\Rest\\Register\\Controller' => 'HalJson',
         ),
         'accept_whitelist' => array(
             'cff\\V1\\Rest\\Auth\\Controller' => array(
@@ -177,6 +212,11 @@ return array(
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ),
+            'cff\\V1\\Rest\\Register\\Controller' => array(
+                0 => 'application/vnd.cff.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ),
         ),
         'content_type_whitelist' => array(
             'cff\\V1\\Rest\\Auth\\Controller' => array(
@@ -192,6 +232,10 @@ return array(
                 1 => 'application/json',
             ),
             'cff\\V1\\Rest\\Banco\\Controller' => array(
+                0 => 'application/vnd.cff.v1+json',
+                1 => 'application/json',
+            ),
+            'cff\\V1\\Rest\\Register\\Controller' => array(
                 0 => 'application/vnd.cff.v1+json',
                 1 => 'application/json',
             ),
@@ -245,6 +289,18 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'cff.rest.banco',
                 'route_identifier_name' => 'banco_id',
+                'is_collection' => true,
+            ),
+            'cff\\V1\\Rest\\Register\\RegisterEntity' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'cff.rest.register',
+                'route_identifier_name' => 'register_id',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
+            ),
+            'cff\\V1\\Rest\\Register\\RegisterCollection' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'cff.rest.register',
+                'route_identifier_name' => 'register_id',
                 'is_collection' => true,
             ),
         ),
@@ -569,16 +625,15 @@ return array(
     ),
     'doctrine' => array(
         'driver' => array(
-            'cff_driver' => array(
+            __NAMESPACE__.'_driver' => array(
                 'class' => 'Doctrine\\ORM\\Mapping\\Driver\\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(
-                    0 => 'C:\\Users\\Tiago\\Desktop\\api\\apigility\\module\\cff\\config/../src/cff/Entity',
-                ),
+                'paths' => array(__DIR__ . '/../src/'.__NAMESPACE__.'/Entity')
+
             ),
             'orm_default' => array(
                 'drivers' => array(
-                    'cff\\Entity' => 'cff_driver',
+                    __NAMESPACE__.'\Entity' =>  __NAMESPACE__.'_driver'
                 ),
             ),
         ),
