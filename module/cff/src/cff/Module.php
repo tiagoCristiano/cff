@@ -47,7 +47,7 @@ class Module implements ApigilityProviderInterface
                     $dbAdapter = $sm->get('Mysql');
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new AuthEntity());
-                    return new TableGateway('users', $dbAdapter, null, $resultSetPrototype);
+                    return new TableGateway('user', $dbAdapter, null, $resultSetPrototype);
                 },
 
                 'cff\V1\Rest\Auth\AuthMapper' => function($sm) {
