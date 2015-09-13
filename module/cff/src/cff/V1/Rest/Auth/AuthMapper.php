@@ -48,7 +48,7 @@ class AuthMapper {
 
         $result = array(
             'id'          => ($row->id),
-            'familias_id' => ($row->familias_id),
+            'familia_id'  => isset($row->familia_id) ? $row->familia_id : "0" ,
             'perfil'      => ($row->perfil),
             'message'     => 'Login Efetuado com sucesso!'
         );

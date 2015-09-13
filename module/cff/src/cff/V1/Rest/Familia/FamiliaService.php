@@ -78,23 +78,6 @@ class FamiliaService extends AbstractService {
         return false;
     }
 
-    /**
-     * Não efetua o delete, apenas muda o status para 0
-     * @param $id
-     * @return bool
-     */
-    public function delete($id)
-    {
-        $familia = $this->em->getRepository($this->repository)
-                             ->find($id);
-        if(!is_null($familia)) {
-            $familia->setStatus(0);
-            $this->em->persist($familia);
-            $this->em->flush();
-            return true;
-        }
-        return false;
-    }
 
     /**
      * @return array|bool

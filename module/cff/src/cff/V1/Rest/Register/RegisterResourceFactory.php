@@ -5,6 +5,7 @@ class RegisterResourceFactory
 {
     public function __invoke($services)
     {
-        return new RegisterResource();
+        $registerService = $services->get('RegisterService');
+        return new RegisterResource($registerService);
     }
 }

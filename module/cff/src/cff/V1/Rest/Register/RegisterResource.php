@@ -6,6 +6,12 @@ use ZF\Rest\AbstractResourceListener;
 
 class RegisterResource extends AbstractResourceListener
 {
+    protected $registerService;
+
+    public function __construct(RegisterService $registerService)
+    {
+        $this->registerService = $registerService;
+    }
     /**
      * Create a resource
      *
@@ -14,9 +20,16 @@ class RegisterResource extends AbstractResourceListener
      */
     public function create($data)
     {
-        die(var_dump($data));
-        return new ApiProblem(405, 'The POST method has not been defined');
-    }
+        $result =  $this->registerService->saveAdm($data);
+
+        if($result) {
+            return $result;
+        } else {
+            return array('validate'=> 'false');
+            //return new ApiProblem(404, 'Usuario já cadastrado na base. Insira outro email válido');
+        }
+
+   }
 
     /**
      * Delete a resource

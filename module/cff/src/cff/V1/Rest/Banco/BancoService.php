@@ -21,7 +21,6 @@ class BancoService extends AbstractService
 
     public function getById($id)
     {
-
         $entity = $this->em->getRepository($this->repository)
                        ->findBy(array('status' => 1,'id' => $id ));
 
@@ -78,7 +77,7 @@ class BancoService extends AbstractService
 
     public function getByFamilia($familiaId)
     {
-        $query = $this->em->createQuery('SELECT u FROM '.$this->repository.' u where u.familia = :id');
+        $query = $this->em->createQuery('SELECT u FROM '.$this->repository.' u where u.familia = :id and u.status = 1');
         $query->setParameter('id', $familiaId);
         $familia = $query->getResult();
         if(!is_null($familia)) {

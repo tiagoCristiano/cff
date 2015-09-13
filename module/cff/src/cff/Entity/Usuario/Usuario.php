@@ -3,7 +3,10 @@
 namespace cff\Entity\Usuario;
 use Doctrine\ORM\Mapping as ORM;
 
-/** @ORM\Entity */
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="user")
+ */
 class Usuario
 {
     /**
@@ -12,17 +15,17 @@ class Usuario
      * @ORM\Column(type="integer")
      */
     public $id;
-    /** @ORM\Column(type="string") */
 
-    protected $emil;
     /** @ORM\Column(type="string") */
+    protected $email;
 
+    /** @ORM\Column(type="string") */
     protected $password;
+
     /** @ORM\Column(type="string") */
-
     protected $nome;
-    /** @ORM\Column(type="integer") */
 
+    /** @ORM\Column(type="integer") */
     protected $perfil;
     /**
      * @ORM\ManyToOne(targetEntity="cff\Entity\Familia\Familia")
@@ -52,18 +55,36 @@ class Usuario
     /**
      * @return mixed
      */
-    public function getEmil()
+    public function getEmail()
     {
-        return $this->emil;
+        return $this->email;
     }
 
     /**
-     * @param mixed $emil
+     * @param mixed $email
      */
-    public function setEmil($emil)
+    public function setEmail($email)
     {
-        $this->emil = $emil;
+        $this->email = $email;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+
 
     /**
      * @return mixed

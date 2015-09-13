@@ -55,15 +55,11 @@ class FamiliaResource extends AbstractResourceListener
     }
 
     /**
-     * Fetch a resource
-     *
-     * @param  mixed $id
-     * @return ApiProblem|mixed
+     * @param array $params
+     * @return bool|ApiProblem
      */
     public function fetch($params = array() )
     {
-
-
         if(0 !=  (int)$params['familia_id']) {
             return $this->bancoService->getByFamilia((int)$params['familia_id']);
         } else {

@@ -33,7 +33,7 @@ abstract class AbstractService {
         $entity = $this->em->getReference($this->repository,$id);
 
         if($entity) {
-            $this->em->remove($entity);
+            $entity->setStatus(0);
             $this->em->flush();
             return true;
         }
@@ -48,6 +48,20 @@ abstract class AbstractService {
     public function extract($object)
     {
         return $this->hydrator->extract($object);
+    }
+
+    public function update($id,$data)
+    {
+        $entity = $this->em->getRepository($this->repository)
+                       ->find($id);
+        if (!is_null($entity)) {
+            $this->hydrate($entity, $data);
+            $this->em->persist($entity);
+            $this->em->flush();
+            return true;
+        }
+        return false;
+
     }
 
     public function getById($id)

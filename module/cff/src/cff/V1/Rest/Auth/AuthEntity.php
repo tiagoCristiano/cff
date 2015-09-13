@@ -6,7 +6,7 @@ class AuthEntity
     public $email;
     public $password;
     public $id;
-    public $familias_id;
+    public $familia_id;
     public $perfil;
 
     public function getArrayCopy()
@@ -15,17 +15,17 @@ class AuthEntity
             'email' => $this->email,
             'password' => $this->password,
             'id' =>$this->id,
-            'familias_id' =>$this->familias_id,
+            'familia_id' =>$this->familia_id,
             'perfil' =>$this->perfil
          );
     }
 
     public function exchangeArray (array $array)
     {
-        $this->email = $array['email'];
-        $this->password = $array['password'];
-        $this->id = $array['id'];
-        $this->familias_id = $array['familias_id'];
-        $this->perfil = $array['perfil'];
+        $this->email = isset($array['email'])? $array['email'] : null;
+        $this->password = isset($array['password'])? $array['password'] : null;
+        $this->id = isset($array['id'])? $array['id'] : null;
+        $this->familia_id = isset($array['familia_id'])? $array['familia_id'] : "0";
+        $this->perfil = isset($array['perfil'])? $array['perfil'] : null;
     }
 }

@@ -1,10 +1,12 @@
 <?php
 namespace cff;
 
+use cff\Entity\Usuario\Usuario as UsuarioEntity;
 use cff\V1\Rest\Auth\AuthEntity;
 
 use cff\V1\Rest\Contas\ContasEntity;
 use cff\V1\Rest\Contas\ContasMapper;
+use cff\V1\Rest\Register\RegisterService;
 use ZF\Apigility\Provider\ApigilityProviderInterface;
 use cff\V1\Rest\Auth\AuthMapper;
 use Zend\Db\ResultSet\ResultSet;
@@ -104,30 +106,19 @@ class Module implements ApigilityProviderInterface
                     $bancoEntity = new BancoEntity();
                     $bancoService = new BancoService($em,$hydrator,$bancoEntity);
                     return $bancoService;
+                },
+                'RegisterService' => function($sm) {
+                    $em = $sm->get('Doctrine\ORM\EntityManager');
+                    $hydrator = new Hydrator\ClassMethods();
+                    $usuarioEntity = new UsuarioEntity();
+                    $registerService = new RegisterService($em,$hydrator,$usuarioEntity);
+                    return $registerService;
+
                 }
 
 
 
 
-            ),
-            'doctrine-hydrator' => array(
-                'hydrator-manager-key' => array(
-                    'entity_class' => 'C:\\Users\\Tiago\\Desktop\\api\\apigility\\module\\cff\\config/../src/cff/Entity',
-                    'object_manager' => 'doctrine.objectmanager.key.in.servicelocator',
-                    'by_value' => true,
-                    'use_generated_hydrator' => true,
-                    'naming_strategy' => 'custom.naming.strategy.key.in.servicemanager',
-                    'hydrator' => 'custom.hydrator.key.in.hydratormanager',
-                    'strategies' => array(
-                        'fieldname' => 'custom.strategy.key.in.servicemanager',
-                    ),
-                    'filters' => array(
-                        'custom_filter_name' => array(
-                            'condition' => 'and', // optional, default is 'or'
-                            'filter'    => 'custom.hydrator.filter.key.in.servicemanager',
-                        ),
-                    ),
-                ),
             ),
         );
 
