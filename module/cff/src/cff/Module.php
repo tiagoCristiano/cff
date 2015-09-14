@@ -7,6 +7,7 @@ use cff\V1\Rest\Auth\AuthEntity;
 use cff\V1\Rest\Contas\ContasEntity;
 use cff\V1\Rest\Contas\ContasMapper;
 use cff\V1\Rest\Register\RegisterService;
+use cff\V1\Rest\User\UserService;
 use ZF\Apigility\Provider\ApigilityProviderInterface;
 use cff\V1\Rest\Auth\AuthMapper;
 use Zend\Db\ResultSet\ResultSet;
@@ -121,7 +122,15 @@ class Module implements ApigilityProviderInterface
                     $usuarioEntity = new UsuarioEntity();
                     $registerService = new FamiliaresService($em,$hydrator,$usuarioEntity);
                     return $registerService;
+                },
+                'UserService' => function($sm) {
+                    $em = $sm->get('Doctrine\ORM\EntityManager');
+                    $hydrator = new Hydrator\ClassMethods();
+                    $usuarioEntity = new UsuarioEntity();
+                    $userService   = new UserService($em,$hydrator,$usuarioEntity);
+                    return $userService;
                 }
+
 
 
 

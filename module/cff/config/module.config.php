@@ -1,7 +1,4 @@
 <?php
-
-namespace cff;
-
 return array(
     'service_manager' => array(
         'factories' => array(
@@ -11,6 +8,7 @@ return array(
             'cff\\V1\\Rest\\Banco\\BancoResource' => 'cff\\V1\\Rest\\Banco\\BancoResourceFactory',
             'cff\\V1\\Rest\\Register\\RegisterResource' => 'cff\\V1\\Rest\\Register\\RegisterResourceFactory',
             'cff\\V1\\Rest\\Familiares\\FamiliaresResource' => 'cff\\V1\\Rest\\Familiares\\FamiliaresResourceFactory',
+            'cff\\V1\\Rest\\User\\UserResource' => 'cff\\V1\\Rest\\User\\UserResourceFactory',
         ),
     ),
     'router' => array(
@@ -69,6 +67,15 @@ return array(
                     ),
                 ),
             ),
+            'cff.rest.user' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/user[/:user_id]',
+                    'defaults' => array(
+                        'controller' => 'cff\\V1\\Rest\\User\\Controller',
+                    ),
+                ),
+            ),
         ),
     ),
     'zf-versioning' => array(
@@ -79,6 +86,7 @@ return array(
             9 => 'cff.rest.banco',
             10 => 'cff.rest.register',
             11 => 'cff.rest.familiares',
+            12 => 'cff.rest.user',
         ),
     ),
     'zf-rest' => array(
@@ -219,6 +227,30 @@ return array(
             'collection_class' => 'cff\\V1\\Rest\\Familiares\\FamiliaresCollection',
             'service_name' => 'familiares',
         ),
+        'cff\\V1\\Rest\\User\\Controller' => array(
+            'listener' => 'cff\\V1\\Rest\\User\\UserResource',
+            'route_name' => 'cff.rest.user',
+            'route_identifier_name' => 'user_id',
+            'collection_name' => 'user',
+            'entity_http_methods' => array(
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ),
+            'collection_http_methods' => array(
+                0 => 'GET',
+                1 => 'POST',
+            ),
+            'collection_query_whitelist' => array(
+                0 => 'familia_id',
+            ),
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => 'cff\\V1\\Rest\\User\\UserEntity',
+            'collection_class' => 'cff\\V1\\Rest\\User\\UserCollection',
+            'service_name' => 'user',
+        ),
     ),
     'zf-content-negotiation' => array(
         'controllers' => array(
@@ -228,6 +260,7 @@ return array(
             'cff\\V1\\Rest\\Banco\\Controller' => 'HalJson',
             'cff\\V1\\Rest\\Register\\Controller' => 'HalJson',
             'cff\\V1\\Rest\\Familiares\\Controller' => 'HalJson',
+            'cff\\V1\\Rest\\User\\Controller' => 'HalJson',
         ),
         'accept_whitelist' => array(
             'cff\\V1\\Rest\\Auth\\Controller' => array(
@@ -260,6 +293,11 @@ return array(
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ),
+            'cff\\V1\\Rest\\User\\Controller' => array(
+                0 => 'application/vnd.cff.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ),
         ),
         'content_type_whitelist' => array(
             'cff\\V1\\Rest\\Auth\\Controller' => array(
@@ -283,6 +321,10 @@ return array(
                 1 => 'application/json',
             ),
             'cff\\V1\\Rest\\Familiares\\Controller' => array(
+                0 => 'application/vnd.cff.v1+json',
+                1 => 'application/json',
+            ),
+            'cff\\V1\\Rest\\User\\Controller' => array(
                 0 => 'application/vnd.cff.v1+json',
                 1 => 'application/json',
             ),
@@ -360,6 +402,18 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'cff.rest.familiares',
                 'route_identifier_name' => 'familiares_id',
+                'is_collection' => true,
+            ),
+            'cff\\V1\\Rest\\User\\UserEntity' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'cff.rest.user',
+                'route_identifier_name' => 'user_id',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
+            ),
+            'cff\\V1\\Rest\\User\\UserCollection' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'cff.rest.user',
+                'route_identifier_name' => 'user_id',
                 'is_collection' => true,
             ),
         ),
@@ -684,14 +738,16 @@ return array(
     ),
     'doctrine' => array(
         'driver' => array(
-            __NAMESPACE__.'_driver' => array(
+            'cff_driver' => array(
                 'class' => 'Doctrine\\ORM\\Mapping\\Driver\\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/'.__NAMESPACE__.'/Entity')
+                'paths' => array(
+                    0 => 'C:\\Users\\tiago.alves\\Desktop\\TCC\\cff\\module\\cff\\config/../src/cff/Entity',
+                ),
             ),
             'orm_default' => array(
                 'drivers' => array(
-                    __NAMESPACE__.'\Entity' =>  __NAMESPACE__.'_driver'
+                    'cff\\Entity' => 'cff_driver',
                 ),
             ),
         ),

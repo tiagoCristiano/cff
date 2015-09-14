@@ -15,4 +15,5 @@ data/cache/*
 .vagrant
 data/DoctrineORMModule/
 module/cff/config/module.config.php
+config/autoload/local.php
 
