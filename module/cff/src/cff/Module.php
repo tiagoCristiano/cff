@@ -17,6 +17,7 @@ use Zend\Stdlib\Hydrator;
 use cff\V1\Rest\Familia\FamiliaService;
 use cff\V1\Rest\Banco\BancoService;
 use cff\Entity\Banco\Banco as BancoEntity;
+use cff\V1\Rest\Familiares\FamiliaresService;
 
 class Module implements ApigilityProviderInterface
 {
@@ -113,8 +114,17 @@ class Module implements ApigilityProviderInterface
                     $usuarioEntity = new UsuarioEntity();
                     $registerService = new RegisterService($em,$hydrator,$usuarioEntity);
                     return $registerService;
-
+                },
+                'RegisterService' => function($sm) {
+                    $em = $sm->get('Doctrine\ORM\EntityManager');
+                    $hydrator = new Hydrator\ClassMethods();
+                    $usuarioEntity = new UsuarioEntity();
+                    $registerService = new FamiliaresService($em,$hydrator,$usuarioEntity);
+                    return $registerService;
                 }
+
+
+
 
 
 

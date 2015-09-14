@@ -1,4 +1,7 @@
 <?php
+
+namespace cff;
+
 return array(
     'service_manager' => array(
         'factories' => array(
@@ -207,7 +210,9 @@ return array(
                 0 => 'GET',
                 1 => 'POST',
             ),
-            'collection_query_whitelist' => array(),
+            'collection_query_whitelist' => array(
+                0 => 'familia_id',
+            ),
             'page_size' => 25,
             'page_size_param' => null,
             'entity_class' => 'cff\\V1\\Rest\\Familiares\\FamiliaresEntity',

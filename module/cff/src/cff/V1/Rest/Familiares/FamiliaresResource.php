@@ -6,6 +6,17 @@ use ZF\Rest\AbstractResourceListener;
 
 class FamiliaresResource extends AbstractResourceListener
 {
+    protected $familiaresService;
+
+    protected $fetchAllDefaults = array(
+        'familia_id' => 0
+    );
+
+
+    public function __construct($familiaresService)
+    {
+        $this->familiaresService = $familiaresService;
+    }
     /**
      * Create a resource
      *
@@ -58,6 +69,15 @@ class FamiliaresResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
+
+        $params = array_merge($this->fetchAllDefaults,(array) $params);
+
+        if(0 !=  (int)$params['familia_id']) {
+            return $this->familiaresService->getByFamilia((int)$params['familia_id']);
+        } else {
+            return  $this->bancoService->getById((int)$params[0]);
+        }
+
         return new ApiProblem(405, 'The GET method has not been defined for collections');
     }
 

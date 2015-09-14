@@ -5,6 +5,7 @@ class FamiliaresResourceFactory
 {
     public function __invoke($services)
     {
-        return new FamiliaresResource();
+        $familiaresService = $services->get('RegisterService');
+        return new FamiliaresResource($familiaresService);
     }
 }

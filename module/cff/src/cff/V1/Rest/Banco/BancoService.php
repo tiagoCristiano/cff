@@ -32,7 +32,6 @@ class BancoService extends AbstractService
 
     public function getAll($familiaId)
     {
-
         $entity = $this->em->getRepository($this->repository)
             ->findBy(array('status' => 1,'familia_id' => $familiaId ));
         if(!empty($entity)) {
