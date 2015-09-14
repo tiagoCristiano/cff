@@ -29,7 +29,6 @@ class UserService extends AbstractService
     }
 
 
-
     public function padronizaRetorno($entity)
     {
         $data = array();

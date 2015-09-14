@@ -31,7 +31,6 @@ abstract class AbstractService {
     public function delete($id)
     {
         $entity = $this->em->getReference($this->repository,$id);
-
         if($entity) {
             $entity->setStatus(0);
             $this->em->flush();

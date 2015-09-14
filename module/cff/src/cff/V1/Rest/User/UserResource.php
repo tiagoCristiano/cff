@@ -31,7 +31,7 @@ class UserResource extends AbstractResourceListener
      */
     public function delete($id)
     {
-        return new ApiProblem(405, 'The DELETE method has not been defined for individual resources');
+        return $this->userService->delete($id);
     }
 
     /**
