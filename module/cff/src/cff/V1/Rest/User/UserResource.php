@@ -78,6 +78,7 @@ class UserResource extends AbstractResourceListener
      */
     public function patch($id, $data)
     {
+        $this->userService->update($id, $data);
         return new ApiProblem(405, 'The PATCH method has not been defined for individual resources');
     }
 
@@ -89,6 +90,7 @@ class UserResource extends AbstractResourceListener
      */
     public function replaceList($data)
     {
+        die(var_dump($data));
         return new ApiProblem(405, 'The PUT method has not been defined for collections');
     }
 
@@ -101,6 +103,7 @@ class UserResource extends AbstractResourceListener
      */
     public function update($id, $data)
     {
+        die(var_dump($data));
         return new ApiProblem(405, 'The PUT method has not been defined for individual resources');
     }
 }

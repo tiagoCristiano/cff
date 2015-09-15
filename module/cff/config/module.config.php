@@ -237,10 +237,14 @@ return array(
                 1 => 'PATCH',
                 2 => 'PUT',
                 3 => 'DELETE',
+                4 => 'POST',
             ),
             'collection_http_methods' => array(
                 0 => 'GET',
                 1 => 'POST',
+                2 => 'PUT',
+                3 => 'PATCH',
+                4 => 'DELETE',
             ),
             'collection_query_whitelist' => array(
                 0 => 'familia_id',
@@ -748,6 +752,26 @@ return array(
             'orm_default' => array(
                 'drivers' => array(
                     'cff\\Entity' => 'cff_driver',
+                ),
+            ),
+        ),
+    ),
+    'zf-mvc-auth' => array(
+        'authorization' => array(
+            'cff\\V1\\Rest\\Register\\Controller' => array(
+                'collection' => array(
+                    'GET' => false,
+                    'POST' => false,
+                    'PUT' => false,
+                    'PATCH' => false,
+                    'DELETE' => false,
+                ),
+                'entity' => array(
+                    'GET' => false,
+                    'POST' => false,
+                    'PUT' => false,
+                    'PATCH' => false,
+                    'DELETE' => false,
                 ),
             ),
         ),
