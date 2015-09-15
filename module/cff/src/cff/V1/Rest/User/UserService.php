@@ -48,46 +48,30 @@ class UserService extends AbstractService
 
     public function update($id, $data)
     {
-        $familiaEntity = new Familia();
-        $this->entity = $this->em->find($this->repository,array('id'=>$id));
 
-        $familia = $this->em->find($this->familiaRepository, array('id' =>$data->familia_id));
-
-        $this->hydrate($familiaEntity, $familia);
-
-
+        $this->entity = $this->em->getRepository($this->repository)->find($id);
+        $familiaEntity = $this->em->getRepository($this->familiaRepository)->find($data->familia_id);
         $this->entity->setFamilia($familiaEntity);
-
         $this->hydrate($this->entity, $data);
-        die(var_dump($familiaEntity->getNome()));
-
         $this->em->persist($this->entity);
-
         $this->em->flush();
-
-        return ($this->entity);
+        return ($this->padronizaRetornoUsuario());
     }
 
 
-    public function padronizaRetorno($entity)
+    public function padronizaRetornoUsuario()
     {
-        $data = array();
-        foreach($entity as $entidade) {
-            $data[] = array(
-                'id'   => $entidade->getId(),
-                'nome' => $entidade->getNome(),
-                'perfil' => ($entidade->getPerfil() == 1) ? 'Administrador ' : 'Familiar',
-                'familia' => array(
-                    'id'   =>$entidade->getFamilia()->getId(),
-                    'nome' =>$entidade->getFamilia()->getNome(),
-                    'qtdMembros' => $entidade->getFamilia()->getQtdMembros(),
-                    'status' => $entidade->getFamilia()->getStatus()
-                ),
-            );
-        }
+        $data = array(
+            'id' => $this->entity->getId(),
+            'nome' => $this->entity->getNome(),
+            'perfil' => ($this->entity->getPerfil() == 1) ? 'Administrador ' : 'Familiar',
+            'familia' => array(
+                'id' => $this->entity->getFamilia()->getId(),
+                'nome' => $this->entity->getFamilia()->getNome(),
+                'qtdMembros' => $this->entity->getFamilia()->getQtdMembros(),
+                'status' => $this->entity->getFamilia()->getStatus()
+            )
+        );
         return $data;
     }
-
-
-
 }
