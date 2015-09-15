@@ -2,21 +2,25 @@
 namespace cff\V1\Rest\User;
 
 
+use cff\Entity\Familia\Familia;
 use cff\V1\Rest\AbstractService\AbstractService;
 use cff\V1\Rest\Familia\FamiliaService;
 
 class UserService extends AbstractService
 {
-    protected $familiaService;
+    /**
+     * @var $familiaRepository
+     */
+    protected $familiaRepository;
 
 
-    public function __construct($em, $hydrator, $userEntity, FamiliaService $familiaService)
+    public function __construct($em, $hydrator, $userEntity)
     {
         $this->repository = 'cff\Entity\Usuario\Usuario';
         $this->entity = $userEntity;
         $this->em = $em;
         $this->hydrator = $hydrator;
-        $this->familiaService = $familiaService;
+        $this->familiaRepository = 'cff\Entity\Familia\Familia';
     }
 
 
@@ -39,20 +43,29 @@ class UserService extends AbstractService
         $this->entity->setFamilia($familia);
         $this->em->persist($this->entity);
         $this->em->flush();
-        return $this->extract($this->entity);
+        return ($this->entity);
     }
 
     public function update($id, $data)
     {
-        $familia = $this->familiaService->getById($data->id_familia);
-        if($familia) {
-            $this->entity->setFamilia($familia);
-        } else {
-            die(var_dump($data));
-        }
-       // var_dump($familia);        //$familia = $this->hydrator->extrac
-        $this->entity->setFamilia($familia);
-        die(var_dump($familia));
+        $familiaEntity = new Familia();
+        $this->entity = $this->em->find($this->repository,array('id'=>$id));
+
+        $familia = $this->em->find($this->familiaRepository, array('id' =>$data->familia_id));
+
+        $this->hydrate($familiaEntity, $familia);
+
+
+        $this->entity->setFamilia($familiaEntity);
+
+        $this->hydrate($this->entity, $data);
+        die(var_dump($familiaEntity->getNome()));
+
+        $this->em->persist($this->entity);
+
+        $this->em->flush();
+
+        return ($this->entity);
     }
 
 
