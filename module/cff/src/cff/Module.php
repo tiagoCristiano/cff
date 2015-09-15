@@ -127,7 +127,8 @@ class Module implements ApigilityProviderInterface
                     $em = $sm->get('Doctrine\ORM\EntityManager');
                     $hydrator = new Hydrator\ClassMethods();
                     $usuarioEntity = new UsuarioEntity();
-                    $userService   = new UserService($em,$hydrator,$usuarioEntity);
+                    $familiaService = $sm->get('FamiliaService');
+                    $userService   = new UserService($em,$hydrator,$usuarioEntity, $familiaService);
                     return $userService;
                 }
 
