@@ -21,6 +21,7 @@ abstract class AbstractService {
 
     public function save($data)
     {
+        return die(var_dump($data));
         $entity = new $this->entity();
         $this->hydrate($entity,$data);
         $this->em->persist($entity);

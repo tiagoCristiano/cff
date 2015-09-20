@@ -1,7 +1,7 @@
 <?php
 
 namespace cff\Entity\Banco;
-use Doctrine\Common\Collections\ArrayCollection;
+
 use Doctrine\ORM\Mapping as ORM;
 use cff\Entity\Familia\Familia;
 

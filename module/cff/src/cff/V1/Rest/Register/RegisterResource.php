@@ -21,7 +21,6 @@ class RegisterResource extends AbstractResourceListener
     public function create($data)
     {
         $result =  $this->registerService->saveAdm($data);
-
         if($result) {
             return $result;
         } else {

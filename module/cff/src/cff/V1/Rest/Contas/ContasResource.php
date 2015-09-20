@@ -7,11 +7,17 @@ use ZF\Rest\AbstractResourceListener;
 class ContasResource extends AbstractResourceListener
 {
 
-    protected $mapper;
+    protected $contaService;
 
-    public function __construct($mapper)
+    protected $bancoService;
+
+    protected $fetchAllDefaults = array(
+        'familia_id' => 0
+    );
+
+    public function __construct(ContaService $contaService)
     {
-        $this->mapper = $mapper;
+        $this->contaService = $contaService;
 
     }
     /**
@@ -22,6 +28,7 @@ class ContasResource extends AbstractResourceListener
      */
     public function create($data)
     {
+        return $this->contaService->save($data);
         return new ApiProblem(405, 'The POST method has not been defined');
     }
 
@@ -33,6 +40,7 @@ class ContasResource extends AbstractResourceListener
      */
     public function delete($id)
     {
+
         return new ApiProblem(405, 'The DELETE method has not been defined for individual resources');
     }
 
@@ -48,14 +56,20 @@ class ContasResource extends AbstractResourceListener
     }
 
     /**
-     * Fetch a resource
-     *
-     * @param  mixed $id
-     * @return ApiProblem|mixed
+     * @param array $params
+     * @return ApiProblem
      */
-    public function fetch($id)
+    public function fetch($params = array())
     {
-        return $this->mapper->getConta($id);
+        $params = array_merge($this->fetchAllDefaults,(array) $params);
+
+        if(0 !=  (int)$params['familia_id']) {
+            return $this->bancoService->getByFamilia((int)$params['familia_id']);
+        } else {
+            return  $this->bancoService->getById((int)$params[0]);
+        }
+
+        return new ApiProblem(405, 'The GET method has not been defined for individual resources');
     }
 
     /**
@@ -66,6 +80,15 @@ class ContasResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
+        $params = array_merge($this->fetchAllDefaults,(array) $params);
+
+        if(0 !=  (int)$params['familia_id']) {
+            return $this->contaService->getByFamilia((int)$params['familia_id']);
+        } else {
+            return  $this->contaService->getById((int)$params[0]);
+        }
+
+        return new ApiProblem(405, 'The GET method has not been defined for individual resources');
         return new ApiProblem(405, 'The GET method has not been defined for collections');
     }
 

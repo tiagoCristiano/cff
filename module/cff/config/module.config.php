@@ -125,7 +125,9 @@ return array(
                 0 => 'GET',
                 1 => 'POST',
             ),
-            'collection_query_whitelist' => array(),
+            'collection_query_whitelist' => array(
+                0 =>'familia_id',
+            ),
             'page_size' => 25,
             'page_size_param' => null,
             'entity_class' => 'cff\\V1\\Rest\\Contas\\ContasEntity',
@@ -191,10 +193,14 @@ return array(
                 1 => 'PATCH',
                 2 => 'PUT',
                 3 => 'DELETE',
+                4 => 'POST',
             ),
             'collection_http_methods' => array(
                 0 => 'GET',
                 1 => 'POST',
+                2 => 'PUT',
+                3 => 'PATCH',
+                4 => 'DELETE',
             ),
             'collection_query_whitelist' => array(),
             'page_size' => 25,
@@ -746,7 +752,7 @@ return array(
                 'class' => 'Doctrine\\ORM\\Mapping\\Driver\\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => array(
-                    0 => 'C:\\Users\\tiago.alves\\Desktop\\TCC\\cff\\module\\cff\\config/../src/cff/Entity',
+                    0 => 'C:\\Users\\Tiago\\Desktop\\api\\cff\\cff\\module\\cff\\config/../src/cff/Entity',
                 ),
             ),
             'orm_default' => array(

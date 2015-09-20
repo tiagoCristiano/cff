@@ -48,7 +48,6 @@ class UserService extends AbstractService
 
     public function update($id, $data)
     {
-
         $this->entity = $this->em->getRepository($this->repository)->find($id);
         $familiaEntity = $this->em->getRepository($this->familiaRepository)->find($data->familia_id);
         $this->entity->setFamilia($familiaEntity);

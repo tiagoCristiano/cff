@@ -27,6 +27,7 @@ class Usuario
 
     /** @ORM\Column(type="integer") */
     protected $perfil;
+
     /**
      * @ORM\ManyToOne(targetEntity="cff\Entity\Familia\Familia",     cascade={"persist", "remove"} )
      * @ORM\JoinColumn(referencedColumnName="id")

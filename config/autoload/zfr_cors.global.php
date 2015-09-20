@@ -22,7 +22,7 @@ return array(
           * which HTTP headers can be used when making the actual request
           */
 
-         'allowed_headers' => array('Authorization',  'Content-Type'),
+         'allowed_headers' => array('Content-Type'),
 
          /**
           * Set the max age of the preflight request in seconds. A non-zero max age means

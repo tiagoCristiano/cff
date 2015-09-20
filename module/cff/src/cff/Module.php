@@ -1,10 +1,12 @@
 <?php
 namespace cff;
 
+use cff\Entity\Conta\Conta as ContaEntity;
 use cff\Entity\Usuario\Usuario as UsuarioEntity;
 use cff\V1\Rest\Auth\AuthEntity;
 
 use cff\V1\Rest\Contas\ContasEntity;
+use cff\V1\Rest\Contas\ContaService;
 use cff\V1\Rest\Contas\ContasMapper;
 use cff\V1\Rest\Register\RegisterService;
 use cff\V1\Rest\User\UserService;
@@ -120,17 +122,25 @@ class Module implements ApigilityProviderInterface
                     $em = $sm->get('Doctrine\ORM\EntityManager');
                     $hydrator = new Hydrator\ClassMethods();
                     $usuarioEntity = new UsuarioEntity();
-                    $registerService = new FamiliaresService($em,$hydrator,$usuarioEntity);
+                    $registerService = new RegisterService($em,$hydrator,$usuarioEntity);
                     return $registerService;
                 },
                 'UserService' => function($sm) {
                     $em = $sm->get('Doctrine\ORM\EntityManager');
                     $hydrator = new Hydrator\ClassMethods();
                     $usuarioEntity = new UsuarioEntity();
-                    $familiaService = $sm->get('FamiliaService');
-                    $userService   = new UserService($em,$hydrator,$usuarioEntity, $familiaService);
+                    $userService   = new UserService($em,$hydrator,$usuarioEntity);
                     return $userService;
+                },
+                'ContaService' => function($sm) {
+                    $em = $sm->get('Doctrine\ORM\EntityManager');
+                    $hydrator = new Hydrator\ClassMethods();
+                    $contaEntity = new ContaEntity();
+                    $contaService = new ContaService($em,$hydrator, $contaEntity);
+                    return $contaService;
                 }
+
+
 
 
 
