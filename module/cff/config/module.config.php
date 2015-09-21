@@ -120,13 +120,14 @@ return array(
                 1 => 'PATCH',
                 2 => 'PUT',
                 3 => 'DELETE',
+                4 => 'POST',
             ),
             'collection_http_methods' => array(
                 0 => 'GET',
                 1 => 'POST',
             ),
             'collection_query_whitelist' => array(
-                0 =>'familia_id',
+                0 => 'familia_id',
             ),
             'page_size' => 25,
             'page_size_param' => null,

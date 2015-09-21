@@ -31,14 +31,14 @@ class ContaService extends AbstractService
 
     public function save($data)
     {
-        $banco = $this->em->getRepository('cff\Entity\Banco\Banco')->find((int)$data->banco_id);
-        die(var_dump($banco));
-        $this->entity->setBanco($banco[0]);
+        $banco   = $this->em->getRepository('cff\Entity\Banco\Banco')->find($data->banco_id);
+        $familia = $this->em->getRepository('cff\Entity\Familia\Familia')->find($data->familia_id);
+        $this->entity->setBanco($banco);
+        $this->entity->setFamilia($familia);
         $this->hydrate($this->entity,$data);
-        die(var_dump($this->entity));
-        $this->em->persist($entity);
+        $this->em->persist($this->entity);
         $this->em->flush();
-        return $this->extract($entity);
+        return $this->extract($this->entity);
     }
 
 

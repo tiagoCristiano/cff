@@ -40,8 +40,7 @@ class ContasResource extends AbstractResourceListener
      */
     public function delete($id)
     {
-
-        return new ApiProblem(405, 'The DELETE method has not been defined for individual resources');
+        return $this->contaService->delete($id);
     }
 
     /**
@@ -64,9 +63,9 @@ class ContasResource extends AbstractResourceListener
         $params = array_merge($this->fetchAllDefaults,(array) $params);
 
         if(0 !=  (int)$params['familia_id']) {
-            return $this->bancoService->getByFamilia((int)$params['familia_id']);
+            return $this->contaService->getByFamilia((int)$params['familia_id']);
         } else {
-            return  $this->bancoService->getById((int)$params[0]);
+            return  $this->contaService->getById((int)$params[0]);
         }
 
         return new ApiProblem(405, 'The GET method has not been defined for individual resources');
@@ -82,13 +81,12 @@ class ContasResource extends AbstractResourceListener
     {
         $params = array_merge($this->fetchAllDefaults,(array) $params);
 
+
         if(0 !=  (int)$params['familia_id']) {
             return $this->contaService->getByFamilia((int)$params['familia_id']);
         } else {
             return  $this->contaService->getById((int)$params[0]);
         }
-
-        return new ApiProblem(405, 'The GET method has not been defined for individual resources');
         return new ApiProblem(405, 'The GET method has not been defined for collections');
     }
 
