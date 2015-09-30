@@ -78,6 +78,7 @@ class UserResource extends AbstractResourceListener
      */
     public function patch($id, $data)
     {
+        die(var_dump($data));
         return $this->userService->update($id, $data);
     }
 
@@ -102,7 +103,9 @@ class UserResource extends AbstractResourceListener
      */
     public function update($id, $data)
     {
-        $this->userService->update($id,$data);
-        return new ApiProblem(405, 'The PUT method has not been defined for individual resources');
+        if($data->familia_id) {
+            return $this->userService->atualizaFamilia($id, $data->familia_id);
+        }
+        return $this->userService->update($id,$data);
     }
 }

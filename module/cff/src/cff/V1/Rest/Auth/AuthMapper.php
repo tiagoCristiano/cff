@@ -50,6 +50,7 @@ class AuthMapper {
             'id'          => ($row->id),
             'familia_id'  => isset($row->familia_id) ? $row->familia_id : "0" ,
             'perfil'      => ($row->perfil),
+            'nome'        => ($row->nome),
             'message'     => 'Login Efetuado com sucesso!'
         );
         return $result;

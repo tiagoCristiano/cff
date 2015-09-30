@@ -68,10 +68,15 @@ class FamiliaService extends AbstractService {
      * @param $id
      * @return bool
      */
-    public function getById($id)
+    public function getById($id, $getEntity = false)
     {
         $familia = $this->em->getRepository($this->repository)
                         ->findBy(array('status' => 1,'id' => $id ));
+        if(!empty($familia) && $getEntity) {
+            //die(var_dump($familia));
+            return $familia;
+        }
+
         if(!empty($familia)) {
             return $this->padronizaRetorno($familia);
         }

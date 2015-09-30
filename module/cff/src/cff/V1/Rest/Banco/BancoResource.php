@@ -27,7 +27,6 @@ class BancoResource extends AbstractResourceListener
     public function create($data)
     {
         return $this->bancoService->save($data);
-        return new ApiProblem(405, 'The POST method has not been defined');
     }
 
     /**
@@ -83,7 +82,8 @@ class BancoResource extends AbstractResourceListener
              $this->result = $this->bancoService->getByFamilia((int)$params['familia_id']);
              return $this->validaRetorno($this->result);
         }
-            return  $this->bancoService->getById((int)$params[0]);
+
+        return  $this->bancoService->getById((int)$params[0]);
 
     }
 
@@ -127,7 +127,6 @@ class BancoResource extends AbstractResourceListener
         if($result) {
             return $result;
         }
-
         return new ApiProblem(404, 'Recurso não localizado');
     }
 }

@@ -8,6 +8,7 @@ class AuthEntity
     public $id;
     public $familia_id;
     public $perfil;
+    public $nome;
 
     public function getArrayCopy()
     {
@@ -16,7 +17,8 @@ class AuthEntity
             'password' => $this->password,
             'id' =>$this->id,
             'familia_id' =>$this->familia_id,
-            'perfil' =>$this->perfil
+            'perfil' =>$this->perfil,
+            'nome' => $this->nome
          );
     }
 
@@ -27,5 +29,7 @@ class AuthEntity
         $this->id = isset($array['id'])? $array['id'] : null;
         $this->familia_id = isset($array['familia_id'])? $array['familia_id'] : "0";
         $this->perfil = isset($array['perfil'])? $array['perfil'] : null;
+        $this->nome = isset($array['nome'])? $array['nome'] : null;
+
     }
 }
