@@ -20,12 +20,11 @@ class RegisterResource extends AbstractResourceListener
      */
     public function create($data)
     {
-        $result =  $this->registerService->saveAdm($data);
+        $result =  $this->registerService->createAdmin($data);
         if($result) {
             return $result;
         } else {
-            return array('validate'=> 'false');
-            //return new ApiProblem(404, 'Usuario já cadastrado na base. Insira outro email válido');
+            return new ApiProblem(555, 'Usuario já cadastrado na base. Insira outro email válido');
         }
 
    }

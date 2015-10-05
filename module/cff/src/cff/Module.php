@@ -8,6 +8,7 @@ use cff\V1\Rest\Auth\AuthEntity;
 use cff\V1\Rest\Contas\ContasEntity;
 use cff\V1\Rest\Contas\ContaService;
 use cff\V1\Rest\Contas\ContasMapper;
+use cff\V1\Rest\MailService\MailService;
 use cff\V1\Rest\Register\RegisterService;
 use cff\V1\Rest\User\UserService;
 use ZF\Apigility\Provider\ApigilityProviderInterface;
@@ -115,15 +116,16 @@ class Module implements ApigilityProviderInterface
                     $em = $sm->get('Doctrine\ORM\EntityManager');
                     $hydrator = new Hydrator\ClassMethods();
                     $usuarioEntity = new UsuarioEntity();
-                    $registerService = new RegisterService($em,$hydrator,$usuarioEntity);
+                    $mail            = $sm->get('MailService');
+                    $registerService = new RegisterService($em,$hydrator,$usuarioEntity, $mail);
                     return $registerService;
                 },
-                'RegisterService' => function($sm) {
+                'FamiliaresService' => function($sm) {
                     $em = $sm->get('Doctrine\ORM\EntityManager');
-                    $hydrator = new Hydrator\ClassMethods();
-                    $usuarioEntity = new UsuarioEntity();
-                    $registerService = new RegisterService($em,$hydrator,$usuarioEntity);
-                    return $registerService;
+                    $hydrator       = new Hydrator\ClassMethods();
+                    $registerService    = $sm->get('RegisterService');
+                    $familiarService = new FamiliaresService($em,$hydrator,$registerService);
+                    return $familiarService;
                 },
                 'UserService' => function($sm) {
                     $em = $sm->get('Doctrine\ORM\EntityManager');
@@ -139,7 +141,12 @@ class Module implements ApigilityProviderInterface
                     $contaEntity = new ContaEntity();
                     $contaService = new ContaService($em,$hydrator, $contaEntity);
                     return $contaService;
-                }
+                },
+                'MailService' => function($sm) {
+                    $config = $sm->get('Config');
+                    $mailService = new MailService($config);
+                    return $mailService;
+                 }
 
 
 

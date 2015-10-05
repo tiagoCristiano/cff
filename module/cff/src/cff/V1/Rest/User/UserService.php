@@ -5,6 +5,7 @@ namespace cff\V1\Rest\User;
 use cff\Entity\Familia\Familia;
 use cff\V1\Rest\AbstractService\AbstractService;
 use cff\V1\Rest\Familia\FamiliaService;
+use cff\V1\Rest\Register\RegisterService;
 
 class UserService extends AbstractService
 {
@@ -12,6 +13,8 @@ class UserService extends AbstractService
      * @var $familiaRepository
      */
     protected $familiaService;
+
+    protected $registerService;
 
 
     public function __construct($em, $hydrator, $userEntity,$familiaService)
@@ -24,14 +27,13 @@ class UserService extends AbstractService
         $this->familiaRepository = 'Cff\Entity\Familia\Familia';
     }
 
-
     public function getByFamilia($familiaId)
     {
         $query = $this->em->createQuery('SELECT u FROM '.$this->repository.' u where u.familia = :id and u.status = 1');
         $query->setParameter('id', $familiaId);
         $users = $query->getResult();
         if(!is_null($users)) {
-            return  $this->padronizaRetorno($users);
+            return  $this->padronizaAllUsers($users);
         }
         return false;
     }
@@ -40,13 +42,6 @@ class UserService extends AbstractService
     {
         $data = array('familia_id'=> $idFamilia);
         return self::update($idUSer, $data);
-//        $user = $this->getById($idUSer);
-//        $familiaEntity = $this->em->getRepository($this->familiaRepository)->find($idFamilia);
-//        $this->hydrate($this->entity, $user);
-//        $this->entity->setFamilia($familiaEntity);
-//        $this->em->persist($this->entity);
-//        $this->em->flush();
-//        return ($this->padronizaRetornoUsuario());
     }
 
     public function update($id, $data)
@@ -76,4 +71,23 @@ class UserService extends AbstractService
         );
         return $data;
     }
+
+    public function padronizaAllUsers($user){
+        $data = array();
+        foreach($user as $entidade) {
+            $data[] = array(
+                'id'   => $entidade->getId(),
+                'nome' => $entidade->getNome(),
+                'perfil' => ($entidade->getPerfil() == 1) ? 'Administrador ' : 'Familiar',
+                'status'  => $entidade->getStatus(),
+                'familia' => array(
+                    'id'   =>$entidade->getFamilia()->getId(),
+                    'nome'   =>$entidade->getFamilia()->getNome(),
+                ),
+            );
+        }
+        return $data;
+    }
+
+
 }

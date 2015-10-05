@@ -6,14 +6,22 @@ use ZF\Rest\AbstractResourceListener;
 
 class FamiliaresResource extends AbstractResourceListener
 {
+    /**
+     * Serviço dos familiares
+     * @var
+     */
     protected $familiaresService;
+    /**
+     * @var array
+     */
+    protected $userService;
 
     protected $fetchAllDefaults = array(
         'familia_id' => 0
     );
 
 
-    public function __construct($familiaresService)
+    public function __construct( FamiliaresService $familiaresService)
     {
         $this->familiaresService = $familiaresService;
     }
@@ -25,7 +33,11 @@ class FamiliaresResource extends AbstractResourceListener
      */
     public function create($data)
     {
-        return new ApiProblem(405, 'The POST method has not been defined');
+        $result =  $this->familiaresService->create($data);
+        if($result) {
+            return $result;
+        }
+        return array('erro' => "Email já cadastrado");
     }
 
     /**
@@ -74,11 +86,8 @@ class FamiliaresResource extends AbstractResourceListener
 
         if(0 !=  (int)$params['familia_id']) {
             return $this->familiaresService->getByFamilia((int)$params['familia_id']);
-        } else {
-            return  $this->bancoService->getById((int)$params[0]);
         }
-
-        return new ApiProblem(405, 'The GET method has not been defined for collections');
+        return new ApiProblem(404, 'Zica');
     }
 
     /**

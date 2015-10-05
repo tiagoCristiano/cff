@@ -4,6 +4,7 @@ namespace cff\V1\Rest\Familiares;
 
 
 use cff\V1\Rest\AbstractService\AbstractService;
+use cff\V1\Rest\Register\RegisterService;
 
 class FamiliaresService extends AbstractService
 {
@@ -11,13 +12,25 @@ class FamiliaresService extends AbstractService
     protected $hydrator;
     protected $repository;
     protected $familiaresEntity;
+    protected $registerService;
 
-    public function __construct($em, $hydrator, $familiaresEntity)
+    public function __construct($em, $hydrator, RegisterService $registerService)
     {
         $this->em = $em;
         $this->hydrator = $hydrator;
         $this->repository = 'cff\Entity\Usuario\Usuario';
-        $this->entity = $familiaresEntity;
+        $this->registerService = $registerService;
+    }
+
+    public function create($data)
+    {
+        $result = $this->registerService->createUser($data);
+        if($result) {
+            return $result;
+        }
+        else {
+            return false;
+        }
     }
 
     public function getByFamilia($familiaId)
@@ -61,6 +74,7 @@ class FamiliaresService extends AbstractService
         }
         return $data;
     }
+
 
 
 
