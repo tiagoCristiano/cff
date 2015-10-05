@@ -27,11 +27,6 @@ class Conta
      **/
     protected $banco;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="cff\Entity\Familia\Familia",     cascade={"persist", "remove"} )
-     * @ORM\JoinColumn(referencedColumnName="id")
-     **/
-    protected $familia;
 
     /**
      * @return mixed
@@ -97,21 +92,6 @@ class Conta
         $this->banco = $banco;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFamilia()
-    {
-        return $this->familia;
-    }
-
-    /**
-     * @param mixed $familia
-     */
-    public function setFamilia($familia)
-    {
-        $this->familia = $familia;
-    }
 
 
 
