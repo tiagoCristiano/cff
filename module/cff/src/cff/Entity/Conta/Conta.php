@@ -22,10 +22,36 @@ class Conta
     protected $status;
 
     /**
+     * @ORM\ManyToOne(targetEntity="cff\Entity\Familia\Familia",     cascade={"persist", "remove"} )
+     * @ORM\JoinColumn(referencedColumnName="id")
+     **/
+    protected $familia;
+
+    /**
      * @ORM\ManyToOne(targetEntity="cff\Entity\Banco\Banco",     cascade={"persist", "remove"} )
      * @ORM\JoinColumn(referencedColumnName="id")
      **/
     protected $banco;
+
+    /**
+     * @return mixed
+     */
+    public function getBanco()
+    {
+        return $this->banco;
+    }
+
+    /**
+     * @param mixed $banco
+     * @return Conta
+     */
+    public function setBanco($banco)
+    {
+        $this->banco = $banco;
+        return $this;
+    }
+
+
 
 
     /**
@@ -79,18 +105,22 @@ class Conta
     /**
      * @return mixed
      */
-    public function getBanco()
+    public function getFamilia()
     {
-        return $this->banco;
+        return $this->familia;
     }
 
     /**
-     * @param mixed $banco
+     * @param mixed $familia
+     * @return Conta
      */
-    public function setBanco($banco)
+    public function setFamilia($familia)
     {
-        $this->banco = $banco;
+        $this->familia = $familia;
+        return $this;
     }
+
+
 
 
 

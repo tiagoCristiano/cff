@@ -24,7 +24,7 @@ class RegisterResource extends AbstractResourceListener
         if($result) {
             return $result;
         } else {
-            return new ApiProblem(555, 'Usuario já cadastrado na base. Insira outro email válido');
+            return new ApiProblem(403, 'Usuario já cadastrado na base. Insira outro email válido');
         }
 
    }

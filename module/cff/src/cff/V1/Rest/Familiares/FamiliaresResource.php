@@ -81,7 +81,6 @@ class FamiliaresResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
-
         $params = array_merge($this->fetchAllDefaults,(array) $params);
 
         if(0 !=  (int)$params['familia_id']) {

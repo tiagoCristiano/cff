@@ -67,7 +67,6 @@ class RegisterService extends AbstractService
             $this->hydrate($this->entity, $data);
             $this->em->persist($this->entity);
             $this->em->flush();
-            //die(var_dump());
             $this->mailService->sendRegisterMail($this->extract($this->entity));
             return $this->extract($this->entity);
         } else {

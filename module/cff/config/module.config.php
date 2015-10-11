@@ -1,4 +1,5 @@
 <?php
+namespace cff;
 return array(
     'service_manager' => array(
         'factories' => array(
@@ -749,16 +750,14 @@ return array(
     ),
     'doctrine' => array(
         'driver' => array(
-            'cff_driver' => array(
+            __NAMESPACE__.'_driver' => array(
                 'class' => 'Doctrine\\ORM\\Mapping\\Driver\\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(
-                    0 => 'C:\\Users\\Tiago\\Desktop\\api\\cff\\cff\\module\\cff\\config/../src/cff/Entity',
-                ),
+                'paths' => array(__DIR__ . '/../src/'.__NAMESPACE__.'/Entity')
             ),
             'orm_default' => array(
                 'drivers' => array(
-                    'cff\\Entity' => 'cff_driver',
+                    __NAMESPACE__.'\Entity' =>  __NAMESPACE__.'_driver'
                 ),
             ),
         ),

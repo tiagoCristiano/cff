@@ -11,6 +11,8 @@ namespace cff\V1\Rest\MailService;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\Smtp as SmtTransport;
 use Zend\Mail\Transport\SmtpOptions;
+use Zend\Mime\Part as MimePart;
+use Zend\Mime\Message as MimeMessage;
 
 class MailService
 {
@@ -30,8 +32,20 @@ class MailService
         $message = new Message();
         $message->addTo($usuario['email'])
                 ->addFrom('cff@cff.com')
-                ->setSubject('Cadastro Controle Financeiro Familiar')
-                ->setBody("Seu email foi cadastrono sistema de controle financeiro familiar.<br> usario : {$usuario['nome']}<br> senha : {$usuario['password']}");
+                ->setSubject('Cadastro Controle Financeiro Familiar');
+
+        $htmlEmail ="<h1> Bem vindo ao Sistema de Controle Financeiro Familiar</h1>
+                               <p>Seu email foi cadastrado no sistema, comece a utliza-lo agora mesmo:</p>
+                               <p>Dados para login:</p>
+                               <i>email :</i><b> {$usuario['email']}</b><br>
+                               <i>senha :</i><b> {$usuario['password']}</b> </p>";
+
+        $html = new MimePart($htmlEmail);
+        $html->type = "text/html";
+
+        $body = new MimeMessage();
+        $body->setParts(array($html));
+        $message->setBody($body);
 
         $transport = new SmtTransport();
         $options = new SmtpOptions([
