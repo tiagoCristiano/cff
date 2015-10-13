@@ -9,6 +9,7 @@ abstract class AbstractService {
     protected $hydrator;
     protected $repository;
     protected $entity;
+    private $hoje;
 
 
     public function __construct($em,$hydrator,$repository, $entity )
@@ -17,6 +18,17 @@ abstract class AbstractService {
         $this->hydrator = $hydrator;
         $this->repository = $repository;
         $this->entity = $entity;
+    }
+
+    /**
+     * Retorna o timeStamp atual
+     * para utilizar em creates e update
+     * @return bool|string
+     */
+    public function getDataAtual()
+    {
+        $this->hoje = date("Y-m-d H:i:s");
+        return $this->hoje;
     }
 
     public function save($data)

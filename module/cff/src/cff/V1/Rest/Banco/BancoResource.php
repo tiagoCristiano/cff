@@ -119,6 +119,7 @@ class BancoResource extends AbstractResourceListener
      */
     public function update($id, $data)
     {
+
         return $this->bancoService->update($id,$data);
         return new ApiProblem(405, 'The PUT method has not been defined for individual resources');
     }

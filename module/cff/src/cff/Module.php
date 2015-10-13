@@ -1,10 +1,12 @@
 <?php
 namespace cff;
 
+use cff\Entity\Categoria\Categoria;
 use cff\Entity\Conta\Conta as ContaEntity;
 use cff\Entity\Usuario\Usuario as UsuarioEntity;
 use cff\V1\Rest\Auth\AuthEntity;
 
+use cff\V1\Rest\Categorias\CategoriaService;
 use cff\V1\Rest\Contas\ContasEntity;
 use cff\V1\Rest\Contas\ContaService;
 use cff\V1\Rest\Contas\ContasMapper;
@@ -146,7 +148,13 @@ class Module implements ApigilityProviderInterface
                     $config = $sm->get('Config');
                     $mailService = new MailService($config);
                     return $mailService;
-                 }
+                 },
+                'CategoriaService' =>function($sm) {
+                    $em = $sm->get('Doctrine\ORM\EntityManager');
+                    $hydrator =  new Hydrator\ClassMethods();
+                    $categoriaEntity = new Categoria();
+                    return new CategoriaService($em,$hydrator,$categoriaEntity);
+                }
 
 
 

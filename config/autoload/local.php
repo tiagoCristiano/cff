@@ -8,11 +8,19 @@ return array(
                     'host' => 'localhost',
                     'port' => '3306',
                     'user' => 'root',
-                    'password' => '',
+                    'password' => 'root',
                     'dbname' => 'controlefinanceiro',
                 ),
             ),
         ),
+    ),
+    'email' => array(
+        'host' => 'mailtrap.io',
+        'auth' => 'CRAM-MD5',
+        'username' => '4616228992c081f83',
+        'password' => 'a5dc5ff380e616',
+        'port' => '2525',
+        'ssl' => 'tls',
     ),
     'db' => array(
         'adapters' => array(
@@ -20,16 +28,8 @@ return array(
                 'database' => 'controlefinanceiro',
                 'driver' => 'PDO_Mysql',
                 'username' => 'root',
-                'password' => '',
+                'password' => 'root',
             ),
         ),
-    ),
-    'email' => array(
-        'host' => 'mailtrap.io',
-        'auth'     => 'CRAM-MD5',
-        'username' => '4616228992c081f83',
-        'password' => 'a5dc5ff380e616',
-        'port' => '2525',
-        'ssl' =>'tls'
     ),
 );
