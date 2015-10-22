@@ -2,6 +2,7 @@
 
 namespace cff\V1\Rest\Register;
 
+use cff\Entity\Perfil\Perfil;
 use cff\V1\Rest\AbstractService\AbstractService;
 use cff\V1\Rest\MailService\MailService;
 use Zend\Json\Server\Exception\InvalidArgumentException;
@@ -38,6 +39,7 @@ class RegisterService extends AbstractService
         $this->repository = 'cff\Entity\Usuario\Usuario';
         $this->entity = $registerEntity;
         $this->familiaRepository = 'Cff\Entity\Familia\Familia';
+        $this->perfilRepository = 'Cff\Entity\Perfil\Perfil';
         $this->mailService = $mailService;
     }
 
@@ -60,13 +62,31 @@ class RegisterService extends AbstractService
 
         $validate = $this->validaDuplicidade($data->email);
 
+
+
         if( $validate ) {
-            $familiaEntity = $this->em->getRepository($this->familiaRepository)->find($data->familia_id);
-            $this->entity->setFamilia($familiaEntity);
-            $this->entity->setPassword($this->generateRandomPassword());
-            $this->hydrate($this->entity, $data);
             $this->em->persist($this->entity);
-            $this->em->flush();
+            $familiaEntity = $this->em->getRepository($this->familiaRepository)->find($data->familia_id);
+            $perfil = new Perfil();
+            $perfil->setId($data->perfil);
+
+            $perfilEntity = $this->em->getRepository($this->perfilRepository)->findBy(array('id' =>$data->perfil));
+            $perfilEntity = $this->em->find($this->perfilRepository, $data->perfil);
+
+            $this->entity->setFamilia($familiaEntity);
+            $this->em->persist($this->entity);
+
+            $this->entity->setPerfil($perfil);
+
+            $this->entity->setPassword($this->generateRandomPassword());
+
+            $this->hydrate($this->entity, $data);
+           try{
+                $this->em->flush();
+            } catch(\Exception $e) {
+                die(var_dump($e->getMessage()));
+            }
+
             $this->mailService->sendRegisterMail($this->extract($this->entity));
             return $this->extract($this->entity);
         } else {
@@ -77,19 +97,15 @@ class RegisterService extends AbstractService
 
     public function validaDuplicidade($email)
     {
-        $query = $this->em->createQuery('SELECT u FROM '.$this->repository.' u where u.email = :email');
-        $query->setParameter('email', $email);
-        $user = $query->getResult();
-
-        if(empty ($user[0]) ) {
-            return  true;
+        $email = $this->em->getRepository('cff\Entity\Usuario\Usuario')->findBy(array('email' =>$email));
+        if(empty($email[0])) {
+            return true;
         }
         return false;
     }
 
     protected function generateRandomPassword()
     {
-
         $passWord = Rand::getString(6, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXZKWY1234567890', true);
         return $passWord;
     }

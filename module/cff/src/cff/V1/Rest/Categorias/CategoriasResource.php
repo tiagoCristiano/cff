@@ -1,29 +1,20 @@
 <?php
-namespace cff\V1\Rest\Familiares;
+namespace cff\V1\Rest\Categorias;
 
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 
-class FamiliaresResource extends AbstractResourceListener
+class CategoriasResource extends AbstractResourceListener
 {
-    /**
-     * Serviço dos familiares
-     * @var
-     */
-    protected $familiaresService;
-    /**
-     * @var array
-     */
-    protected $userService;
+    protected $categoriaService;
 
     protected $fetchAllDefaults = array(
         'familia_id' => 0
     );
 
-
-    public function __construct( FamiliaresService $familiaresService)
+    public function __construct(CategoriaService $categoriaService)
     {
-        $this->familiaresService = $familiaresService;
+        $this->categoriaService = $categoriaService;
     }
     /**
      * Create a resource
@@ -33,12 +24,8 @@ class FamiliaresResource extends AbstractResourceListener
      */
     public function create($data)
     {
-
-        $result =  $this->familiaresService->create($data);
-        if($result) {
-            return $result;
-        }
-        return array('erro' => "Email já cadastrado");
+        return $this->categoriaService->create($data);
+        return new ApiProblem(405, 'The POST method has not been defined');
     }
 
     /**
@@ -49,6 +36,7 @@ class FamiliaresResource extends AbstractResourceListener
      */
     public function delete($id)
     {
+        return $this->categoriaService->delete($id);
         return new ApiProblem(405, 'The DELETE method has not been defined for individual resources');
     }
 
@@ -71,6 +59,7 @@ class FamiliaresResource extends AbstractResourceListener
      */
     public function fetch($id)
     {
+        return $this->categoriaService->findById($id);
         return new ApiProblem(405, 'The GET method has not been defined for individual resources');
     }
 
@@ -83,11 +72,8 @@ class FamiliaresResource extends AbstractResourceListener
     public function fetchAll($params = array())
     {
         $params = array_merge($this->fetchAllDefaults,(array) $params);
-
-        if(0 !=  (int)$params['familia_id']) {
-            return $this->familiaresService->getByFamilia((int)$params['familia_id']);
-        }
-        return new ApiProblem(404, 'Zica');
+        return $this->categoriaService->getAll($params['familia_id']);
+        return new ApiProblem(405, 'The GET method has not been defined for collections');
     }
 
     /**
@@ -122,6 +108,7 @@ class FamiliaresResource extends AbstractResourceListener
      */
     public function update($id, $data)
     {
+        return $this->categoriaService->update($id,$data);
         return new ApiProblem(405, 'The PUT method has not been defined for individual resources');
     }
 }

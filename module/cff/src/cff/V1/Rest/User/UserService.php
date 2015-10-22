@@ -74,16 +74,18 @@ class UserService extends AbstractService
 
     public function padronizaAllUsers($user){
         $data = array();
+
         foreach($user as $entidade) {
+
             $data[] = array(
                 'id'   => $entidade->getId(),
                 'nome' => $entidade->getNome(),
-                'perfil' => ($entidade->getPerfil() == 1) ? 'Administrador ' : 'Familiar',
                 'status'  => $entidade->getStatus(),
                 'familia' => array(
                     'id'   =>$entidade->getFamilia()->getId(),
                     'nome'   =>$entidade->getFamilia()->getNome(),
                 ),
+
             );
         }
         return $data;

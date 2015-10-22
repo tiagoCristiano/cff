@@ -25,11 +25,15 @@ class Usuario
     /** @ORM\Column(type="string") */
     protected $nome;
 
-    /** @ORM\Column(type="integer") */
+
+    /**
+     * @ORM\ManyToOne(targetEntity="cff\Entity\Perfil\Perfil", cascade={"persist"} )
+     * @ORM\JoinColumn(referencedColumnName="id")
+     **/
     protected $perfil;
 
     /**
-     * @ORM\ManyToOne(targetEntity="cff\Entity\Familia\Familia",     cascade={"persist", "remove"} )
+     * @ORM\ManyToOne(targetEntity="cff\Entity\Familia\Familia", cascade={"persist", "remove"} )
      * @ORM\JoinColumn(referencedColumnName="id")
      **/
     public $familia;
@@ -131,6 +135,7 @@ class Usuario
     public function setPerfil($perfil)
     {
         $this->perfil = $perfil;
+        return $this;
     }
 
     /**
