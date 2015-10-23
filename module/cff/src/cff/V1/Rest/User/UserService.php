@@ -61,7 +61,7 @@ class UserService extends AbstractService
         $data = array(
             'id' => $this->entity->getId(),
             'nome' => $this->entity->getNome(),
-            'perfil' => ($this->entity->getPerfil() == 1) ? 'Administrador ' : 'Familiar',
+            'perfil' => ($this->entity->getPerfil()->id == 1) ? 'Administrador ' : 'Familiar',
             'familia' => array(
                 'id' => $this->entity->getFamilia()->getId(),
                 'nome' => $this->entity->getFamilia()->getNome(),

@@ -33,7 +33,6 @@ class FamiliaresResource extends AbstractResourceListener
      */
     public function create($data)
     {
-
         $result =  $this->familiaresService->create($data);
         if($result) {
             return $result;

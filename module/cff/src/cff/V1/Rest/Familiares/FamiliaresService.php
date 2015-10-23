@@ -24,7 +24,6 @@ class FamiliaresService extends AbstractService
 
     public function create($data)
     {
-
         $result = $this->registerService->createUser($data);
 
         if($result) {
