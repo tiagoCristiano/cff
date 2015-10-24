@@ -47,14 +47,24 @@ class RegisterService extends AbstractService
     {
         $validate = $this->validaDuplicidade($data->email);
 
+
         if( $validate ) {
             $registerEntity = new $this->entity();
+            $perfil = $this->em->getRepository($this->perfilRepository)->find(1);
+            $registerEntity->setPerfil($perfil);
             $this->hydrate($registerEntity,$data);
             $this->em->persist($registerEntity);
-            $this->em->flush();
-            return $this->extract($registerEntity);
+            try{
+                $this->em->flush();
+                $this->mailService->sendRegisterMail($this->extract($registerEntity));
+                return $this->extract($registerEntity);
+            } catch(\Exception $e) {
+                die(var_dump($e->getMessage()));
+            }
+
         }
         return false;
+
     }
 
     public function createUser($data)
@@ -63,23 +73,14 @@ class RegisterService extends AbstractService
         $validate = $this->validaDuplicidade($data->email);
 
 
-
         if( $validate ) {
             $this->em->persist($this->entity);
             $familiaEntity = $this->em->getRepository($this->familiaRepository)->find($data->familia_id);
-            $perfil = new Perfil();
-            $perfil->setId($data->perfil);
-
-            $perfilEntity = $this->em->getRepository($this->perfilRepository)->findBy(array('id' =>$data->perfil));
-            $perfilEntity = $this->em->find($this->perfilRepository, $data->perfil);
-
+            $perfil = $this->em->getRepository($this->perfilRepository)->find(2);
             $this->entity->setFamilia($familiaEntity);
             $this->em->persist($this->entity);
-
             $this->entity->setPerfil($perfil);
-
             $this->entity->setPassword($this->generateRandomPassword());
-
             $this->hydrate($this->entity, $data);
            try{
                 $this->em->flush();

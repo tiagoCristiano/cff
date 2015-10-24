@@ -27,14 +27,12 @@ class MailService
     }
 
     public function sendRegisterMail($usuario) {
-
-
         $message = new Message();
         $message->addTo($usuario['email'])
                 ->addFrom('cff@cff.com')
                 ->setSubject('Cadastro Controle Financeiro Familiar');
 
-        $htmlEmail ="<h1> Bem vindo ao Sistema de Controle Financeiro Familiar</h1>
+        $htmlEmail ="<h1>{$usuario['nome']}, seja bem vindo ao Sistema de Controle Financeiro Familiar</h1>
                                <p>Seu email foi cadastrado no sistema, comece a utliza-lo agora mesmo:</p>
                                <p>Dados para login:</p>
                                <i>email :</i><b> {$usuario['email']}</b><br>
