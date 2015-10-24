@@ -72,24 +72,21 @@ class RegisterService extends AbstractService
 
         $validate = $this->validaDuplicidade($data->email);
 
-
         if( $validate ) {
             $this->em->persist($this->entity);
             $familiaEntity = $this->em->getRepository($this->familiaRepository)->find($data->familia_id);
-            $perfil = $this->em->getRepository($this->perfilRepository)->find(2);
+            $perfilEntity   = $this->em->getRepository($this->perfilRepository)->find(2);
             $this->entity->setFamilia($familiaEntity);
-            $this->em->persist($this->entity);
-            $this->entity->setPerfil($perfil);
+            $this->entity->setPerfil($perfilEntity);
             $this->entity->setPassword($this->generateRandomPassword());
             $this->hydrate($this->entity, $data);
            try{
-                $this->em->flush();
+               $this->em->flush();
+               $this->mailService->sendRegisterMail($this->extract($this->entity));
+               return $this->extract($this->entity);
             } catch(\Exception $e) {
                 die(var_dump($e->getMessage()));
             }
-
-            $this->mailService->sendRegisterMail($this->extract($this->entity));
-            return $this->extract($this->entity);
         } else {
             return false;
         }
@@ -99,6 +96,7 @@ class RegisterService extends AbstractService
     public function validaDuplicidade($email)
     {
         $email = $this->em->getRepository('cff\Entity\Usuario\Usuario')->findBy(array('email' =>$email));
+
         if(empty($email[0])) {
             return true;
         }

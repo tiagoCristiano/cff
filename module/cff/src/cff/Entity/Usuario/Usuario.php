@@ -27,10 +27,15 @@ class Usuario
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="cff\Entity\Perfil\Perfil", cascade={"persist"} )
-     * @ORM\JoinColumn(referencedColumnName="id")
-     **/
-    protected $perfil;
+     * @var \crm\Entity\Perfil
+     *
+     * @ORM\ManyToOne(targetEntity="cff\Entity\Perfil\Perfil", cascade={"persist", "remove"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="perfil_id", referencedColumnName="id")
+     * })
+     */
+    private $perfil;
+
 
     /**
      * @ORM\ManyToOne(targetEntity="cff\Entity\Familia\Familia", cascade={"persist", "remove"} )
