@@ -78,7 +78,7 @@ abstract class AbstractService {
     public function getById($id)
     {
         $entity = $this->em->getRepository($this->repository)
-            ->findBy(array('status' => 1,'id' => $id ));
+                            ->findBy(array('status' => 1,'id' => $id ));
         if(!empty($entity)) {
             return $this->extract($entity[0]);
         }

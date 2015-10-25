@@ -19,7 +19,12 @@ class ContaService extends AbstractService
 
     public function getByFamilia($familiaId)
     {
-        $query = $this->em->createQuery('SELECT u FROM '.$this->repository.' u where u.familia = :id and u.status = 1');
+        $query = $this->em->createQuery(
+                                   "SELECT
+                                          u
+                                    FROM {$this->repository} u
+                                     WHERE u.familia = :id
+                                     AND u.status = 1");
         $query->setParameter('id', $familiaId);
         $contas = $query->getResult();
 
@@ -50,11 +55,7 @@ class ContaService extends AbstractService
                 'id' => $conta->getId(),
                 'numero' =>$conta->getNumero(),
                 'status' => $conta->getStatus(),
-                'banco' => array(
-                    'id' => $conta->getBanco()->getId(),
-                    'nome' => $conta->getBanco()->getNome(),
-                    'agencia' => $conta->getBanco()->getAgencia(),
-                ),
+                'banco' => $conta->getBanco(),
                 'familia' => array(
                     'id' =>$conta->getFamilia()->getId(),
                     'nome' =>$conta->getFamilia()->getNome()

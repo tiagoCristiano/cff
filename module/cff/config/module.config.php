@@ -1,5 +1,4 @@
 <?php
-namespace cff;
 return array(
     'service_manager' => array(
         'factories' => array(
@@ -11,6 +10,7 @@ return array(
             'cff\\V1\\Rest\\Familiares\\FamiliaresResource' => 'cff\\V1\\Rest\\Familiares\\FamiliaresResourceFactory',
             'cff\\V1\\Rest\\User\\UserResource' => 'cff\\V1\\Rest\\User\\UserResourceFactory',
             'cff\\V1\\Rest\\Categorias\\CategoriasResource' => 'cff\\V1\\Rest\\Categorias\\CategoriasResourceFactory',
+            'cff\\V1\\Rest\\Despesas\\DespesasResource' => 'cff\\V1\\Rest\\Despesas\\DespesasResourceFactory',
         ),
     ),
     'router' => array(
@@ -87,6 +87,15 @@ return array(
                     ),
                 ),
             ),
+            'cff.rest.despesas' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/despesas[/:despesas_id]',
+                    'defaults' => array(
+                        'controller' => 'cff\\V1\\Rest\\Despesas\\Controller',
+                    ),
+                ),
+            ),
         ),
     ),
     'zf-versioning' => array(
@@ -99,6 +108,7 @@ return array(
             11 => 'cff.rest.familiares',
             12 => 'cff.rest.user',
             13 => 'cff.rest.categorias',
+            14 => 'cff.rest.despesas',
         ),
     ),
     'zf-rest' => array(
@@ -298,6 +308,28 @@ return array(
             'collection_class' => 'cff\\V1\\Rest\\Categorias\\CategoriasCollection',
             'service_name' => 'categorias',
         ),
+        'cff\\V1\\Rest\\Despesas\\Controller' => array(
+            'listener' => 'cff\\V1\\Rest\\Despesas\\DespesasResource',
+            'route_name' => 'cff.rest.despesas',
+            'route_identifier_name' => 'despesas_id',
+            'collection_name' => 'despesas',
+            'entity_http_methods' => array(
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ),
+            'collection_http_methods' => array(
+                0 => 'GET',
+                1 => 'POST',
+            ),
+            'collection_query_whitelist' => array(),
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => 'cff\\V1\\Rest\\Despesas\\DespesasEntity',
+            'collection_class' => 'cff\\V1\\Rest\\Despesas\\DespesasCollection',
+            'service_name' => 'despesas',
+        ),
     ),
     'zf-content-negotiation' => array(
         'controllers' => array(
@@ -309,6 +341,7 @@ return array(
             'cff\\V1\\Rest\\Familiares\\Controller' => 'HalJson',
             'cff\\V1\\Rest\\User\\Controller' => 'HalJson',
             'cff\\V1\\Rest\\Categorias\\Controller' => 'HalJson',
+            'cff\\V1\\Rest\\Despesas\\Controller' => 'HalJson',
         ),
         'accept_whitelist' => array(
             'cff\\V1\\Rest\\Auth\\Controller' => array(
@@ -351,6 +384,11 @@ return array(
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ),
+            'cff\\V1\\Rest\\Despesas\\Controller' => array(
+                0 => 'application/vnd.cff.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ),
         ),
         'content_type_whitelist' => array(
             'cff\\V1\\Rest\\Auth\\Controller' => array(
@@ -382,6 +420,10 @@ return array(
                 1 => 'application/json',
             ),
             'cff\\V1\\Rest\\Categorias\\Controller' => array(
+                0 => 'application/vnd.cff.v1+json',
+                1 => 'application/json',
+            ),
+            'cff\\V1\\Rest\\Despesas\\Controller' => array(
                 0 => 'application/vnd.cff.v1+json',
                 1 => 'application/json',
             ),
@@ -483,6 +525,18 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'cff.rest.categorias',
                 'route_identifier_name' => 'categorias_id',
+                'is_collection' => true,
+            ),
+            'cff\\V1\\Rest\\Despesas\\DespesasEntity' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'cff.rest.despesas',
+                'route_identifier_name' => 'despesas_id',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
+            ),
+            'cff\\V1\\Rest\\Despesas\\DespesasCollection' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'cff.rest.despesas',
+                'route_identifier_name' => 'despesas_id',
                 'is_collection' => true,
             ),
         ),
