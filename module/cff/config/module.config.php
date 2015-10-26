@@ -323,7 +323,9 @@ return array(
                 0 => 'GET',
                 1 => 'POST',
             ),
-            'collection_query_whitelist' => array(),
+            'collection_query_whitelist' => array(
+                0 => 'familia_id',
+            ),
             'page_size' => 25,
             'page_size_param' => null,
             'entity_class' => 'cff\\V1\\Rest\\Despesas\\DespesasEntity',
@@ -861,14 +863,16 @@ return array(
     ),
     'doctrine' => array(
         'driver' => array(
-            __NAMESPACE__.'_driver' => array(
-                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+            'cff_driver' => array(
+                'class' => 'Doctrine\\ORM\\Mapping\\Driver\\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/'.__NAMESPACE__.'/Entity')
+                'paths' => array(
+                    0 => 'C:\\Users\\Tiago\\Desktop\\TCC\\cff\\module\\cff\\config/../src/cff/Entity',
+                ),
             ),
             'orm_default' => array(
                 'drivers' => array(
-                    __NAMESPACE__.'\Entity' =>  __NAMESPACE__.'_driver'
+                    'cff\\Entity' => 'cff_driver',
                 ),
             ),
         ),
