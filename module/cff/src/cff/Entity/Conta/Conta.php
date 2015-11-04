@@ -21,6 +21,9 @@ class Conta
     /** @ORM\Column(type="integer") */
     protected $status;
 
+    /** @ORM\Column(type="float") */
+    protected $saldo;
+
     /**
      * @ORM\ManyToOne(targetEntity="cff\Entity\Familia\Familia",     cascade={"persist", "remove"} )
      * @ORM\JoinColumn(referencedColumnName="id")
@@ -119,6 +122,24 @@ class Conta
         $this->familia = $familia;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSaldo()
+    {
+        return $this->saldo;
+    }
+
+    /**
+     * @param mixed $saldo
+     */
+    public function setSaldo($saldo)
+    {
+        $this->saldo = $saldo;
+    }
+
+
 
 
 

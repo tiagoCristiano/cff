@@ -37,15 +37,22 @@ class DespesasService extends AbstractService
             $total += $despesa->getValor();
 
             $data[$i] = array(
+                $dateVencimento = new \DateTime($despesa->getDataVencimento()),
+                $dataCriacao    = new \DateTime($despesa->getDataCriacao()),
+                'data_vencimento' => $dateVencimento->format('d/m/Y'),
+                'data_criacao'    => $dataCriacao->format('d/m/Y'),
                 'id' => $despesa->getId(),
                 'valor' => $despesa->getValor(),
                 'descricao' => $despesa->getDescricao(),
                 'user' => $despesa->getUser()->getNome(),
-                'data_vencimento' => $despesa->getDataVencimento(),
                 'valor' => $despesa->getValor(),
+                'conta' => $despesa->getConta()->getNumero(),
                 'pago' => ($despesa->isPago()) ? 'Pago' : 'A pagar',
-                'totalDespesas' => $total
+                'totalDespesas' => $total,
+                'categoria' => $despesa->getCategoria()->getCategoria(),
+                'banco' => $despesa->getConta()->getBanco()->getNome()
             );
+            unset($date);
 
             $i++;
 

@@ -55,7 +55,8 @@ class ContaService extends AbstractService
                 'id' => $conta->getId(),
                 'numero' =>$conta->getNumero(),
                 'status' => $conta->getStatus(),
-                'banco' => $conta->getBanco(),
+                'saldo' => $conta->getSaldo(),
+                'banco' => $conta->getBanco()->getNome(),
                 'familia' => array(
                     'id' =>$conta->getFamilia()->getId(),
                     'nome' =>$conta->getFamilia()->getNome()

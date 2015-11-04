@@ -29,9 +29,12 @@ class UserService extends AbstractService
 
     public function getByFamilia($familiaId)
     {
+
         $query = $this->em->createQuery('SELECT u FROM '.$this->repository.' u where u.familia = :id and u.status = 1');
         $query->setParameter('id', $familiaId);
         $users = $query->getResult();
+
+
         if(!is_null($users)) {
             return  $this->padronizaAllUsers($users);
         }
@@ -84,7 +87,8 @@ class UserService extends AbstractService
                     'id'   =>$entidade->getFamilia()->getId(),
                     'nome'   =>$entidade->getFamilia()->getNome(),
                 ),
-                'perfil' => $entidade->getPerfil()->getPerfil(),
+                'perfil' => ($entidade->getPerfil()->getId() == 1) ? 'Administrador' : 'Familiar'
+
             );
         }
 
