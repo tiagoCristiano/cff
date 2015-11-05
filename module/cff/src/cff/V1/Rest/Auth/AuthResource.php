@@ -24,6 +24,7 @@ class AuthResource extends AbstractResourceListener
     public function create($data)
     {
 
+
         $authEntity = new AuthEntity();
         $authEntity->email    = $data->email;
         $authEntity->password = $data->password;
@@ -79,7 +80,6 @@ class AuthResource extends AbstractResourceListener
      */
     public function fetchAll($data = array())
     {
-
         return new ApiProblem(405, 'The GET method has not been defined for collections');
     }
 
