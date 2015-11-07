@@ -52,7 +52,8 @@ abstract class AbstractService {
     }
 
 
-    public function hydrate($entity, $data) {
+    public function hydrate($entity, $data)
+    {
 
         return $this->hydrator->hydrate((array) $data,$entity);
     }

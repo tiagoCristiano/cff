@@ -24,7 +24,6 @@ class AuthResource extends AbstractResourceListener
     public function create($data)
     {
 
-
         $authEntity = new AuthEntity();
         $authEntity->email    = $data->email;
         $authEntity->password = $data->password;
