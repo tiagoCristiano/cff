@@ -1,6 +1,7 @@
 <?php
 namespace cff\V1\Rest\Familiares;
 
+use ZF\Apigility\Documentation\Swagger\Api;
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 
@@ -34,10 +35,11 @@ class FamiliaresResource extends AbstractResourceListener
     public function create($data)
     {
         $result =  $this->familiaresService->create($data);
+
         if($result) {
             return $result;
         }
-        return array('erro' => "Email já cadastrado");
+        return new ApiProblem(403, "Email já cadastrado");
     }
 
     /**
