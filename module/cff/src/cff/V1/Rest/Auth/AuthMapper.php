@@ -24,6 +24,7 @@ class AuthMapper {
         $rowSet   = $this->tableGateway->select(array('email' => $email, 'password'=>$password));
         $row = $rowSet->current();
 
+
         //todo Criptogragar a senha
         //$securePass = $this->bcrypt->create($row->id);
 
@@ -49,7 +50,7 @@ class AuthMapper {
         $result = array(
             'id'          => ($row->id),
             'familia_id'  => isset($row->familia_id) ? $row->familia_id : "0" ,
-            'perfil'      => ($row->perfil),
+            'perfil'      => ($row->perfil_id == 1)? 'Administrador' : 'Familiar',
             'nome'        => ($row->nome),
             'message'     => 'Login Efetuado com sucesso!'
         );
