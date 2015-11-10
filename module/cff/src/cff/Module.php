@@ -13,6 +13,9 @@ use cff\V1\Rest\Contas\ContaService;
 use cff\V1\Rest\Contas\ContasMapper;
 use cff\V1\Rest\Despesas\DespesasService;
 use cff\V1\Rest\MailService\MailService;
+use cff\V1\Rest\Orcamentos\OrcamentosService;
+use cff\V1\Rest\Receitas\ReceitasEntity;
+use cff\V1\Rest\Receitas\ReceitasService;
 use cff\V1\Rest\Register\RegisterService;
 use cff\V1\Rest\User\UserService;
 use ZF\Apigility\Provider\ApigilityProviderInterface;
@@ -26,6 +29,7 @@ use cff\V1\Rest\Familia\FamiliaService;
 use cff\V1\Rest\Banco\BancoService;
 use cff\Entity\Banco\Banco as BancoEntity;
 use cff\V1\Rest\Familiares\FamiliaresService;
+use cff\Entity\Orcamento\Orcamento;
 
 
 class Module implements ApigilityProviderInterface
@@ -163,7 +167,19 @@ class Module implements ApigilityProviderInterface
                     $hydrator =  new Hydrator\ClassMethods();
                     $despesaEntity = new Despesa();
                     return new DespesasService($em,$hydrator, $despesaEntity);
-                }
+                },
+                'OrcamentoService' => function($sm) {
+                    $em = $sm->get('Doctrine\ORM\EntityManager');
+                    $hydrator =  new Hydrator\ClassMethods();
+                    $orcamentoEntity = new Orcamento();
+                    return new OrcamentosService($em,$hydrator, $orcamentoEntity);
+                },
+                'ReceitasService' => function($sm) {
+                    $em = $sm->get('Doctrine\ORM\EntityManager');
+                    $hydrator =  new Hydrator\ClassMethods();
+                    $orcamentoEntity = new ReceitasEntity();
+                    return new ReceitasService($em,$hydrator, $orcamentoEntity);
+                },
 
 
             ),

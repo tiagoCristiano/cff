@@ -1,5 +1,4 @@
 <?php
-namespace cff;
 return array(
     'service_manager' => array(
         'factories' => array(
@@ -12,6 +11,8 @@ return array(
             'cff\\V1\\Rest\\User\\UserResource' => 'cff\\V1\\Rest\\User\\UserResourceFactory',
             'cff\\V1\\Rest\\Categorias\\CategoriasResource' => 'cff\\V1\\Rest\\Categorias\\CategoriasResourceFactory',
             'cff\\V1\\Rest\\Despesas\\DespesasResource' => 'cff\\V1\\Rest\\Despesas\\DespesasResourceFactory',
+            'cff\\V1\\Rest\\Receitas\\ReceitasResource' => 'cff\\V1\\Rest\\Receitas\\ReceitasResourceFactory',
+            'cff\\V1\\Rest\\Orcamentos\\OrcamentosResource' => 'cff\\V1\\Rest\\Orcamentos\\OrcamentosResourceFactory',
         ),
     ),
     'router' => array(
@@ -97,6 +98,24 @@ return array(
                     ),
                 ),
             ),
+            'cff.rest.receitas' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/receitas[/:receitas_id]',
+                    'defaults' => array(
+                        'controller' => 'cff\\V1\\Rest\\Receitas\\Controller',
+                    ),
+                ),
+            ),
+            'cff.rest.orcamentos' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/orcamentos[/:orcamentos_id]',
+                    'defaults' => array(
+                        'controller' => 'cff\\V1\\Rest\\Orcamentos\\Controller',
+                    ),
+                ),
+            ),
         ),
     ),
     'zf-versioning' => array(
@@ -110,6 +129,8 @@ return array(
             12 => 'cff.rest.user',
             13 => 'cff.rest.categorias',
             14 => 'cff.rest.despesas',
+            15 => 'cff.rest.receitas',
+            16 => 'cff.rest.orcamentos',
         ),
     ),
     'zf-rest' => array(
@@ -333,6 +354,54 @@ return array(
             'collection_class' => 'cff\\V1\\Rest\\Despesas\\DespesasCollection',
             'service_name' => 'despesas',
         ),
+        'cff\\V1\\Rest\\Receitas\\Controller' => array(
+            'listener' => 'cff\\V1\\Rest\\Receitas\\ReceitasResource',
+            'route_name' => 'cff.rest.receitas',
+            'route_identifier_name' => 'receitas_id',
+            'collection_name' => 'receitas',
+            'entity_http_methods' => array(
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ),
+            'collection_http_methods' => array(
+                0 => 'GET',
+                1 => 'POST',
+            ),
+            'collection_query_whitelist' => array(
+                0 => 'familia_id',
+            ),
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => 'cff\\V1\\Rest\\Receitas\\ReceitasEntity',
+            'collection_class' => 'cff\\V1\\Rest\\Receitas\\ReceitasCollection',
+            'service_name' => 'receitas',
+        ),
+        'cff\\V1\\Rest\\Orcamentos\\Controller' => array(
+            'listener' => 'cff\\V1\\Rest\\Orcamentos\\OrcamentosResource',
+            'route_name' => 'cff.rest.orcamentos',
+            'route_identifier_name' => 'orcamentos_id',
+            'collection_name' => 'orcamentos',
+            'entity_http_methods' => array(
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ),
+            'collection_http_methods' => array(
+                0 => 'GET',
+                1 => 'POST',
+            ),
+            'collection_query_whitelist' => array(
+                0 => 'familia_id',
+            ),
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => 'cff\\V1\\Rest\\Orcamentos\\OrcamentosEntity',
+            'collection_class' => 'cff\\V1\\Rest\\Orcamentos\\OrcamentosCollection',
+            'service_name' => 'orcamentos',
+        ),
     ),
     'zf-content-negotiation' => array(
         'controllers' => array(
@@ -345,6 +414,8 @@ return array(
             'cff\\V1\\Rest\\User\\Controller' => 'HalJson',
             'cff\\V1\\Rest\\Categorias\\Controller' => 'HalJson',
             'cff\\V1\\Rest\\Despesas\\Controller' => 'HalJson',
+            'cff\\V1\\Rest\\Receitas\\Controller' => 'HalJson',
+            'cff\\V1\\Rest\\Orcamentos\\Controller' => 'HalJson',
         ),
         'accept_whitelist' => array(
             'cff\\V1\\Rest\\Auth\\Controller' => array(
@@ -392,6 +463,16 @@ return array(
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ),
+            'cff\\V1\\Rest\\Receitas\\Controller' => array(
+                0 => 'application/vnd.cff.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ),
+            'cff\\V1\\Rest\\Orcamentos\\Controller' => array(
+                0 => 'application/vnd.cff.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ),
         ),
         'content_type_whitelist' => array(
             'cff\\V1\\Rest\\Auth\\Controller' => array(
@@ -427,6 +508,14 @@ return array(
                 1 => 'application/json',
             ),
             'cff\\V1\\Rest\\Despesas\\Controller' => array(
+                0 => 'application/vnd.cff.v1+json',
+                1 => 'application/json',
+            ),
+            'cff\\V1\\Rest\\Receitas\\Controller' => array(
+                0 => 'application/vnd.cff.v1+json',
+                1 => 'application/json',
+            ),
+            'cff\\V1\\Rest\\Orcamentos\\Controller' => array(
                 0 => 'application/vnd.cff.v1+json',
                 1 => 'application/json',
             ),
@@ -540,6 +629,30 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'cff.rest.despesas',
                 'route_identifier_name' => 'despesas_id',
+                'is_collection' => true,
+            ),
+            'cff\\V1\\Rest\\Receitas\\ReceitasEntity' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'cff.rest.receitas',
+                'route_identifier_name' => 'receitas_id',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
+            ),
+            'cff\\V1\\Rest\\Receitas\\ReceitasCollection' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'cff.rest.receitas',
+                'route_identifier_name' => 'receitas_id',
+                'is_collection' => true,
+            ),
+            'cff\\V1\\Rest\\Orcamentos\\OrcamentosEntity' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'cff.rest.orcamentos',
+                'route_identifier_name' => 'orcamentos_id',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
+            ),
+            'cff\\V1\\Rest\\Orcamentos\\OrcamentosCollection' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'cff.rest.orcamentos',
+                'route_identifier_name' => 'orcamentos_id',
                 'is_collection' => true,
             ),
         ),
@@ -864,14 +977,16 @@ return array(
     ),
     'doctrine' => array(
         'driver' => array(
-            __NAMESPACE__.'_driver' => array(
-                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+            'cff_driver' => array(
+                'class' => 'Doctrine\\ORM\\Mapping\\Driver\\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/'.__NAMESPACE__.'/Entity')
+                'paths' => array(
+                    0 => 'C:\\Users\\tiago.alves\\Desktop\\TCC\\cff\\module\\cff\\config/../src/cff/Entity',
+                ),
             ),
             'orm_default' => array(
                 'drivers' => array(
-                    __NAMESPACE__.'\Entity' =>  __NAMESPACE__.'_driver'
+                    'cff\\Entity' => 'cff_driver',
                 ),
             ),
         ),
