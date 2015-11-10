@@ -17,7 +17,6 @@ class DespesasService extends AbstractService
 
     public function save($data)
     {
-        die(var_dump($data->date))
         $conta     = $this->em->getRepository('cff\Entity\Conta\Conta')->find($data->contaId);
         $categoria = $this->em->getRepository('cff\Entity\Categoria\Categoria')->find($data->categoriaId);
         $usuCad    = $this->em->getRepository('cff\Entity\Usuario\Usuario')->find($data->idUser);

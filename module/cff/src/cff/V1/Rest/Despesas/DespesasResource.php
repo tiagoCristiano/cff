@@ -77,7 +77,6 @@ class DespesasResource extends AbstractResourceListener
         $params = array_merge($this->fetchAllDefaults,(array) $params);
 
 
-
         if(0 !=  (int)$params['familia_id']) {
                   return $this->despesasService->getByIdFamilia((int)$params['familia_id']);
         } else {
