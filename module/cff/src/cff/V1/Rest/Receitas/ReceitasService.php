@@ -41,9 +41,11 @@ class ReceitasService
                     'id' =>$receita->getFamilia()->getId(),
                     'nome' =>$receita->getFamilia()->getNome()
                 ),
-                'dataLancamento' => $dataLancamento->format('d-m-Y'),
+                'dataLancamento' => $dataLancamento->format('d/m/Y'),
                 'usuario' => $receita->getUser()->getNome(),
                 'totalReceita' => $total,
+                'banco' => $receita->getConta()->getBanco()->getNome(),
+                'categoria' => $receita->getCategoria()->getCategoria()
 
             );
         }
