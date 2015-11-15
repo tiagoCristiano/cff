@@ -20,13 +20,22 @@ class DespesasService extends AbstractService
         $conta     = $this->em->getRepository('cff\Entity\Conta\Conta')->find($data->contaId);
         $categoria = $this->em->getRepository('cff\Entity\Categoria\Categoria')->find($data->categoriaId);
         $usuCad    = $this->em->getRepository('cff\Entity\Usuario\Usuario')->find($data->idUser);
+        $familia    = $this->em->getRepository('cff\Entity\Familia\Familia')->find($data->idFamilia);
         $this->em->persist($this->entity);
         $this->entity->setConta($conta);
+        $this->entity->setFamilia($familia);
+        $this->entity->setStatus(true);
+        $this->entity->setDataVencimento($this->padronizaData($data->dataVencimentoDespesa));
         $this->entity->setDataCriacao($this->getDataAtual());
-        $this->entity->setPago($data->pago);
+        $this->entity->setPago(0);
+        if($data->isPago){
+            $this->entity->setPago(1);
+        }
+
         $this->entity->setCategoria($categoria);
         $this->entity->setUser($usuCad);
         $this->hydrate($this->entity,$data);
+
         $this->em->flush();
         return $this->extract($this->entity);
     }

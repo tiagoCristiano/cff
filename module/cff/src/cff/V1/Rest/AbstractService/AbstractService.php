@@ -86,6 +86,16 @@ abstract class AbstractService {
         return false;
     }
 
+    public function padronizaData($data)
+    {
+        $arrayData = str_split($data);
+        $dia = $arrayData[0].$arrayData[1];
+        $mes = $arrayData[2].$arrayData[3];
+        $ano = $arrayData[4].$arrayData[5].$arrayData[6].$arrayData[7];
+        //return ($dia.'/'.$mes.'/'.$ano);
+        return ($ano.'/'.$mes.'/'.$dia);
+    }
+
 
 
 
