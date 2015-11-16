@@ -4,6 +4,7 @@ namespace cff;
 use cff\Entity\Categoria\Categoria;
 use cff\Entity\Conta\Conta as ContaEntity;
 use cff\Entity\Despesa\Despesa;
+use cff\Entity\Receitas\Receitas;
 use cff\Entity\Usuario\Usuario as UsuarioEntity;
 use cff\V1\Rest\Auth\AuthEntity;
 
@@ -14,7 +15,6 @@ use cff\V1\Rest\Contas\ContasMapper;
 use cff\V1\Rest\Despesas\DespesasService;
 use cff\V1\Rest\MailService\MailService;
 use cff\V1\Rest\Orcamentos\OrcamentosService;
-use cff\V1\Rest\Receitas\ReceitasEntity;
 use cff\V1\Rest\Receitas\ReceitasService;
 use cff\V1\Rest\Register\RegisterService;
 use cff\V1\Rest\User\UserService;
@@ -177,8 +177,8 @@ class Module implements ApigilityProviderInterface
                 'ReceitasService' => function($sm) {
                     $em = $sm->get('Doctrine\ORM\EntityManager');
                     $hydrator =  new Hydrator\ClassMethods();
-                    $orcamentoEntity = new ReceitasEntity();
-                    return new ReceitasService($em,$hydrator, $orcamentoEntity);
+                    $receitasEntity = new  Receitas();
+                    return new ReceitasService($em,$hydrator, $receitasEntity);
                 },
 
 

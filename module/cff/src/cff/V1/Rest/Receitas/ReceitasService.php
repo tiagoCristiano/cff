@@ -3,7 +3,9 @@
 namespace cff\V1\Rest\Receitas;
 
 
-class ReceitasService
+use cff\V1\Rest\AbstractService\AbstractService;
+
+class ReceitasService extends AbstractService
 {
     public function __construct($em, $hydrator, $receitaEntity)
     {
@@ -21,6 +23,33 @@ class ReceitasService
             return $this->padronizaRetorno($entity);
         }
         return false;
+    }
+
+    public function save($data)
+    {
+
+        $conta     = $this->em->getRepository('cff\Entity\Conta\Conta')->find((int)$data->contaId);
+
+        $categoria = $this->em->getRepository('cff\Entity\Categoria\Categoria')->find($data->categoriaId);
+        $usuCad    = $this->em->getRepository('cff\Entity\Usuario\Usuario')->find($data->idUser);
+        $familia    = $this->em->getRepository('cff\Entity\Familia\Familia')->find($data->idFamilia);
+        $this->em->persist($this->entity);
+        $this->entity->setConta($conta);
+        $this->entity->setFamilia($familia);
+        $this->entity->setStatus(true);
+        $this->entity->setDataCriacao($this->getDataAtual());
+
+        $this->entity->setCategoria($categoria);
+        $this->entity->setUser($usuCad);
+
+        $this->hydrate($this->entity,$data);
+
+        try {
+            $this->em->flush();
+        } catch(\Exception $e) {
+            die(var_dump($e->getMessage()));
+        }
+        return $this->extract($this->entity);
     }
 
     protected function padronizaRetorno($entity)

@@ -24,6 +24,7 @@ class ReceitasResource extends AbstractResourceListener
      */
     public function create($data)
     {
+        return $this->receitaService->save($data);
         return new ApiProblem(405, 'The POST method has not been defined');
     }
 
