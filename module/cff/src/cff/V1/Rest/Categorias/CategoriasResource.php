@@ -71,6 +71,11 @@ class CategoriasResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
+       // die(var_dump($params->tipo));
+        if($params->tipo === 'nomes') {
+            return $this->categoriaService->getCategoriasDespesas($params);
+        }
+
         $params = array_merge($this->fetchAllDefaults,(array) $params);
         return $this->categoriaService->getAll($params['familia_id']);
         return new ApiProblem(405, 'The GET method has not been defined for collections');

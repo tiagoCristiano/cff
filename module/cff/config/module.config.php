@@ -1,5 +1,4 @@
 <?php
-namespace cff;
 return array(
     'service_manager' => array(
         'factories' => array(
@@ -324,6 +323,7 @@ return array(
             ),
             'collection_query_whitelist' => array(
                 0 => 'familia_id',
+                1 => 'tipo',
             ),
             'page_size' => 25,
             'page_size_param' => null,
@@ -978,28 +978,16 @@ return array(
     ),
     'doctrine' => array(
         'driver' => array(
-            __NAMESPACE__.'_driver' => array(
-                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+            'cff_driver' => array(
+                'class' => 'Doctrine\\ORM\\Mapping\\Driver\\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/'.__NAMESPACE__.'/Entity')
-            ),
-            'orm_default' => array(
-                'drivers' => array(
-                    __NAMESPACE__.'\Entity' =>  __NAMESPACE__.'_driver'
+                'paths' => array(
+                    0 => 'C:\\Users\\tiago.alves\\Desktop\\TCC\\cff\\module\\cff\\config/../src/cff/Entity',
                 ),
             ),
-        ),
-    ),
-    'doctrine' => array(
-        'driver' => array(
-            __NAMESPACE__.'_driver' => array(
-                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/'.__NAMESPACE__.'/Entity')
-            ),
             'orm_default' => array(
                 'drivers' => array(
-                    __NAMESPACE__.'\Entity' =>  __NAMESPACE__.'_driver'
+                    'cff\\Entity' => 'cff_driver',
                 ),
             ),
         ),

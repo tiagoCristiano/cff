@@ -5,6 +5,7 @@ namespace cff\V1\Rest\Categorias;
 
 
 use cff\V1\Rest\AbstractService\AbstractService;
+use crm\Entity\Despesas;
 
 class CategoriaService extends AbstractService
 {
@@ -16,6 +17,64 @@ class CategoriaService extends AbstractService
         $this->hydrator = $hydrator;
         $this->repository = 'cff\Entity\Categoria\Categoria';
         $this->entity = $categoriaEntity;
+
+    }
+
+    public function getCategoriasDespesas($parametros)
+    {
+
+//        $data = new \DateTime($this->getDataAtual());
+//        $data = $data->format('y-m-d');
+        $qb = $this->em->createQueryBuilder();
+
+        $query = $this->em->createQuery('
+                                        SELECT COUNT(categorias.id), categorias.categoria AS qtdCategoria
+                                        FROM '. $this->repository.' categorias
+                                        JOIN cff\Entity\Despesa\Despesa despesas WITH despesas.categoria = categorias.id
+                                        GROUP BY categorias.categoria');
+
+
+                        $results = $query->getResult();
+//
+//
+//
+//
+//                                            die(var_dump($results));
+//
+//
+//
+//        $qb->select('c.categoria, COUNT(c.id)')
+//            ->from($this->repository, 'c')
+//            ->join('t2p.tags', 't')
+//            ->where($qb->expr()->eq('c.familia', ':familiaId'))
+//            ->andWhere($qb->expr()->eq('c.status', '1'))
+//            ->groupBy('c.categoria')
+//            JOIN `despesas` ON `despesas`.`categorias_id` = `categorias`.`id`
+////            ->add('where', $qb->expr()->between(
+////                'u.dataCriacao',
+////                ':de',
+////                ':ate'
+////            )
+////            )
+//            ->setParameters(array('familiaId' => $parametros->familia_id));
+//        $query = $qb->getQuery();
+//        $results = $query->getResult();
+//        die(var_dump($results));
+//            //->setParameters(array('de' => "{$data} 00:08:00", 'ate' => "{$data} 17:59:59"));
+
+
+
+
+
+
+
+
+
+//        SELECT COUNT(`categorias`.id), categorias.`categoria` AS qtdCategoria
+//    FROM categorias
+//    JOIN `despesas` ON `despesas`.`categorias_id` = `categorias`.`id`
+//    GROUP BY categorias.`categoria`
+//        die(var_dump($parametros));
 
     }
 
