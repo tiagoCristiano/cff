@@ -28,7 +28,7 @@ class CategoriaService extends AbstractService
         $qb = $this->em->createQueryBuilder();
 
         $query = $this->em->createQuery('
-                                        SELECT COUNT(categorias.id), categorias.categoria AS qtdCategoria
+                                        SELECT COUNT(categorias.id)  qtdCategoria, categorias.categoria
                                         FROM '. $this->repository.' categorias
                                         JOIN cff\Entity\Despesa\Despesa despesas WITH despesas.categoria = categorias.id
                                         GROUP BY categorias.categoria');

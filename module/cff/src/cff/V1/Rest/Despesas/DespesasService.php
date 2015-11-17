@@ -17,6 +17,9 @@ class DespesasService extends AbstractService
 
     public function save($data)
     {
+
+        $date = $this->padronizaData($data->dataVencimentoDespesa);
+
         $conta     = $this->em->getRepository('cff\Entity\Conta\Conta')->find($data->contaId);
         $categoria = $this->em->getRepository('cff\Entity\Categoria\Categoria')->find($data->categoriaId);
         $usuCad    = $this->em->getRepository('cff\Entity\Usuario\Usuario')->find($data->idUser);
@@ -25,7 +28,7 @@ class DespesasService extends AbstractService
         $this->entity->setConta($conta);
         $this->entity->setFamilia($familia);
         $this->entity->setStatus(true);
-        $this->entity->setDataVencimento($this->padronizaData($data->dataVencimentoDespesa));
+        $this->entity->setDataVencimento(($date));
         $this->entity->setDataCriacao($this->getDataAtual());
         $this->entity->setPago(0);
         if($data->isPago){
