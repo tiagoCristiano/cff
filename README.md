@@ -55,4 +55,4 @@ Clique em __Adicionar Regras__
 Informe os campos e clique em __Adicionar__
 ## Gerar Relatórios
 ![ScreenShot](https://raw.github.com/tiagoCristiano/cff/master/imgsManual/17.png)
-Inforne o periodo de data, selecione o tiupo e clique em __Consultar__
+Inforne o periodo de data, selecione o tipo e clique em __Consultar__
