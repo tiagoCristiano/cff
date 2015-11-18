@@ -42,6 +42,7 @@ class DespesasResource extends AbstractResourceListener
      */
     public function delete($id)
     {
+        return $this->despesasService->delete($id);
         return new ApiProblem(405, 'The DELETE method has not been defined for individual resources');
     }
 
@@ -62,8 +63,18 @@ class DespesasResource extends AbstractResourceListener
      * @param  mixed $id
      * @return ApiProblem|mixed
      */
-    public function fetch($id)
+    public function fetch($params = array())
     {
+
+        $params = array_merge($this->fetchAllDefaults,(array) $params);
+
+        if(0 !=  (int)$params['familia_id']) {
+            return $this->despesasService->getByFamilia((int)$params['familia_id']);
+        } else {
+            return  $this->despesasService->getById((int)$params[0]);
+        }
+
+        return new ApiProblem(405, 'The GET method has not been defined for individual resources');
         return new ApiProblem(405, 'The GET method has not been defined for individual resources');
     }
 

@@ -65,7 +65,25 @@ class ContaService extends AbstractService
             );
         }
         return $data;
+    }
 
+    public function debita($conta, $valor)
+    {
+        $contaEntity = $this->em->getRepository($this->repository)
+            ->findBy(array('id' => $conta ));
+        $data['saldo'] = $contaEntity[0]->getSaldo() - $valor;
+        self::update($conta,$data);
+
+    }
+
+    public function credita($conta, $valor)
+    {
+
+        $contaEntity = $this->em->getRepository($this->repository)
+            ->findBy(array('id' => $conta ));
+
+        $data['saldo'] = $contaEntity[0]->getSaldo() + $valor;
+        self::update($conta,$data);
     }
 
 }

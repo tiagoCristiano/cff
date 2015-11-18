@@ -166,7 +166,8 @@ class Module implements ApigilityProviderInterface
                     $em = $sm->get('Doctrine\ORM\EntityManager');
                     $hydrator =  new Hydrator\ClassMethods();
                     $despesaEntity = new Despesa();
-                    return new DespesasService($em,$hydrator, $despesaEntity);
+                    $contaService = $sm->get('ContaService');
+                    return new DespesasService($em,$hydrator, $despesaEntity, $contaService);
                 },
                 'OrcamentoService' => function($sm) {
                     $em = $sm->get('Doctrine\ORM\EntityManager');
@@ -178,7 +179,8 @@ class Module implements ApigilityProviderInterface
                     $em = $sm->get('Doctrine\ORM\EntityManager');
                     $hydrator =  new Hydrator\ClassMethods();
                     $receitasEntity = new  Receitas();
-                    return new ReceitasService($em,$hydrator, $receitasEntity);
+                    $contaService = $sm->get('ContaService');
+                    return new ReceitasService($em,$hydrator, $receitasEntity, $contaService);
                 },
 
 

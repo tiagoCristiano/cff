@@ -3,16 +3,19 @@
 namespace cff\V1\Rest\Despesas;
 
 use cff\V1\Rest\AbstractService\AbstractService;
+use cff\V1\Rest\Contas\ContaService;
 
 class DespesasService extends AbstractService
 {
+    protected $contaService;
 
-    public function __construct($em, $hydrator, $despesaEntity)
+    public function __construct($em, $hydrator, $despesaEntity, ContaService $contaService)
     {
         $this->em = $em;
         $this->hydrator = $hydrator;
         $this->repository = 'cff\Entity\Despesa\Despesa';
         $this->entity     = $despesaEntity;
+        $this->contaService = $contaService;
     }
 
     public function save($data)
@@ -38,9 +41,17 @@ class DespesasService extends AbstractService
         $this->entity->setCategoria($categoria);
         $this->entity->setUser($usuCad);
         $this->hydrate($this->entity,$data);
+        try{
+            $this->em->flush();
+            if($data->isPago) {
+                $this->contaService->debita($data->contaId, $data->valor);
+            }
+            return $this->extract($this->entity);
+        }catch (\Exception $e) {
+            die(var_dump($e->getMessage()));
+        }
 
-        $this->em->flush();
-        return $this->extract($this->entity);
+
     }
 
 
@@ -88,6 +99,28 @@ class DespesasService extends AbstractService
 
        return $data;
 
+    }
+
+    public function getByFamilia($familiaId)
+    {
+        $query = $this->em->createQuery('SELECT u FROM '.$this->repository.' u where u.familia = :id and u.status = 1');
+        $query->setParameter('id', $familiaId);
+        $familia = $query->getResult();
+        if(!is_null($familia)) {
+            return  $this->padronizaRetorno($familia);
+        }
+        return false;
+    }
+
+    public function getById($id)
+    {
+        $entity = $this->em->getRepository($this->repository)
+            ->findBy(array('status' => 1,'id' => $id ));
+
+        if(!empty($entity)) {
+            return $this->padronizaRetorno($entity);
+        }
+        return false;
     }
 
 

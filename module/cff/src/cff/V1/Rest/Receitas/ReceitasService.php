@@ -4,15 +4,18 @@ namespace cff\V1\Rest\Receitas;
 
 
 use cff\V1\Rest\AbstractService\AbstractService;
+use cff\V1\Rest\Contas\ContaService;
 
 class ReceitasService extends AbstractService
 {
-    public function __construct($em, $hydrator, $receitaEntity)
+    protected $contaService;
+    public function __construct($em, $hydrator, $receitaEntity, ContaService $contaService)
     {
         $this->em = $em;
         $this->hydrator = $hydrator;
         $this->repository = 'cff\Entity\Receitas\Receitas';
         $this->entity     = $receitaEntity;
+        $this->contaService = $contaService;
     }
 
     public function fetchAll($familiaId)
@@ -44,8 +47,10 @@ class ReceitasService extends AbstractService
 
         $this->hydrate($this->entity,$data);
 
+
         try {
             $this->em->flush();
+            $this->contaService->credita($data->contaId, $data->valor);
         } catch(\Exception $e) {
             die(var_dump($e->getMessage()));
         }
