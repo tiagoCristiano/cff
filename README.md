@@ -1,4 +1,4 @@
-git# Manual do Sistema de Controle Financeiro Familiar
+# Manual do Sistema de Controle Financeiro Familiar
 
 ## Tela Login.
 ![ScreenShot](https://raw.github.com/tiagoCristiano/cff/master/imgsManual/2.png)
@@ -23,6 +23,11 @@ Informe o nome do banco e agencia, clique em __Adicionar__.
 Para adicionar contas, clique em __Adicionar conta bancaria__
 ![ScreenShot](https://raw.github.com/tiagoCristiano/cff/master/imgsManual/8.png)
 Informar os campos e selecione o banco cadastrado previamente, clique em __Adicionar__.
+## Cadastro de Categorias
+![ScreenShot](https://raw.github.com/tiagoCristiano/cff/master/imgsManual/13.png)
+Clique em __Adicionar Categorias__
+![ScreenShot](https://raw.github.com/tiagoCristiano/cff/master/imgsManual/14.png)
+Informe os dados e clique em __Adicionar__
 ## Cadastro de Despesas
 ![ScreenShot](https://raw.github.com/tiagoCristiano/cff/master/imgsManual/9.png)
 Informe o nome do banco e agencia, clique em __Adicionar Despesa__.
@@ -38,3 +43,16 @@ Informe os dados da receita e clique em __Adicionar__
 Clique em __adicionar familiar__
 ![ScreenShot](https://raw.github.com/tiagoCristiano/cff/master/imgsManual/manterFamiliares.png)
 Infome os campos e clique em __Adicionar__.
+## Cadastro de Orçamentos
+![ScreenShot](https://raw.github.com/tiagoCristiano/cff/master/imgsManual/15.png)
+Clique em adicionar Orçamentos
+![ScreenShot](https://raw.github.com/tiagoCristiano/cff/master/imgsManual/16.png)
+Informe os dados e clique em __Adicionar__
+## Cadastro de Regras
+![ScreenShot](https://raw.github.com/tiagoCristiano/cff/master/imgsManual/18.png)
+Clique em __Adicionar Regras__
+![ScreenShot](https://raw.github.com/tiagoCristiano/cff/master/imgsManual/19.png)
+Informe os campos e clique em __Adicionar__
+## Gerar Relatórios
+![ScreenShot](https://raw.github.com/tiagoCristiano/cff/master/imgsManual/17.png)
+Inforne o periodo de data, selecione o tiupo e clique em __Consultar__
