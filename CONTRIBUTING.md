@@ -1,4 +1,5 @@
-# CONTRIBUTING
+# Manual do Siste Controle Financeiro Familiar
+![ScreenShot](https://raw.github.com/tiagoCristiano/cff/master/imgsManual/1.png)
 
 Apigility and related modules (of which this is one) are open source and licensed
 as [BSD-3-Clause](http://opensource.org/licenses/BSD-3-Clause). Contributions
@@ -39,7 +40,7 @@ contributors a chance to resolve the vulnerability and issue a new release prior
 to any public exposure; this helps protect Apigility users, and provides them
 with a chance to upgrade and/or update in order to protect their applications.
 
-For sensitive email communications, please use 
+For sensitive email communications, please use
 [our PGP key](http://framework.zend.com/zf-security-pgp-key.asc).
 
 ## RUNNING TESTS
