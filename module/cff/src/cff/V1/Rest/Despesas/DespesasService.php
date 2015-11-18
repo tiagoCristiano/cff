@@ -89,6 +89,7 @@ class DespesasService extends AbstractService
                 'pago' => ($despesa->isPago()) ? 'Pago' : 'A pagar',
                 'totalDespesas' => $total,
                 'categoria' => $despesa->getCategoria()->getCategoria(),
+                'categoriaObj' => $despesa->getCategoria(),
                 'banco' => $despesa->getConta()->getBanco()->getNome()
             );
             unset($date);
