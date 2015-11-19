@@ -18,7 +18,6 @@ class DespesasResource extends AbstractResourceListener
     public function __construct(DespesasService  $despesaService)
     {
         $this->despesasService = $despesaService;
-
     }
 
     /**
@@ -29,7 +28,6 @@ class DespesasResource extends AbstractResourceListener
      */
     public function create($data)
     {
-
         return  $this->despesasService->save($data);
         return new ApiProblem(405, 'The POST method has not been defined');
     }
@@ -58,10 +56,8 @@ class DespesasResource extends AbstractResourceListener
     }
 
     /**
-     * Fetch a resource
-     *
-     * @param  mixed $id
-     * @return ApiProblem|mixed
+     * @param array $params
+     * @return array|bool|ApiProblem
      */
     public function fetch($params = array())
     {
@@ -130,6 +126,6 @@ class DespesasResource extends AbstractResourceListener
      */
     public function update($id, $data)
     {
-        return new ApiProblem(405, 'The PUT method has not been defined for individual resources');
+        return $this->despesasService->update($id,$data);
     }
 }

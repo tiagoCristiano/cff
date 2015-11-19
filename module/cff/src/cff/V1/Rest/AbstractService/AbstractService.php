@@ -66,8 +66,10 @@ abstract class AbstractService {
     {
         $entity = $this->em->getRepository($this->repository)
                        ->find($id);
+
         if (!is_null($entity)) {
             $this->hydrate($entity, $data);
+
             $this->em->persist($entity);
             $this->em->flush();
             return true;

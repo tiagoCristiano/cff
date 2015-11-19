@@ -22,7 +22,6 @@ class DespesasService extends AbstractService
     {
 
         $date = $this->padronizaData($data->dataVencimentoDespesa);
-
         $conta     = $this->em->getRepository('cff\Entity\Conta\Conta')->find($data->contaId);
         $categoria = $this->em->getRepository('cff\Entity\Categoria\Categoria')->find($data->categoriaId);
         $usuCad    = $this->em->getRepository('cff\Entity\Usuario\Usuario')->find($data->idUser);
@@ -53,6 +52,36 @@ class DespesasService extends AbstractService
 
 
     }
+
+    public function update($id, $data)
+    {
+
+        $idFamilia = isset($data->idFamilia) ? $data->idFamilia : $data->despesa['idFamilia'];
+        $idConta   = isset($data->contaObj['id']) ? $data->contaObj['id'] : $data->despesa['contaObj']['id'];
+
+        $this->entity  = $this->em->getRepository($this->repository)->find($id);
+
+        $familiaEntity = $this->em->getRepository('cff\Entity\Familia\Familia')->find($idFamilia);
+
+        $contaEntity   = $this->em->getRepository('cff\Entity\Conta\Conta')->find($idConta);
+
+
+        $this->entity->setFamilia($familiaEntity);
+        $this->entity->setConta($contaEntity);
+        $this->entity->setPago($data->pago);
+        $this->em->persist($this->entity);
+        $this->hydrate($this->entity, $data->despesa);
+
+        try{
+            $this->em->flush();
+            return ($this->padronizaRetorno( $this->entity));
+        }catch (\Exception $e) {
+            die(var_dump($e->getMessage()));
+        }
+
+
+    }
+
 
 
     public function getByIdFamilia($idFamilia)
@@ -85,14 +114,17 @@ class DespesasService extends AbstractService
                 'descricao' => $despesa->getDescricao(),
                 'user' => $despesa->getUser()->getNome(),
                 'valor' => $despesa->getValor(),
-                'conta' => $despesa->getConta()->getNumero(),
+                'contaNumero' => $despesa->getConta()->getNumero(),
                 'pago' => ($despesa->isPago()) ? 'Pago' : 'A pagar',
                 'totalDespesas' => $total,
-                'categoria' => $despesa->getCategoria()->getCategoria(),
+                'categoriaNome' => $despesa->getCategoria()->getCategoria(),
                 'categoriaObj' => $despesa->getCategoria(),
-                'banco' => $despesa->getConta()->getBanco()->getNome()
+                'banco' => $despesa->getConta()->getBanco()->getNome(),
+                'contaObj' => $despesa->getConta(),
+                'idFamilia' => $despesa->getFamilia()->getId()
             );
-            unset($date);
+            unset($dateVencimento);
+            unset($dataCriacao);
 
             $i++;
 
