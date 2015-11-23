@@ -94,13 +94,22 @@ class CategoriaService extends AbstractService
 
     private function padronizaRetornoCategoria($results)
     {
+
         $data = array();
         foreach($results as $categoria) {
-           $data ['categoria'] .= "\"".$categoria['categoria']."\"".',';
-           $data ['qtd']       .= $categoria['qtdCategoria'].',';
+
+           $data ['categoria'] .= "\"". $categoria['categoria']."\" ".",";
+
+           $data ['qtd']       .= (int)$categoria['qtdCategoria'].',';
+
         }
+
+
         $qtd    = substr_replace($data ['qtd'], "", -1);
         $labels = substr_replace($data ['categoria'] , "", -1);
+        $labels = str_replace("\'","",$labels);
+        $labels = trim($labels);
+        $qtd    = trim($qtd);
 
         unset($data);
         $data['categoria']['labelsCategoria'] = $labels;
