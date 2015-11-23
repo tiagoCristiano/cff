@@ -86,4 +86,55 @@ class ContaService extends AbstractService
         self::update($conta,$data);
     }
 
+
+    public function getContasDespesas($de, $ate)
+    {
+        $de = $this->padronizaData($de);
+        $ate = $this->padronizaData($ate);
+
+
+        $query = $this->em->createQuery('
+                                        SELECT COUNT(contas.id)  qtdConta, contas.numero as numeroConta
+                                        FROM '. $this->repository.' contas
+                                        LEFT JOIN cff\Entity\Despesa\Despesa despesas WITH despesas.conta = contas.id
+                                        WHERE
+                                        despesas.dataCriacao BETWEEN ?1 AND ?2
+                                        AND despesas.status = 1
+                                        GROUP BY contas.numero');
+
+        $query->setParameter(1, $de);
+        $query->setParameter(2, $ate);
+        $results = $query->getResult();
+
+        $results =  $this->padronizaRetornoContas($results);
+        return $results;
+
+    }
+
+    private function padronizaRetornoContas($results)
+    {
+
+
+        $data = array();
+        foreach($results as $categoria) {
+
+            $data ['categoria'] .= $categoria['numeroConta'].",";
+
+            $data ['qtd']       .= (int)$categoria['qtdConta'].',';
+
+        }
+
+
+        $qtd    = substr_replace($data ['qtd'], "", -1);
+        $labels = substr_replace($data ['categoria'] , "", -1);
+        $labels = str_replace("\'","",$labels);
+        $labels = trim($labels);
+        $qtd    = trim($qtd);
+
+        unset($data);
+        $data['contas']['labelsConta'] = $labels;
+        $data['contas']['dataConta'] = $qtd;
+        return $data;
+    }
+
 }

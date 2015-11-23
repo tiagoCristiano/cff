@@ -56,6 +56,9 @@ class DespesasService extends AbstractService
     public function update($id, $data)
     {
 
+
+
+        $dataVencimeto = $this->padronizaData($data->despesa['data_vencimento_despesa']);
         $idFamilia = isset($data->idFamilia) ? $data->idFamilia : $data->despesa['idFamilia'];
         $idConta   = isset($data->contaObj['id']) ? $data->contaObj['id'] : $data->despesa['contaObj']['id'];
 
@@ -64,16 +67,19 @@ class DespesasService extends AbstractService
         $familiaEntity = $this->em->getRepository('cff\Entity\Familia\Familia')->find($idFamilia);
 
         $contaEntity   = $this->em->getRepository('cff\Entity\Conta\Conta')->find($idConta);
-
+        $user           = $this->em->getRepository('cff\Entity\Usuario\Usuario')->find($data->despesa['userObj']['id']);
 
         $this->entity->setFamilia($familiaEntity);
+        $this->entity->setDataVencimento($dataVencimeto);
         $this->entity->setConta($contaEntity);
+        $this->entity->setUser($user);
         $this->entity->setPago($data->pago);
         $this->em->persist($this->entity);
         $this->hydrate($this->entity, $data->despesa);
 
         try{
             $this->em->flush();
+            return $this->extract($this->entity);
             return ($this->padronizaRetorno( $this->entity));
         }catch (\Exception $e) {
             die(var_dump($e->getMessage()));
@@ -102,17 +108,19 @@ class DespesasService extends AbstractService
         $i =0;
 
         foreach($despesas as $despesa){
+
             $total += $despesa->getValor();
 
             $data[$i] = array(
                 $dateVencimento = new \DateTime($despesa->getDataVencimento()),
                 $dataCriacao    = new \DateTime($despesa->getDataCriacao()),
-                'data_vencimento' => $dateVencimento->format('d/m/Y'),
-                'data_criacao'    => $dataCriacao->format('d/m/Y'),
+                'data_vencimento_despesa' => $dateVencimento->format('d/m/Y'),
+                'data_criacao_despesa'    => $dataCriacao->format('d/m/Y'),
                 'id' => $despesa->getId(),
                 'valor' => $despesa->getValor(),
                 'descricao' => $despesa->getDescricao(),
-                'user' => $despesa->getUser()->getNome(),
+                'userNome' => $despesa->getUser()->getNome(),
+                'userObj' => $despesa->getUser(),
                 'valor' => $despesa->getValor(),
                 'contaNumero' => $despesa->getConta()->getNumero(),
                 'pago' => ($despesa->isPago()) ? 'Pago' : 'A pagar',

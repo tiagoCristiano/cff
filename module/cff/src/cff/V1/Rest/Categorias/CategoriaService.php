@@ -30,9 +30,10 @@ class CategoriaService extends AbstractService
         $query = $this->em->createQuery('
                                         SELECT COUNT(categorias.id)  qtdCategoria, categorias.categoria
                                         FROM '. $this->repository.' categorias
-                                        JOIN cff\Entity\Despesa\Despesa despesas WITH despesas.categoria = categorias.id
+                                        LEFT JOIN cff\Entity\Despesa\Despesa despesas WITH despesas.categoria = categorias.id
                                         WHERE categorias.tipo = 0
                                         AND despesas.dataCriacao BETWEEN ?1 AND ?2
+                                        AND despesas.status = 1
                                         GROUP BY categorias.categoria');
 
         $query->setParameter(1, $de);
@@ -98,7 +99,7 @@ class CategoriaService extends AbstractService
         $data = array();
         foreach($results as $categoria) {
 
-           $data ['categoria'] .= "\"". $categoria['categoria']."\" ".",";
+           $data ['categoria'] .= $categoria['categoria'].",";
 
            $data ['qtd']       .= (int)$categoria['qtdCategoria'].',';
 

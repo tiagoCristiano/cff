@@ -74,11 +74,9 @@ class RelatoriosService extends AbstractService
 
     public function getDespesa($de, $ate)
     {
-        $paramentro = array();
-        $paramentro['de'] = $de;
-        $paramentro['ate'] = $ate;
-        $categorias = $this->categoriaService->getCategoriasDespesas($de, $ate);
-        return $categorias;
+        $dataRelatorios['categorias']  = $this->categoriaService->getCategoriasDespesas($de, $ate);
+        $dataRelatorios['contas']      = $this->contaService->getContasDespesas($de, $ate);
+        return $dataRelatorios;
 
     }
 
