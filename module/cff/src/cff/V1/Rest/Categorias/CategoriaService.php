@@ -96,11 +96,12 @@ class CategoriaService extends AbstractService
     {
         $data = array();
         foreach($results as $categoria) {
-           $data ['categoria'] .= $categoria['categoria'].',';
+           $data ['categoria'] .= "\"".$categoria['categoria']."\"".',';
            $data ['qtd']       .= $categoria['qtdCategoria'].',';
         }
-        $qtd = substr_replace($data ['qtd'], " ", -1);
-        $labels = substr_replace($data ['categoria'] , " ", -1);
+        $qtd    = substr_replace($data ['qtd'], "", -1);
+        $labels = substr_replace($data ['categoria'] , "", -1);
+
         unset($data);
         $data['categoria']['labelsCategoria'] = $labels;
         $data['categoria']['dataCategoria'] = $qtd;
