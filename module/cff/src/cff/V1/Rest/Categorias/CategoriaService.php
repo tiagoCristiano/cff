@@ -20,61 +20,27 @@ class CategoriaService extends AbstractService
 
     }
 
-    public function getCategoriasDespesas($parametros)
+    public function getCategoriasDespesas($de, $ate)
     {
+        $de = $this->padronizaData($de);
+        $ate = $this->padronizaData($ate);
 
-//        $data = new \DateTime($this->getDataAtual());
-//        $data = $data->format('y-m-d');
         $qb = $this->em->createQueryBuilder();
 
         $query = $this->em->createQuery('
                                         SELECT COUNT(categorias.id)  qtdCategoria, categorias.categoria
                                         FROM '. $this->repository.' categorias
                                         JOIN cff\Entity\Despesa\Despesa despesas WITH despesas.categoria = categorias.id
+                                        WHERE categorias.tipo = 0
+                                        AND despesas.dataCriacao BETWEEN ?1 AND ?2
                                         GROUP BY categorias.categoria');
 
+        $query->setParameter(1, $de);
+        $query->setParameter(2, $ate);
+        $results = $query->getResult();
 
-                        $results = $query->getResult();
-//
-//
-//
-//
-//                                            die(var_dump($results));
-//
-//
-//
-//        $qb->select('c.categoria, COUNT(c.id)')
-//            ->from($this->repository, 'c')
-//            ->join('t2p.tags', 't')
-//            ->where($qb->expr()->eq('c.familia', ':familiaId'))
-//            ->andWhere($qb->expr()->eq('c.status', '1'))
-//            ->groupBy('c.categoria')
-//            JOIN `despesas` ON `despesas`.`categorias_id` = `categorias`.`id`
-////            ->add('where', $qb->expr()->between(
-////                'u.dataCriacao',
-////                ':de',
-////                ':ate'
-////            )
-////            )
-//            ->setParameters(array('familiaId' => $parametros->familia_id));
-//        $query = $qb->getQuery();
-//        $results = $query->getResult();
-//        die(var_dump($results));
-//            //->setParameters(array('de' => "{$data} 00:08:00", 'ate' => "{$data} 17:59:59"));
-
-
-
-
-
-
-
-
-
-//        SELECT COUNT(`categorias`.id), categorias.`categoria` AS qtdCategoria
-//    FROM categorias
-//    JOIN `despesas` ON `despesas`.`categorias_id` = `categorias`.`id`
-//    GROUP BY categorias.`categoria`
-//        die(var_dump($parametros));
+        $results =  $this->padronizaRetornoCategoria($results);
+        return $results;
 
     }
 
@@ -123,6 +89,21 @@ class CategoriaService extends AbstractService
             );
 
         }
+        return $data;
+    }
+
+    private function padronizaRetornoCategoria($results)
+    {
+        $data = array();
+        foreach($results as $categoria) {
+           $data ['categoria'] .= $categoria['categoria'].',';
+           $data ['qtd']       .= $categoria['qtdCategoria'].',';
+        }
+        $qtd = substr_replace($data ['qtd'], " ", -1);
+        $labels = substr_replace($data ['categoria'] , " ", -1);
+        unset($data);
+        $data['categoria']['labelsCategoria'] = $labels;
+        $data['categoria']['dataCategoria'] = $qtd;
         return $data;
     }
 

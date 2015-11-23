@@ -17,6 +17,7 @@ use cff\V1\Rest\MailService\MailService;
 use cff\V1\Rest\Orcamentos\OrcamentosService;
 use cff\V1\Rest\Receitas\ReceitasService;
 use cff\V1\Rest\Register\RegisterService;
+use cff\V1\Rest\Relatorios\RelatoriosService;
 use cff\V1\Rest\User\UserService;
 use ZF\Apigility\Provider\ApigilityProviderInterface;
 use cff\V1\Rest\Auth\AuthMapper;
@@ -182,6 +183,16 @@ class Module implements ApigilityProviderInterface
                     $contaService = $sm->get('ContaService');
                     return new ReceitasService($em,$hydrator, $receitasEntity, $contaService);
                 },
+                'RelatorioService' => function($sm) {
+                    $em = $sm->get('Doctrine\ORM\EntityManager');
+                    $hydrator =  new Hydrator\ClassMethods();
+                    $contaService     = $sm->get('ContaService');
+                    $despesaService   = $sm->get('DespesaService');
+                    $categoriaService = $sm->get('CategoriaService');
+                    $receitaService   = $sm->get('ReceitasService');
+                    $userService       = $sm->get('UserService');
+                    return new RelatoriosService($em, $hydrator, $contaService,  $despesaService, $categoriaService,$receitaService, $userService);
+                }
 
 
             ),

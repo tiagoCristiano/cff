@@ -13,6 +13,7 @@ return array(
             'cff\\V1\\Rest\\Despesas\\DespesasResource' => 'cff\\V1\\Rest\\Despesas\\DespesasResourceFactory',
             'cff\\V1\\Rest\\Receitas\\ReceitasResource' => 'cff\\V1\\Rest\\Receitas\\ReceitasResourceFactory',
             'cff\\V1\\Rest\\Orcamentos\\OrcamentosResource' => 'cff\\V1\\Rest\\Orcamentos\\OrcamentosResourceFactory',
+            'cff\\V1\\Rest\\Relatorios\\RelatoriosResource' => 'cff\\V1\\Rest\\Relatorios\\RelatoriosResourceFactory',
         ),
     ),
     'router' => array(
@@ -116,6 +117,15 @@ return array(
                     ),
                 ),
             ),
+            'cff.rest.relatorios' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/relatorios[/:relatorios_id]',
+                    'defaults' => array(
+                        'controller' => 'cff\\V1\\Rest\\Relatorios\\Controller',
+                    ),
+                ),
+            ),
         ),
     ),
     'zf-versioning' => array(
@@ -131,6 +141,7 @@ return array(
             14 => 'cff.rest.despesas',
             15 => 'cff.rest.receitas',
             16 => 'cff.rest.orcamentos',
+            17 => 'cff.rest.relatorios',
         ),
     ),
     'zf-rest' => array(
@@ -406,6 +417,33 @@ return array(
             'collection_class' => 'cff\\V1\\Rest\\Orcamentos\\OrcamentosCollection',
             'service_name' => 'orcamentos',
         ),
+        'cff\\V1\\Rest\\Relatorios\\Controller' => array(
+            'listener' => 'cff\\V1\\Rest\\Relatorios\\RelatoriosResource',
+            'route_name' => 'cff.rest.relatorios',
+            'route_identifier_name' => 'relatorios_id',
+            'collection_name' => 'relatorios',
+            'entity_http_methods' => array(
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ),
+            'collection_http_methods' => array(
+                0 => 'GET',
+                1 => 'POST',
+            ),
+            'collection_query_whitelist' => array(
+                0 => 'dataDe',
+                1 => 'tipo',
+                2 => 'familia_id',
+                3 => 'dataAte',
+            ),
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => 'cff\\V1\\Rest\\Relatorios\\RelatoriosEntity',
+            'collection_class' => 'cff\\V1\\Rest\\Relatorios\\RelatoriosCollection',
+            'service_name' => 'relatorios',
+        ),
     ),
     'zf-content-negotiation' => array(
         'controllers' => array(
@@ -420,6 +458,7 @@ return array(
             'cff\\V1\\Rest\\Despesas\\Controller' => 'HalJson',
             'cff\\V1\\Rest\\Receitas\\Controller' => 'HalJson',
             'cff\\V1\\Rest\\Orcamentos\\Controller' => 'HalJson',
+            'cff\\V1\\Rest\\Relatorios\\Controller' => 'HalJson',
         ),
         'accept_whitelist' => array(
             'cff\\V1\\Rest\\Auth\\Controller' => array(
@@ -477,6 +516,11 @@ return array(
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ),
+            'cff\\V1\\Rest\\Relatorios\\Controller' => array(
+                0 => 'application/vnd.cff.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ),
         ),
         'content_type_whitelist' => array(
             'cff\\V1\\Rest\\Auth\\Controller' => array(
@@ -520,6 +564,10 @@ return array(
                 1 => 'application/json',
             ),
             'cff\\V1\\Rest\\Orcamentos\\Controller' => array(
+                0 => 'application/vnd.cff.v1+json',
+                1 => 'application/json',
+            ),
+            'cff\\V1\\Rest\\Relatorios\\Controller' => array(
                 0 => 'application/vnd.cff.v1+json',
                 1 => 'application/json',
             ),
@@ -657,6 +705,18 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'cff.rest.orcamentos',
                 'route_identifier_name' => 'orcamentos_id',
+                'is_collection' => true,
+            ),
+            'cff\\V1\\Rest\\Relatorios\\RelatoriosEntity' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'cff.rest.relatorios',
+                'route_identifier_name' => 'relatorios_id',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
+            ),
+            'cff\\V1\\Rest\\Relatorios\\RelatoriosCollection' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'cff.rest.relatorios',
+                'route_identifier_name' => 'relatorios_id',
                 'is_collection' => true,
             ),
         ),
@@ -985,7 +1045,7 @@ return array(
                 'class' => 'Doctrine\\ORM\\Mapping\\Driver\\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => array(
-                    0 => 'C:\\Users\\tiago.alves\\Desktop\\TCC\\cff\\module\\cff\\config/../src/cff/Entity',
+                    0 => 'C:\\Users\\Tiago\\Desktop\\TCC\\cff\\module\\cff\\config/../src/cff/Entity',
                 ),
             ),
             'orm_default' => array(

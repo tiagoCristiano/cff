@@ -92,6 +92,7 @@ abstract class AbstractService {
     {
 
         $arrayData = str_split($data);
+
         $dia = $arrayData[0].$arrayData[1];
         $mes = $arrayData[3].$arrayData[4];
         $ano = $arrayData[6].$arrayData[7].$arrayData[8].$arrayData[9];
