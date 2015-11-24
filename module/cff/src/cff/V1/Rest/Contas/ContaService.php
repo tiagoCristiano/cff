@@ -87,7 +87,7 @@ class ContaService extends AbstractService
     }
 
 
-    public function getContasDespesas($de, $ate)
+    public function getContasDespesas($de, $ate, $familia)
     {
         $de = $this->padronizaData($de);
         $ate = $this->padronizaData($ate);
@@ -97,13 +97,14 @@ class ContaService extends AbstractService
                                         SELECT SUM(despesas.valor)  qtdConta, contas.numero as numeroConta
                                         FROM '. $this->repository.' contas
                                         LEFT JOIN cff\Entity\Despesa\Despesa despesas WITH despesas.conta = contas.id
-                                        WHERE
-                                        despesas.dataCriacao BETWEEN ?1 AND ?2
+                                         WHERE despesas.familia = ?3
+                                        AND despesas.dataCriacao BETWEEN ?1 AND ?2
                                         AND despesas.status = 1
                                         GROUP BY contas.numero');
 
         $query->setParameter(1, $de);
         $query->setParameter(2, $ate);
+        $query->setParameter(3, $familia);
         $results = $query->getResult();
 
         $results =  $this->padronizaRetornoContas($results);

@@ -47,6 +47,8 @@ class UserService extends AbstractService
         return self::update($idUSer, $data);
     }
 
+
+
     public function update($id, $data)
     {
         $this->entity = $this->em->getRepository($this->repository)->find($id);
@@ -93,6 +95,61 @@ class UserService extends AbstractService
         }
 
 
+        return $data;
+    }
+
+
+    public function getUsuarioDespesas($de, $ate, $familia)
+    {
+        $de = $this->padronizaData($de);
+        $ate = $this->padronizaData($ate);
+
+        $qb = $this->em->createQueryBuilder();
+
+        $query = $this->em->createQuery('
+                                        SELECT
+                                          COUNT(usuarios.id) ,
+                                          SUM(despesas.valor) as qtdCategoria,
+                                          usuarios.nome
+                                        FROM '. $this->repository.' usuarios
+                                        JOIN cff\Entity\Despesa\Despesa despesas WITH despesas.user = usuarios.id
+                                        WHERE despesas.familia = ?3
+                                        AND despesas.dataCriacao BETWEEN ?1 AND ?2
+                                        AND despesas.status = 1
+                                        GROUP BY usuarios.nome');
+
+        $query->setParameter(1, $de);
+        $query->setParameter(2, $ate);
+        $query->setParameter(3, $familia);
+        $results = $query->getResult();
+        $results =  $this->padronizaRetornoUser($results);
+        return $results;
+
+    }
+
+    private function padronizaRetornoUser($results)
+    {
+
+
+        $data = array();
+        foreach($results as $categoria) {
+
+            $data ['categoria'] .=  $categoria['nome'].",";
+
+            $data ['qtd']       .= (int)$categoria['qtdCategoria'].',';
+
+        }
+
+
+        $qtd    = substr_replace($data ['qtd'], "", -1);
+        $labels = substr_replace($data ['categoria'] , "", -1);
+        $labels = str_replace("\'","",$labels);
+        $labels = trim($labels);
+        $qtd    = trim($qtd);
+
+        unset($data);
+        $data['usuarios']['labelsUsuario'] = $labels;
+        $data['usuarios']['dataUsuario'] = $qtd;
         return $data;
     }
 

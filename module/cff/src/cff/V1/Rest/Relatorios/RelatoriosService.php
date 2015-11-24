@@ -56,26 +56,27 @@ class RelatoriosService extends AbstractService
 
     public function getRelatorios($params =  array())
     {
-
         $de   = $params->dataDe;
         $ate  = $params->dataAte;
         $tipo = $params->tipo;
+        $familia = $params->familia_id;
 
         if($tipo = 'despsa'){
-            $despesas =  $this->getDespesa($de, $ate);
+            $despesas =  $this->getDespesa($de, $ate, $familia);
             return $despesas;
         }
 
         if($tipo = 'receita') {
-            return $this->getReceitas($de, $ate);
+            return $this->getReceitas($de, $ate, $familia);
         }
 
     }
 
-    public function getDespesa($de, $ate)
+    public function getDespesa($de, $ate,$familia)
     {
-        $dataRelatorios['categorias']  = $this->categoriaService->getCategoriasDespesas($de, $ate);
-        $dataRelatorios['contas']      = $this->contaService->getContasDespesas($de, $ate);
+        $dataRelatorios['categorias']  = $this->categoriaService->getCategoriasDespesas($de, $ate, $familia);
+        $dataRelatorios['contas']      = $this->contaService->getContasDespesas($de, $ate, $familia);
+        $dataRelatorios['usuarios']    = $this->userSerive->getUsuarioDespesas($de, $ate, $familia);
         return $dataRelatorios;
 
     }

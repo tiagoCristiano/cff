@@ -20,13 +20,10 @@ class CategoriaService extends AbstractService
 
     }
 
-    public function getCategoriasDespesas($de, $ate)
+    public function getCategoriasDespesas($de, $ate, $familia)
     {
         $de = $this->padronizaData($de);
         $ate = $this->padronizaData($ate);
-
-        $qb = $this->em->createQueryBuilder();
-
         $query = $this->em->createQuery('
                                         SELECT
                                           COUNT(categorias.id) ,
@@ -34,13 +31,15 @@ class CategoriaService extends AbstractService
                                           categorias.categoria
                                         FROM '. $this->repository.' categorias
                                         JOIN cff\Entity\Despesa\Despesa despesas WITH despesas.categoria = categorias.id
-                                        WHERE categorias.tipo = 0
+                                        WHERE despesas.familia = ?3
+                                        AND categorias.tipo = 0
                                         AND despesas.dataCriacao BETWEEN ?1 AND ?2
                                         AND despesas.status = 1
                                         GROUP BY categorias.categoria');
 
         $query->setParameter(1, $de);
         $query->setParameter(2, $ate);
+        $query->setParameter(3, $familia);
         $results = $query->getResult();
 
         $results =  $this->padronizaRetornoCategoria($results);

@@ -74,7 +74,7 @@ class RegisterService extends AbstractService
 
         if( $validate ) {
             $this->em->persist($this->entity);
-            $familiaEntity = $this->em->getRepository($this->familiaRepository)->find($data->familia_id);
+            $familiaEntity  = $this->em->getRepository($this->familiaRepository)->find($data->familia_id);
             $perfilEntity   = $this->em->getRepository($this->perfilRepository)->find(2);
             $this->entity->setFamilia($familiaEntity);
             $this->entity->setPerfil($perfilEntity);

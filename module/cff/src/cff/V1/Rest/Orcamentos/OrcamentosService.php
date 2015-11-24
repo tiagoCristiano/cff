@@ -47,4 +47,12 @@ class OrcamentosService
         return $data;
     }
 
+    public function save($data)
+    {
+
+        $familia   =   $this->em->getRepository('cff\Entity\Familia\Familia')->find($data->idFamilia);
+        $user      =    $this->em->getRepository('cff\Entity\Usuario\Usuario')->find($data->idUsuario);
+        $conta     =   $this->em->getRepository('cff\Entity\Usuario\Usuario')->find($data->idConta);
+    }
+
 }
