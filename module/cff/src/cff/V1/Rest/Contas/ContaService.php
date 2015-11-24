@@ -94,7 +94,7 @@ class ContaService extends AbstractService
 
 
         $query = $this->em->createQuery('
-                                        SELECT COUNT(contas.id)  qtdConta, contas.numero as numeroConta
+                                        SELECT SUM(despesas.valor)  qtdConta, contas.numero as numeroConta
                                         FROM '. $this->repository.' contas
                                         LEFT JOIN cff\Entity\Despesa\Despesa despesas WITH despesas.conta = contas.id
                                         WHERE

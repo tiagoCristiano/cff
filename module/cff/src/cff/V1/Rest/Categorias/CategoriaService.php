@@ -28,9 +28,12 @@ class CategoriaService extends AbstractService
         $qb = $this->em->createQueryBuilder();
 
         $query = $this->em->createQuery('
-                                        SELECT COUNT(categorias.id)  qtdCategoria, categorias.categoria
+                                        SELECT
+                                          COUNT(categorias.id) ,
+                                          SUM(despesas.valor) as qtdCategoria,
+                                          categorias.categoria
                                         FROM '. $this->repository.' categorias
-                                        LEFT JOIN cff\Entity\Despesa\Despesa despesas WITH despesas.categoria = categorias.id
+                                        JOIN cff\Entity\Despesa\Despesa despesas WITH despesas.categoria = categorias.id
                                         WHERE categorias.tipo = 0
                                         AND despesas.dataCriacao BETWEEN ?1 AND ?2
                                         AND despesas.status = 1
